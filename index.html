@@ -238,9 +238,9 @@ footer{border-top:1px solid var(--mid);padding:28px 40px;display:flex;justify-co
 </footer>
 
 <script>
-var PROJECTS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTRo5wp7zMoYS79AmMlPyg3SttJ1ASZZLVwXlMHElBweoa2bqgZfqsR8ZkJmdyU8iv6b0odQxX2hIgt/pub?gid=1083535060&single=true&output=csv';
-var HERO_URL     = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTRo5wp7zMoYS79AmMlPyg3SttJ1ASZZLVwXlMHElBweoa2bqgZfqsR8ZkJmdyU8iv6b0odQxX2hIgt/pub?gid=0&single=true&output=csv';
-var RESEARCH_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTRo5wp7zMoYS79AmMlPyg3SttJ1ASZZLVwXlMHElBweoa2bqgZfqsR8ZkJmdyU8iv6b0odQxX2hIgt/pub?gid=236412315&single=true&output=csv';
+var PROJECTS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTRo5wp7zMoYS79AmMlPyg3SttJ1ASZZLVwXlMHElBweoa2bqgZfqsR8ZkJmdyU8iv6b0odQxX2hIgt/pub?gid=1083535060&single=true&output=tsv';
+var HERO_URL     = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTRo5wp7zMoYS79AmMlPyg3SttJ1ASZZLVwXlMHElBweoa2bqgZfqsR8ZkJmdyU8iv6b0odQxX2hIgt/pub?gid=0&single=true&output=tsv';
+var RESEARCH_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTRo5wp7zMoYS79AmMlPyg3SttJ1ASZZLVwXlMHElBweoa2bqgZfqsR8ZkJmdyU8iv6b0odQxX2hIgt/pub?gid=236412315&single=true&output=tsv';
 
 var currentLang = 'en';
 var allProjects = [];
@@ -250,20 +250,14 @@ var heroTimer = null;
 
 function parseCSV(text) {
   var rows = text.trim().split('\n').map(function(row) {
-    var cells = [], cell = '', inQ = false;
-    for (var i = 0; i < row.length; i++) {
-      var ch = row[i];
-      if (ch === '"') { inQ = !inQ; }
-      else if (ch === ',' && !inQ) { cells.push(cell.trim()); cell = ''; }
-      else { cell += ch; }
-    }
-    cells.push(cell.trim());
-    return cells;
+    return row.split('\t').map(function(cell) {
+      return cell.replace(/^"|"$/g,'').trim();
+    });
   });
-  var headers = rows[0].map(function(h) { return h.replace(/^"|"$/g,'').trim(); });
+  var headers = rows[0];
   return rows.slice(1).map(function(row) {
     var obj = {};
-    headers.forEach(function(h, i) { obj[h] = (row[i] || '').replace(/^"|"$/g,'').trim(); });
+    headers.forEach(function(h, i) { obj[h] = (row[i] || '').trim(); });
     return obj;
   }).filter(function(r) { return Object.values(r).some(function(v) { return v; }); });
 }
