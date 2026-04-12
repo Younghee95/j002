@@ -302,6 +302,7 @@ function loadHero() {
       var slide = document.createElement('div');
       slide.className = 'hero-slide' + (i === 0 ? ' active' : '');
       slide.dataset.label = item.label || '';
+      slide.dataset.pn = item.project_num || '';
       var imgUrl = item.image || '';
       if (imgUrl) {
         var isVideo = /\.(mp4|webm|mov)(\?|$)/i.test(imgUrl);
@@ -320,6 +321,15 @@ function loadHero() {
       } else {
         slide.innerHTML = '<div class="work-frame"><div class="work-frame-inner"><div class="work-inner">PROJECT IMAGE ' + String(i+1).padStart(2,'0') + '</div></div></div>';
       }
+      if (item.project_num) {
+        slide.style.cursor = 'pointer';
+        slide.addEventListener('click', function() {
+          var pn = this.dataset.pn;
+          for (var x = 0; x < allProjects.length; x++) {
+            if (String(allProjects[x].num) === String(pn)) { openDetail(x); return; }
+          }
+        });
+      }
       heroEl.insertBefore(slide, dotsEl);
       var dot = document.createElement('div');
       dot.className = 'hero-dot' + (i === 0 ? ' active' : '');
@@ -333,19 +343,16 @@ function loadHero() {
 
 // PROJECTS
 function renderProjects(rows) {
-  var map = {};
+  var map = {}, order = [];
   rows.forEach(function(r) {
     var key = r.num || r.title;
     if (!map[key]) {
-      map[key] = {
-        num: r.num, title: r.title, category: r.category,
-        year: r.year, description_en: r.description_en,
-        description_kr: r.description_kr, images: []
-      };
+      map[key] = { num:r.num, title:r.title, category:r.category, year:r.year, description:r.description, images:[] };
+      order.push(key);
     }
     if (r.images) map[key].images.push(r.images.trim());
   });
-  allProjects = Object.values(map);
+  allProjects = order.map(function(k) { return map[k]; });
   var list = document.getElementById('projList');
   if (!allProjects.length) {
     list.innerHTML = '<div style="font-size:12px;color:rgba(255,255,255,.3);padding:20px 0;">No projects found.</div>';
@@ -354,8 +361,8 @@ function renderProjects(rows) {
   list.innerHTML = allProjects.map(function(p, i) {
     return '<div class="proj-item" data-index="' + i + '">' +
       '<div class="proj-item-num">' + String(p.num || i+1).padStart(2,'0') + '</div>' +
-      '<div class="proj-item-title">' + p.title + '</div>' +
-      '<div class="proj-item-tag">' + (p.category || '') + (p.year ? ' · ' + p.year : '') + '</div>' +
+      '<div class="proj-item-title">' + (p.title||'') + '</div>' +
+      '<div class="proj-item-tag">' + (p.category||'') + (p.year?' · '+p.year:'') + '</div>' +
       '</div>';
   }).join('');
   document.querySelectorAll('.proj-item').forEach(function(el) {
@@ -375,15 +382,13 @@ function loadProjects() {
 function openDetail(index) {
   detailIndex = index;
   var p = allProjects[index];
-  var desc = (currentLang === 'kr' && p.description_kr) ? p.description_kr : (p.description_en || '');
   document.getElementById('detailTitle').textContent = p.title || '';
   document.getElementById('detailCat').textContent = [p.category, p.year].filter(Boolean).join(' · ');
-  document.getElementById('detailDesc').textContent = desc;
-  var linkEl = document.getElementById('detailLink');
-  linkEl.style.display = 'none';
+  document.getElementById('detailDesc').textContent = p.description || '';
+  document.getElementById('detailLink').style.display = 'none';
   var imgUrls = (p.images || []).filter(Boolean);
   document.getElementById('detailImages').innerHTML = imgUrls.length
-    ? imgUrls.map(function(u) { return '<div class="proj-detail-img-wrap"><img src="' + u + '" alt="' + p.title + '" loading="lazy"></div>'; }).join('')
+    ? imgUrls.map(function(u) { return '<div class="proj-detail-img-wrap"><img src="' + u + '" alt="' + (p.title||'') + '" loading="lazy"></div>'; }).join('')
     : '<div class="proj-detail-img-wrap"><div class="proj-detail-img-placeholder">PROJECT IMAGES</div></div>';
   document.getElementById('detailPrev').classList.toggle('disabled', index === 0);
   document.getElementById('detailNext').classList.toggle('disabled', index === allProjects.length - 1);
@@ -418,10 +423,10 @@ function loadResearch() {
     if (!items.length) return;
     document.getElementById('researchList').innerHTML = items.map(function(p) {
       return '<div class="research-item">' +
-        '<div class="research-year">' + (p.year || '') + '</div>' +
+        '<div class="research-year">' + (p.year||'') + '</div>' +
         '<div>' +
-          '<div class="research-title">' + (p.title || '') + '</div>' +
-          '<div class="research-journal">' + (p.journal || '') + '</div>' +
+          '<div class="research-title">' + (p.title||'') + '</div>' +
+          '<div class="research-journal">' + (p.journal||'') + '</div>' +
           (p.description ? '<div class="research-desc">' + p.description + '</div>' : '') +
         '</div>' +
         '</div>';
@@ -448,16 +453,16 @@ var copy = {
   },
   kr: {
     aboutLabel:'소개',
-    about1:'조영희는 UX 디자이너이자 디지털 디자인 에이전시 NINEFIVE의 창업자로, 전략·인터페이스·신기술을 아우르는 엔드투엔드 경험 디자인을 제공합니다. 20년 이상의 실무 경험을 바탕으로 기술, 리테일, 미디어 분야의 대규모 프로젝트를 이끌어왔으며, 삼성, LG, 현대 등 글로벌 기업과 협업해왔습니다.',
-    about2:'그녀의 전문성은 복잡한 시스템, 데이터, 기술을 일관되고 직관적인 인터페이스로 전환하는 대규모 사용자 경험 설계에 있습니다. UX, 비주얼 디자인, 미디어, XR에 걸친 다학제 팀을 구성하고 이끌며 높은 임팩트의 디지털 프로덕트와 브랜드 경험을 지속적으로 구현해왔습니다.',
-    about3:'이러한 실무적 기반을 확장하여, 최근에는 XR UX를 심화 연구 영역으로 탐구하고 있습니다. 연세대학교 통합디자인 박사 과정 연구자로서, 몰입형 환경에서 인터랙션 디자인 원칙이 어떻게 진화하는지를 연구합니다. 특히 XR 환경에서 스케일이 사용자의 인지와 행동에 미치는 영향을 분석하고, 감도·거리·시각적 밀도·정보 표현 방식을 사용자 맥락에 맞게 조정하는 적응형 인터랙션 메커니즘을 제안합니다. 또한 연세대학교에서 UX 및 인터페이스 디자인을 강의하며, 산업 현장의 실천과 학문적 사고를 연결하는 데 주력하고 있습니다.',
+    about1:'조영희는 UX 디자이너이자 디지털 디자인 에이전시 NINEFIVE의 창업자로, 전략·인터페이스·신기술을 아우르는 엔드투엔드 경험을 디자인합니다. 20년 이상의 실무 경험을 바탕으로 기술, 리테일, 미디어 분야의 대규모 프로젝트를 이끌어왔으며, 삼성, LG, 현대 등 글로벌 기업과 협업해왔습니다.',
+    about2:'복잡한 시스템, 데이터, 기술을 일관되고 직관적인 인터페이스로 전환하는 대규모 사용자 경험 설계에 전문성을 가지고 있습니다. UX, 비주얼 디자인, 미디어, XR에 걸친 다학제 팀을 구성하고 이끌며 높은 임팩트의 디지털 프로덕트와 브랜드 경험을 지속적으로 구현해왔습니다.',
+    about3:'이러한 실무적 기반을 확장하여, 최근에는 XR UX를 심화 연구 영역으로 탐구하고 있습니다. 연세대학교 통합디자인 박사 과정 연구자로서, 몰입형 환경에서 인터랙션 디자인 원칙이 어떻게 진화하는지를 연구합니다. 특히 XR 환경에서 스케일이 사용자의 인지와 행동에 미치는 영향을 분석하고, 사용자 맥락에 맞게 조정하는 적응형 인터랙션 메커니즘을 제안합니다. 또한 연세대학교에서 UX 및 인터페이스 디자인을 강의하며, 산업 현장의 실천과 학문적 사고를 연결하는 데 주력하고 있습니다.',
     capTitle:'Capabilities', capIntro:'전략, 비주얼 시스템, 그리고 새로운 기술을 연결하는 디지털 경험을 디자인합니다. UX·인터페이스 디자인부터 모션, 공간 미디어, 몰입형 환경까지 — 복잡한 아이디어를 직관적인 시각 경험으로 전환합니다.',
-    ct1:'UX 전략', cd1:'리서치부터 시스템 설계까지 사용자 여정을 정의합니다.',
-    ct2:'비주얼 시스템', cd2:'아이덴티티, 타이포그래피, 컬러, 모션을 통해 일관된 브랜드 언어를 구축합니다.',
-    ct3:'모션 디자인', cd3:'브랜드 표현으로서의 움직임. 마이크로인터랙션부터 모션 아이덴티티 시스템까지.',
-    ct4:'몰입형 경험', cd4:'3D 인터페이스 박사 연구를 기반으로 공간적·인터랙티브 환경을 설계합니다.',
-    ct5:'인터페이스 디자인', cd5:'공간적 논리와 세밀한 디테일이 만나는 인터페이스를 디자인합니다.',
-    ct6:'모션, 3D & 미디어 디자인', cd6:'움직임과 입체감을 브랜드 표현의 핵심 요소로 구현합니다.',
+    ct1:'UX strategy', cd1:'리서치부터 시스템 설계까지 사용자 여정을 정의합니다.',
+    ct2:'Visual systems', cd2:'아이덴티티, 타이포그래피, 컬러, 모션을 통해 일관된 브랜드 언어를 구축합니다.',
+    ct3:'Motion design', cd3:'브랜드 표현으로서의 움직임. 마이크로인터랙션부터 모션 아이덴티티 시스템까지.',
+    ct4:'Immersive experience', cd4:'3D 인터페이스 박사 연구를 기반으로 공간적·인터랙티브 환경을 설계합니다.',
+    ct5:'Interface design', cd5:'공간적 논리와 세밀한 디테일이 만나는 인터페이스를 디자인합니다.',
+    ct6:'Motion, 3D & media design', cd6:'움직임과 입체감을 브랜드 표현의 핵심 요소로 구현합니다.',
     researchTitle:'Research',
     contactLabel:'연락하기', footerSub:'크리에이티브 디렉터 · 서울'
   }
@@ -494,11 +499,9 @@ var revObs = new IntersectionObserver(function(es) {
 }, {threshold: 0.1});
 document.querySelectorAll('.reveal').forEach(function(el) { revObs.observe(el); });
 
-// INIT
 loadHero();
 loadProjects();
 loadResearch();
 </script>
-
 </body>
 </html>
