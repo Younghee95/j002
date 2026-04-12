@@ -51,7 +51,6 @@ nav{position:fixed;top:0;left:0;width:100%;z-index:100;display:flex;justify-cont
 .proj-detail-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(26px,4vw,50px);line-height:.92;letter-spacing:0.04em;text-transform:uppercase;}
 .proj-detail-cat{font-size:11px;letter-spacing:4px;color:var(--green);text-transform:uppercase;margin-bottom:20px;}
 .proj-detail-desc{font-size:15px;line-height:1.9;color:rgba(255,255,255,.65);max-width:480px;}
-.proj-detail-link{display:inline-flex;align-items:center;gap:8px;margin-top:28px;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--green);border-bottom:1px solid rgba(184,255,0,.3);padding-bottom:2px;}
 .proj-detail-img-wrap{width:100%;border-bottom:1px solid var(--mid);overflow:hidden;background:#111;}
 .proj-detail-img-wrap img,.proj-detail-img-wrap video{width:100%;display:block;}
 .proj-detail-img-placeholder{width:100%;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;font-size:12px;letter-spacing:3px;color:rgba(255,255,255,.15);font-family:'Bebas Neue',sans-serif;}
@@ -131,7 +130,6 @@ footer{border-top:1px solid var(--mid);padding:28px 40px;display:flex;justify-co
 </style>
 </head>
 <body>
-
 <nav>
   <div class="nav-logo">J002</div>
   <div class="nav-right">
@@ -145,15 +143,12 @@ footer{border-top:1px solid var(--mid);padding:28px 40px;display:flex;justify-co
     <button class="proj-btn" id="projBtn">PROJECTS</button>
   </div>
 </nav>
-
 <div class="overlay" id="overlay"></div>
-
 <aside class="proj-panel" id="projPanel">
   <button class="proj-panel-close" id="panelClose">✕</button>
   <h3>SELECTED<br>WORKS</h3>
   <div id="projList"><div style="font-size:12px;color:rgba(255,255,255,.3);letter-spacing:1px;padding:20px 0;">Loading...</div></div>
 </aside>
-
 <div class="proj-detail" id="projDetail">
   <nav class="proj-detail-nav">
     <button class="proj-detail-back" id="detailBack">← All Projects</button>
@@ -164,7 +159,6 @@ footer{border-top:1px solid var(--mid);padding:28px 40px;display:flex;justify-co
     <div>
       <div class="proj-detail-cat" id="detailCat"></div>
       <p class="proj-detail-desc" id="detailDesc"></p>
-      <a class="proj-detail-link" id="detailLink" href="#" target="_blank" style="display:none;">View Live ↗</a>
     </div>
   </div>
   <div id="detailImages"></div>
@@ -173,23 +167,18 @@ footer{border-top:1px solid var(--mid);padding:28px 40px;display:flex;justify-co
     <button class="proj-nav-btn" id="detailNext">Next →</button>
   </div>
 </div>
-
 <section id="hero">
-  <div class="hero-dots-inline">
-    <div class="hero-dot active" data-i="0"></div>
-  </div>
+  <div class="hero-dots-inline"><div class="hero-dot active" data-i="0"></div></div>
   <div class="hero-bottom">
     <button class="hero-arrow" id="heroPrev">&#8592;</button>
     <div class="hero-label" id="heroLabel"></div>
     <button class="hero-arrow" id="heroNext">&#8594;</button>
   </div>
 </section>
-
 <section id="vision">
   <p class="vision-quote reveal">Designing how<br>people understand<br>systems</p>
   <p class="vision-attr reveal d2">Across digital and spatial environments</p>
 </section>
-
 <section id="about">
   <div class="about-wrap">
     <span class="section-label reveal" id="aboutLabel">About</span>
@@ -200,7 +189,6 @@ footer{border-top:1px solid var(--mid);padding:28px 40px;display:flex;justify-co
     </div>
   </div>
 </section>
-
 <section id="capabilities">
   <div class="cap-header">
     <h2 class="reveal" id="capTitle">Capabilities</h2>
@@ -215,14 +203,10 @@ footer{border-top:1px solid var(--mid);padding:28px 40px;display:flex;justify-co
     <div class="cap-card reveal d1"><div class="cap-num">06</div><div class="cap-title" id="ct6">Motion, 3D & media design</div><p class="cap-desc" id="cd6">Crafting movement and dimensionality as the most compelling method of brand expression — cinematic 3D and editorial media design.</p><div class="cap-tags"><span class="cap-tag">3D Graphics & CGI</span><span class="cap-tag">Editorial Video</span><span class="cap-tag">Media & Film</span></div></div>
   </div>
 </section>
-
 <section id="research">
-  <div class="research-header">
-    <h2 class="reveal" id="researchTitle">Research</h2>
-  </div>
+  <div class="research-header"><h2 class="reveal">Research</h2></div>
   <div id="researchList"></div>
 </section>
-
 <section id="contact">
   <span class="section-label reveal" id="contactLabel">Get in touch</span>
   <h2 class="contact-h reveal d1">LET'S<br>WORK<br>TOGETHER</h2>
@@ -231,270 +215,228 @@ footer{border-top:1px solid var(--mid);padding:28px 40px;display:flex;justify-co
     <a class="contact-link" href="https://www.linkedin.com/in/younghee95" target="_blank">LinkedIn</a>
   </div>
 </section>
-
 <footer>
   <span>© 2026 J002. ALL RIGHTS RESERVED.</span>
   <span id="footerSub">Creative Director · Seoul</span>
 </footer>
-
 <script>
 var PROJECTS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTRo5wp7zMoYS79AmMlPyg3SttJ1ASZZLVwXlMHElBweoa2bqgZfqsR8ZkJmdyU8iv6b0odQxX2hIgt/pub?gid=1083535060&single=true&output=tsv';
 var HERO_URL     = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTRo5wp7zMoYS79AmMlPyg3SttJ1ASZZLVwXlMHElBweoa2bqgZfqsR8ZkJmdyU8iv6b0odQxX2hIgt/pub?gid=0&single=true&output=tsv';
 var RESEARCH_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTRo5wp7zMoYS79AmMlPyg3SttJ1ASZZLVwXlMHElBweoa2bqgZfqsR8ZkJmdyU8iv6b0odQxX2hIgt/pub?gid=236412315&single=true&output=tsv';
 
-var currentLang = 'en';
+var currentLang = ‘en’;
 var allProjects = [];
 var detailIndex = 0;
 var heroCur = 0;
 var heroTimer = null;
 
-function parseCSV(text) {
-  var rows = text.trim().split('\n').map(function(row) {
-    return row.split('\t').map(function(cell) {
-      return cell.replace(/^"|"$/g,'').trim();
-    });
-  });
-  var headers = rows[0];
-  return rows.slice(1).map(function(row) {
-    var obj = {};
-    headers.forEach(function(h, i) { obj[h] = (row[i] || '').trim(); });
-    return obj;
-  }).filter(function(r) { return Object.values(r).some(function(v) { return v; }); });
+function parseTSV(text) {
+var rows = text.trim().split(’\n’).map(function(row) {
+return row.split(’\t’).map(function(cell) { return cell.trim(); });
+});
+var headers = rows[0];
+return rows.slice(1).map(function(row) {
+var obj = {};
+headers.forEach(function(h, i) { obj[h.trim()] = (row[i] || ‘’).trim(); });
+return obj;
+}).filter(function(r) { return Object.values(r).some(function(v) { return v; }); });
 }
 
-// HERO
-function getSlides() { return document.querySelectorAll('.hero-slide'); }
-function getDots() { return document.querySelectorAll('.hero-dot'); }
+function getSlides() { return document.querySelectorAll(’.hero-slide’); }
+function getDots()   { return document.querySelectorAll(’.hero-dot’); }
 
 function goSlide(n) {
-  var sl = getSlides(), dt = getDots();
-  if (!sl.length) return;
-  sl[heroCur].classList.remove('active');
-  dt[heroCur].classList.remove('active');
-  heroCur = (n + sl.length) % sl.length;
-  sl[heroCur].classList.add('active');
-  dt[heroCur].classList.add('active');
-  document.getElementById('heroLabel').textContent = sl[heroCur].dataset.label || '';
+var sl = getSlides(), dt = getDots();
+if (!sl.length) return;
+sl[heroCur].classList.remove(‘active’); dt[heroCur].classList.remove(‘active’);
+heroCur = (n + sl.length) % sl.length;
+sl[heroCur].classList.add(‘active’); dt[heroCur].classList.add(‘active’);
+document.getElementById(‘heroLabel’).textContent = sl[heroCur].dataset.label || ‘’;
 }
 
 function startHeroTimer() {
-  if (heroTimer) clearInterval(heroTimer);
-  heroTimer = setInterval(function() { goSlide(heroCur + 1); }, 8000);
+if (heroTimer) clearInterval(heroTimer);
+heroTimer = setInterval(function() { goSlide(heroCur + 1); }, 8000);
 }
 
-document.getElementById('heroPrev').addEventListener('click', function() { goSlide(heroCur - 1); });
-document.getElementById('heroNext').addEventListener('click', function() { goSlide(heroCur + 1); });
-document.querySelector('.hero-dots-inline').addEventListener('click', function(e) {
-  var dot = e.target.closest('.hero-dot');
-  if (dot) goSlide(+dot.dataset.i);
+document.getElementById(‘heroPrev’).addEventListener(‘click’, function() { goSlide(heroCur - 1); });
+document.getElementById(‘heroNext’).addEventListener(‘click’, function() { goSlide(heroCur + 1); });
+document.querySelector(’.hero-dots-inline’).addEventListener(‘click’, function(e) {
+var dot = e.target.closest(’.hero-dot’);
+if (dot) goSlide(+dot.dataset.i);
 });
 
 function loadHero() {
-  fetch(HERO_URL).then(function(r) { return r.text(); }).then(function(text) {
-    var items = parseCSV(text);
-    if (!items.length) { startHeroTimer(); return; }
-    var heroEl = document.getElementById('hero');
-    var dotsEl = document.querySelector('.hero-dots-inline');
-    heroEl.querySelectorAll('.hero-slide').forEach(function(s) { s.remove(); });
-    dotsEl.innerHTML = '';
-    heroCur = 0;
-    items.forEach(function(item, i) {
-      var slide = document.createElement('div');
-      slide.className = 'hero-slide' + (i === 0 ? ' active' : '');
-      slide.dataset.label = item.label || '';
-      var imgUrl = item.image || '';
-      if (imgUrl) {
-        var isVideo = /\.(mp4|webm|mov)(\?|$)/i.test(imgUrl);
-        if (isVideo) {
-          var vid = document.createElement('video');
-          vid.src = imgUrl;
-          vid.autoplay = true; vid.muted = true; vid.playsInline = true;
-          vid.style.cssText = 'width:100%;height:100%;object-fit:cover;position:absolute;inset:0;pointer-events:none;';
-          vid.addEventListener('ended', function() { goSlide(heroCur + 1); });
-          slide.appendChild(vid);
-        } else {
-          var img = document.createElement('img');
-          img.src = imgUrl; img.alt = item.label || '';
-          slide.appendChild(img);
-        }
-      } else {
-        slide.innerHTML = '<div class="work-frame"><div class="work-frame-inner"><div class="work-inner">PROJECT IMAGE ' + String(i+1).padStart(2,'0') + '</div></div></div>';
-      }
-      heroEl.insertBefore(slide, dotsEl);
-      var dot = document.createElement('div');
-      dot.className = 'hero-dot' + (i === 0 ? ' active' : '');
-      dot.dataset.i = i;
-      dotsEl.appendChild(dot);
-    });
-    document.getElementById('heroLabel').textContent = items[0].label || '';
-    startHeroTimer();
-  }).catch(function() { startHeroTimer(); });
+fetch(HERO_URL).then(function(r) { return r.text(); }).then(function(text) {
+var items = parseTSV(text);
+if (!items.length) { startHeroTimer(); return; }
+var heroEl = document.getElementById(‘hero’);
+var dotsEl = document.querySelector(’.hero-dots-inline’);
+heroEl.querySelectorAll(’.hero-slide’).forEach(function(s) { s.remove(); });
+dotsEl.innerHTML = ‘’;
+heroCur = 0;
+items.forEach(function(item, i) {
+var slide = document.createElement(‘div’);
+slide.className = ‘hero-slide’ + (i === 0 ? ’ active’ : ‘’);
+slide.dataset.label = item.label || ‘’;
+var imgUrl = item.image || ‘’;
+if (imgUrl) {
+var isVideo = /.(mp4|webm|mov)(?|$)/i.test(imgUrl);
+if (isVideo) {
+var vid = document.createElement(‘video’);
+vid.src = imgUrl; vid.autoplay = true; vid.muted = true; vid.playsInline = true;
+vid.style.cssText = ‘width:100%;height:100%;object-fit:cover;position:absolute;inset:0;pointer-events:none;’;
+vid.addEventListener(‘ended’, function() { goSlide(heroCur + 1); });
+slide.appendChild(vid);
+} else {
+var img = document.createElement(‘img’);
+img.src = imgUrl; img.alt = item.label || ‘’;
+slide.appendChild(img);
+}
+} else {
+slide.innerHTML = ‘<div class="work-frame"><div class="work-frame-inner"><div class="work-inner">PROJECT IMAGE ’ + String(i+1).padStart(2,‘0’) + ‘</div></div></div>’;
+}
+heroEl.insertBefore(slide, dotsEl);
+var dot = document.createElement(‘div’);
+dot.className = ‘hero-dot’ + (i === 0 ? ’ active’ : ‘’);
+dot.dataset.i = i;
+dotsEl.appendChild(dot);
+});
+document.getElementById(‘heroLabel’).textContent = items[0].label || ‘’;
+startHeroTimer();
+}).catch(function() { startHeroTimer(); });
 }
 
-// PROJECTS
 function renderProjects(rows) {
-  var map = {};
-  rows.forEach(function(r) {
-    var key = r.num || r.title;
-    if (!map[key]) {
-      map[key] = {
-        num: r.num, title: r.title, category: r.category,
-        year: r.year, description_en: r.description_en,
-        description_kr: r.description_kr, images: []
-      };
-    }
-    if (r.images) map[key].images.push(r.images.trim());
-  });
-  allProjects = Object.values(map);
-  var list = document.getElementById('projList');
-  if (!allProjects.length) {
-    list.innerHTML = '<div style="font-size:12px;color:rgba(255,255,255,.3);padding:20px 0;">No projects found.</div>';
-    return;
-  }
-  list.innerHTML = allProjects.map(function(p, i) {
-    return '<div class="proj-item" data-index="' + i + '">' +
-      '<div class="proj-item-num">' + String(p.num || i+1).padStart(2,'0') + '</div>' +
-      '<div class="proj-item-title">' + p.title + '</div>' +
-      '<div class="proj-item-tag">' + (p.category || '') + (p.year ? ' · ' + p.year : '') + '</div>' +
-      '</div>';
-  }).join('');
-  document.querySelectorAll('.proj-item').forEach(function(el) {
-    el.addEventListener('click', function() { openDetail(+el.dataset.index); });
-  });
+var map = {};
+rows.forEach(function(r) {
+var key = r.num || r.title;
+if (!map[key]) {
+map[key] = { num:r.num, title:r.title, category:r.category, year:r.year, description_en:r.description_en, description_kr:r.description_kr, images:[] };
+}
+if (r.images) map[key].images.push(r.images.trim());
+});
+allProjects = Object.values(map);
+var list = document.getElementById(‘projList’);
+if (!allProjects.length) { list.innerHTML = ‘<div style="font-size:12px;color:rgba(255,255,255,.3);padding:20px 0;">No projects found.</div>’; return; }
+list.innerHTML = allProjects.map(function(p, i) {
+return ‘<div class="proj-item" data-index="'+i+'">’ +
+‘<div class="proj-item-num">’+String(p.num||i+1).padStart(2,‘0’)+’</div>’ +
+‘<div class="proj-item-title">’+p.title+’</div>’ +
+‘<div class="proj-item-tag">’+(p.category||’’)+(p.year?’ · ‘+p.year:’’)+’</div></div>’;
+}).join(’’);
+document.querySelectorAll(’.proj-item’).forEach(function(el) {
+el.addEventListener(‘click’, function() { openDetail(+el.dataset.index); });
+});
 }
 
 function loadProjects() {
-  fetch(PROJECTS_URL).then(function(r) { return r.text(); }).then(function(t) {
-    renderProjects(parseCSV(t));
-  }).catch(function() {
-    document.getElementById('projList').innerHTML = '<div style="font-size:12px;color:rgba(255,255,255,.3);padding:20px 0;">시트를 불러올 수 없어요.</div>';
-  });
+fetch(PROJECTS_URL).then(function(r) { return r.text(); }).then(function(t) {
+renderProjects(parseTSV(t));
+}).catch(function() {
+document.getElementById(‘projList’).innerHTML = ‘<div style="font-size:12px;color:rgba(255,255,255,.3);padding:20px 0;">시트를 불러올 수 없어요.</div>’;
+});
 }
 
-// DETAIL
 function openDetail(index) {
-  detailIndex = index;
-  var p = allProjects[index];
-  var desc = (currentLang === 'kr' && p.description_kr) ? p.description_kr : (p.description_en || '');
-  document.getElementById('detailTitle').textContent = p.title || '';
-  document.getElementById('detailCat').textContent = [p.category, p.year].filter(Boolean).join(' · ');
-  document.getElementById('detailDesc').textContent = desc;
-  var linkEl = document.getElementById('detailLink');
-  linkEl.style.display = 'none';
-  var imgUrls = (p.images || []).filter(Boolean);
-  document.getElementById('detailImages').innerHTML = imgUrls.length
-    ? imgUrls.map(function(u) { return '<div class="proj-detail-img-wrap"><img src="' + u + '" alt="' + p.title + '" loading="lazy"></div>'; }).join('')
-    : '<div class="proj-detail-img-wrap"><div class="proj-detail-img-placeholder">PROJECT IMAGES</div></div>';
-  document.getElementById('detailPrev').classList.toggle('disabled', index === 0);
-  document.getElementById('detailNext').classList.toggle('disabled', index === allProjects.length - 1);
-  closePanel();
-  var detail = document.getElementById('projDetail');
-  detail.scrollTop = 0;
-  detail.classList.add('open');
-  document.body.style.overflow = 'hidden';
+detailIndex = index;
+var p = allProjects[index];
+var desc = (currentLang === ‘kr’ && p.description_kr) ? p.description_kr : (p.description_en || ‘’);
+document.getElementById(‘detailTitle’).textContent = p.title || ‘’;
+document.getElementById(‘detailCat’).textContent = [p.category, p.year].filter(Boolean).join(’ · ‘);
+document.getElementById(‘detailDesc’).textContent = desc;
+var imgUrls = (p.images || []).filter(Boolean);
+document.getElementById(‘detailImages’).innerHTML = imgUrls.length
+? imgUrls.map(function(u) { return ‘<div class="proj-detail-img-wrap"><img src="'+u+'" alt="'+p.title+'" loading="lazy"></div>’; }).join(’’)
+: ‘<div class="proj-detail-img-wrap"><div class="proj-detail-img-placeholder">PROJECT IMAGES</div></div>’;
+document.getElementById(‘detailPrev’).classList.toggle(‘disabled’, index === 0);
+document.getElementById(‘detailNext’).classList.toggle(‘disabled’, index === allProjects.length-1);
+closePanel();
+var detail = document.getElementById(‘projDetail’);
+detail.scrollTop = 0; detail.classList.add(‘open’);
+document.body.style.overflow = ‘hidden’;
 }
 
-function closeDetail() {
-  document.getElementById('projDetail').classList.remove('open');
-  document.body.style.overflow = '';
-}
+function closeDetail() { document.getElementById(‘projDetail’).classList.remove(‘open’); document.body.style.overflow = ‘’; }
+document.getElementById(‘detailBack’).addEventListener(‘click’, closeDetail);
+document.getElementById(‘detailPrev’).addEventListener(‘click’, function() { if (detailIndex > 0) openDetail(detailIndex-1); });
+document.getElementById(‘detailNext’).addEventListener(‘click’, function() { if (detailIndex < allProjects.length-1) openDetail(detailIndex+1); });
 
-document.getElementById('detailBack').addEventListener('click', closeDetail);
-document.getElementById('detailPrev').addEventListener('click', function() { if (detailIndex > 0) openDetail(detailIndex - 1); });
-document.getElementById('detailNext').addEventListener('click', function() { if (detailIndex < allProjects.length - 1) openDetail(detailIndex + 1); });
+var panel = document.getElementById(‘projPanel’);
+var ov = document.getElementById(‘overlay’);
+document.getElementById(‘projBtn’).addEventListener(‘click’, function() { panel.classList.add(‘open’); ov.classList.add(‘show’); });
+function closePanel() { panel.classList.remove(‘open’); ov.classList.remove(‘show’); }
+document.getElementById(‘panelClose’).addEventListener(‘click’, closePanel);
+ov.addEventListener(‘click’, closePanel);
 
-// PANEL
-var panel = document.getElementById('projPanel');
-var ov = document.getElementById('overlay');
-document.getElementById('projBtn').addEventListener('click', function() { panel.classList.add('open'); ov.classList.add('show'); });
-function closePanel() { panel.classList.remove('open'); ov.classList.remove('show'); }
-document.getElementById('panelClose').addEventListener('click', closePanel);
-ov.addEventListener('click', closePanel);
-
-// RESEARCH
 function loadResearch() {
-  fetch(RESEARCH_URL).then(function(r) { return r.text(); }).then(function(text) {
-    var items = parseCSV(text);
-    if (!items.length) return;
-    document.getElementById('researchList').innerHTML = items.map(function(p) {
-      return '<div class="research-item">' +
-        '<div class="research-year">' + (p.year || '') + '</div>' +
-        '<div>' +
-          '<div class="research-title">' + (p.title || '') + '</div>' +
-          '<div class="research-journal">' + (p.journal || '') + '</div>' +
-          (p.description ? '<div class="research-desc">' + p.description + '</div>' : '') +
-        '</div>' +
-        '</div>';
-    }).join('');
-  }).catch(function() {});
+fetch(RESEARCH_URL).then(function(r) { return r.text(); }).then(function(text) {
+var items = parseTSV(text);
+if (!items.length) return;
+document.getElementById(‘researchList’).innerHTML = items.map(function(p) {
+return ‘<div class="research-item">’ +
+‘<div class="research-year">’+(p.year||’’)+’</div>’ +
+‘<div><div class="research-title">’+(p.title||’’)+’</div>’ +
+‘<div class="research-journal">’+(p.journal||’’)+’</div>’ +
+(p.description?’<div class="research-desc">’+p.description+’</div>’:’’) +
+‘</div></div>’;
+}).join(’’);
+}).catch(function() {});
 }
 
-// LANGUAGE
 var copy = {
-  en: {
-    aboutLabel:'About',
-    about1:'Jo Younghee is a UX designer and founder of NINEFIVE, a digital design agency delivering end-to-end experience design across strategy, interface, and emerging technologies. With over two decades of hands-on industry experience, she has led complex, large-scale projects spanning technology, retail, and media sectors, collaborating with global organizations such as Samsung, LG, and Hyundai.',
-    about2:'Her expertise lies in structuring user experiences at scale — translating abstract systems, data, and technologies into coherent, intuitive interfaces. She has built and directed multidisciplinary teams across UX, visual design, media, and XR, consistently delivering high-impact digital products and brand experiences.',
-    about3:'Extending from this foundation, her recent work expands into XR UX as an advanced research domain. As a PhD researcher in Integrated Design at Yonsei University, she investigates how interaction design principles evolve within immersive environments — focusing on how scale influences perception and behavior in XR, and proposing adaptive interaction mechanisms that adjust sensitivity, distance, visual density, and information representation based on user context. She also teaches UX and interface design at Yonsei University, bridging industry practice with academic thinking.',
-    capTitle:'Capabilities', capIntro:'I design digital experiences that connect strategy, visual systems, and emerging technology. From UX and interface design to motion, spatial media, and immersive environments — translating complex ideas into intuitive visual experiences.',
-    ct1:'UX strategy', cd1:'Defining the user journey from research to system architecture. Bridging business goals and human behavior through structured, insight-led design thinking.',
-    ct2:'Visual systems', cd2:'Constructing cohesive brand languages — identity, typography, color, and motion — that remain consistent across every touchpoint and medium.',
-    ct3:'Motion design', cd3:'Movement as brand expression. From micro-interactions to motion identity systems — harnessing technology to create intuitive interfaces.',
-    ct4:'Immersive experience', cd4:'Designing spatial and interactive environments grounded in doctoral research into 3D interface usability — where physical and digital converge.',
-    ct5:'Interface design', cd5:'Designing interfaces where spatial logic meets beautiful detail — balancing visual precision with intuitive usability across platforms.',
-    ct6:'Motion, 3D & media design', cd6:'Crafting movement and dimensionality as the most compelling method of brand expression — cinematic 3D and editorial media design.',
-    researchTitle:'Research',
-    contactLabel:'Get in touch', footerSub:'Creative Director · Seoul'
-  },
-  kr: {
-    aboutLabel:'소개',
-    about1:'조영희는 UX 디자이너이자 디지털 디자인 에이전시 NINEFIVE의 창업자로, 전략·인터페이스·신기술을 아우르는 엔드투엔드 경험 디자인을 제공합니다. 20년 이상의 실무 경험을 바탕으로 기술, 리테일, 미디어 분야의 대규모 프로젝트를 이끌어왔으며, 삼성, LG, 현대 등 글로벌 기업과 협업해왔습니다.',
-    about2:'그녀의 전문성은 복잡한 시스템, 데이터, 기술을 일관되고 직관적인 인터페이스로 전환하는 대규모 사용자 경험 설계에 있습니다. UX, 비주얼 디자인, 미디어, XR에 걸친 다학제 팀을 구성하고 이끌며 높은 임팩트의 디지털 프로덕트와 브랜드 경험을 지속적으로 구현해왔습니다.',
-    about3:'이러한 실무적 기반을 확장하여, 최근에는 XR UX를 심화 연구 영역으로 탐구하고 있습니다. 연세대학교 통합디자인 박사 과정 연구자로서, 몰입형 환경에서 인터랙션 디자인 원칙이 어떻게 진화하는지를 연구합니다. 특히 XR 환경에서 스케일이 사용자의 인지와 행동에 미치는 영향을 분석하고, 감도·거리·시각적 밀도·정보 표현 방식을 사용자 맥락에 맞게 조정하는 적응형 인터랙션 메커니즘을 제안합니다. 또한 연세대학교에서 UX 및 인터페이스 디자인을 강의하며, 산업 현장의 실천과 학문적 사고를 연결하는 데 주력하고 있습니다.',
-    capTitle:'Capabilities', capIntro:'전략, 비주얼 시스템, 그리고 새로운 기술을 연결하는 디지털 경험을 디자인합니다. UX·인터페이스 디자인부터 모션, 공간 미디어, 몰입형 환경까지 — 복잡한 아이디어를 직관적인 시각 경험으로 전환합니다.',
-    ct1:'UX 전략', cd1:'리서치부터 시스템 설계까지 사용자 여정을 정의합니다.',
-    ct2:'비주얼 시스템', cd2:'아이덴티티, 타이포그래피, 컬러, 모션을 통해 일관된 브랜드 언어를 구축합니다.',
-    ct3:'모션 디자인', cd3:'브랜드 표현으로서의 움직임. 마이크로인터랙션부터 모션 아이덴티티 시스템까지.',
-    ct4:'몰입형 경험', cd4:'3D 인터페이스 박사 연구를 기반으로 공간적·인터랙티브 환경을 설계합니다.',
-    ct5:'인터페이스 디자인', cd5:'공간적 논리와 세밀한 디테일이 만나는 인터페이스를 디자인합니다.',
-    ct6:'모션, 3D & 미디어 디자인', cd6:'움직임과 입체감을 브랜드 표현의 핵심 요소로 구현합니다.',
-    researchTitle:'Research',
-    contactLabel:'연락하기', footerSub:'크리에이티브 디렉터 · 서울'
-  }
+en: {
+aboutLabel:‘About’,
+about1:‘Jo Younghee is a UX designer and founder of NINEFIVE, a digital design agency delivering end-to-end experience design across strategy, interface, and emerging technologies. With over two decades of hands-on industry experience, she has led complex, large-scale projects spanning technology, retail, and media sectors, collaborating with global organizations such as Samsung, LG, and Hyundai.’,
+about2:‘Her expertise lies in structuring user experiences at scale — translating abstract systems, data, and technologies into coherent, intuitive interfaces. She has built and directed multidisciplinary teams across UX, visual design, media, and XR, consistently delivering high-impact digital products and brand experiences.’,
+about3:‘Extending from this foundation, her recent work expands into XR UX as an advanced research domain. As a PhD researcher in Integrated Design at Yonsei University, she investigates how interaction design principles evolve within immersive environments — focusing on how scale influences perception and behavior in XR, and proposing adaptive interaction mechanisms that adjust sensitivity, distance, visual density, and information representation based on user context. She also teaches UX and interface design at Yonsei University, bridging industry practice with academic thinking.’,
+capTitle:‘Capabilities’, capIntro:‘I design digital experiences that connect strategy, visual systems, and emerging technology. From UX and interface design to motion, spatial media, and immersive environments — translating complex ideas into intuitive visual experiences.’,
+ct1:‘UX strategy’, cd1:‘Defining the user journey from research to system architecture. Bridging business goals and human behavior through structured, insight-led design thinking.’,
+ct2:‘Visual systems’, cd2:‘Constructing cohesive brand languages — identity, typography, color, and motion — that remain consistent across every touchpoint and medium.’,
+ct3:‘Motion design’, cd3:‘Movement as brand expression. From micro-interactions to motion identity systems — harnessing technology to create intuitive interfaces.’,
+ct4:‘Immersive experience’, cd4:‘Designing spatial and interactive environments grounded in doctoral research into 3D interface usability — where physical and digital converge.’,
+ct5:‘Interface design’, cd5:‘Designing interfaces where spatial logic meets beautiful detail — balancing visual precision with intuitive usability across platforms.’,
+ct6:‘Motion, 3D & media design’, cd6:‘Crafting movement and dimensionality as the most compelling method of brand expression — cinematic 3D and editorial media design.’,
+contactLabel:‘Get in touch’, footerSub:‘Creative Director · Seoul’
+},
+kr: {
+aboutLabel:‘소개’,
+about1:‘조영희는 UX 디자이너이자 디지털 디자인 에이전시 NINEFIVE의 창업자로, 전략·인터페이스·신기술을 아우르는 엔드투엔드 경험 디자인을 제공합니다. 20년 이상의 실무 경험을 바탕으로 기술, 리테일, 미디어 분야의 대규모 프로젝트를 이끌어왔으며, 삼성, LG, 현대 등 글로벌 기업과 협업해왔습니다.’,
+about2:‘그녀의 전문성은 복잡한 시스템, 데이터, 기술을 일관되고 직관적인 인터페이스로 전환하는 대규모 사용자 경험 설계에 있습니다. UX, 비주얼 디자인, 미디어, XR에 걸친 다학제 팀을 구성하고 이끌며 높은 임팩트의 디지털 프로덕트와 브랜드 경험을 지속적으로 구현해왔습니다.’,
+about3:‘이러한 실무적 기반을 확장하여, 최근에는 XR UX를 심화 연구 영역으로 탐구하고 있습니다. 연세대학교 통합디자인 박사 과정 연구자로서, 몰입형 환경에서 인터랙션 디자인 원칙이 어떻게 진화하는지를 연구합니다. 특히 XR 환경에서 스케일이 사용자의 인지와 행동에 미치는 영향을 분석하고, 감도·거리·시각적 밀도·정보 표현 방식을 사용자 맥락에 맞게 조정하는 적응형 인터랙션 메커니즘을 제안합니다. 또한 연세대학교에서 UX 및 인터페이스 디자인을 강의하며, 산업 현장의 실천과 학문적 사고를 연결하는 데 주력하고 있습니다.’,
+capTitle:‘Capabilities’, capIntro:‘전략, 비주얼 시스템, 그리고 새로운 기술을 연결하는 디지털 경험을 디자인합니다. UX·인터페이스 디자인부터 모션, 공간 미디어, 몰입형 환경까지 — 복잡한 아이디어를 직관적인 시각 경험으로 전환합니다.’,
+ct1:‘UX strategy’, cd1:‘리서치부터 시스템 설계까지 사용자 여정을 정의합니다.’,
+ct2:‘Visual systems’, cd2:‘아이덴티티, 타이포그래피, 컬러, 모션을 통해 일관된 브랜드 언어를 구축합니다.’,
+ct3:‘Motion design’, cd3:‘브랜드 표현으로서의 움직임. 마이크로인터랙션부터 모션 아이덴티티 시스템까지.’,
+ct4:‘Immersive experience’, cd4:‘3D 인터페이스 박사 연구를 기반으로 공간적·인터랙티브 환경을 설계합니다.’,
+ct5:‘Interface design’, cd5:‘공간적 논리와 세밀한 디테일이 만나는 인터페이스를 디자인합니다.’,
+ct6:‘Motion, 3D & media design’, cd6:‘움직임과 입체감을 브랜드 표현의 핵심 요소로 구현합니다.’,
+contactLabel:‘연락하기’, footerSub:‘크리에이티브 디렉터 · 서울’
+}
 };
 
 function applyLang(lang) {
-  currentLang = lang;
-  var c = copy[lang];
-  ['aboutLabel','about1','about2','about3','capTitle','capIntro',
-   'ct1','cd1','ct2','cd2','ct3','cd3','ct4','cd4','ct5','cd5','ct6','cd6',
-   'researchTitle','contactLabel','footerSub'].forEach(function(id) {
-    var el = document.getElementById(id);
-    if (el) el.innerHTML = c[id];
-  });
-  document.getElementById('langCurrent').textContent = lang.toUpperCase();
+currentLang = lang;
+var c = copy[lang];
+[‘aboutLabel’,‘about1’,‘about2’,‘about3’,‘capTitle’,‘capIntro’,
+‘ct1’,‘cd1’,‘ct2’,‘cd2’,‘ct3’,‘cd3’,‘ct4’,‘cd4’,‘ct5’,‘cd5’,‘ct6’,‘cd6’,
+‘contactLabel’,‘footerSub’].forEach(function(id) {
+var el = document.getElementById(id); if (el) el.innerHTML = c[id];
+});
+document.getElementById(‘langCurrent’).textContent = lang.toUpperCase();
 }
 
-document.getElementById('langBtn').addEventListener('click', function() {
-  document.getElementById('langWrap').classList.toggle('open');
+document.getElementById(‘langBtn’).addEventListener(‘click’, function() { document.getElementById(‘langWrap’).classList.toggle(‘open’); });
+document.querySelectorAll(’.lang-option’).forEach(function(o) {
+o.addEventListener(‘click’, function() { applyLang(o.dataset.lang); document.getElementById(‘langWrap’).classList.remove(‘open’); });
 });
-document.querySelectorAll('.lang-option').forEach(function(o) {
-  o.addEventListener('click', function() {
-    applyLang(o.dataset.lang);
-    document.getElementById('langWrap').classList.remove('open');
-  });
-});
-document.addEventListener('click', function(e) {
-  if (!e.target.closest('#langWrap')) document.getElementById('langWrap').classList.remove('open');
-});
+document.addEventListener(‘click’, function(e) { if (!e.target.closest(’#langWrap’)) document.getElementById(‘langWrap’).classList.remove(‘open’); });
 
-// REVEAL
 var revObs = new IntersectionObserver(function(es) {
-  es.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, {threshold: 0.1});
-document.querySelectorAll('.reveal').forEach(function(el) { revObs.observe(el); });
+es.forEach(function(e) { if (e.isIntersecting) e.target.classList.add(‘visible’); });
+}, {threshold:0.1});
+document.querySelectorAll(’.reveal’).forEach(function(el) { revObs.observe(el); });
 
-// INIT
 loadHero();
 loadProjects();
 loadResearch();
