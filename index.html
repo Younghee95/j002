@@ -4,436 +4,497 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>J002</title>
+<title>J002 — Creative Director</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
 <style>
-:root{--g:#B8FF00;--dark:#080808;--gray:#141414;--mid:#2a2a2a;}
-*{margin:0;padding:0;box-sizing:border-box;}
+:root{--green:#B8FF00;--dark:#080808;--gray:#141414;--mid:#2a2a2a;--muted:rgba(255,255,255,.38);}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 body{background:var(--dark);color:#fff;font-family:'Pretendard',sans-serif;overflow-x:hidden;}
 a{color:inherit;text-decoration:none;}
-
-/* NAV */
 nav{position:fixed;top:0;left:0;width:100%;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:22px 40px;}
-.logo{font-family:‘Bebas Neue’,sans-serif;font-size:28px;letter-spacing:.11em;}
-.nav-r{display:flex;gap:16px;align-items:center;}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:0.11em;color:#fff;}
+.nav-right{display:flex;align-items:center;gap:16px;}
 .lang-wrap{position:relative;}
-.lang-btn{background:none;border:1px solid rgba(255,255,255,.2);color:#fff;font-family:‘Pretendard’,sans-serif;font-size:11px;letter-spacing:2px;padding:12px 24px;cursor:pointer;border-radius:999px;display:flex;align-items:center;gap:6px;}
-.lang-drop{position:absolute;top:calc(100% + 6px);right:0;background:#1a1a1a;border:1px solid rgba(255,255,255,.2);border-radius:20px;overflow:hidden;min-width:100%;opacity:0;pointer-events:none;transform:translateY(-4px);transition:opacity .2s,transform .2s;}
-.lang-wrap.open .lang-drop{opacity:1;pointer-events:all;transform:translateY(0);}
-.lang-opt{padding:12px 24px;font-size:11px;letter-spacing:2px;cursor:pointer;text-align:center;}
-.lang-opt:hover{background:rgba(255,255,255,.08);color:var(–g);}
-.proj-btn{background:none;border:1px solid rgba(255,255,255,.4);color:#fff;font-family:‘Pretendard’,sans-serif;font-size:11px;letter-spacing:2px;padding:12px 24px;cursor:pointer;border-radius:999px;}
+.lang-btn{background:none;border:1px solid rgba(255,255,255,.2);color:#fff;font-family:'Pretendard',sans-serif;font-size:11px;letter-spacing:2px;padding:12px 24px;cursor:pointer;border-radius:999px;display:flex;align-items:center;gap:6px;transition:border-color .2s;}
+.lang-btn:hover{border-color:rgba(255,255,255,.5);}
+.lang-arrow{font-size:8px;transition:transform .2s;}
+.lang-dropdown{position:absolute;top:calc(100% + 6px);right:0;background:#1a1a1a;border:1px solid rgba(255,255,255,.2);border-radius:20px;overflow:hidden;min-width:100%;opacity:0;pointer-events:none;transform:translateY(-4px);transition:opacity .2s,transform .2s;}
+.lang-wrap.open .lang-dropdown{opacity:1;pointer-events:all;transform:translateY(0);}
+.lang-wrap.open .lang-arrow{transform:rotate(180deg);}
+.lang-option{padding:12px 24px;font-size:11px;letter-spacing:2px;cursor:pointer;transition:background .15s;text-align:center;}
+.lang-option:hover{background:rgba(255,255,255,.08);color:var(--green);border-radius:20px;}
+.proj-btn{background:none;border:1px solid rgba(255,255,255,.4);color:#fff;font-family:'Pretendard',sans-serif;font-size:11px;letter-spacing:2px;padding:12px 24px;cursor:pointer;border-radius:999px;transition:background .2s;}
 .proj-btn:hover{background:rgba(255,255,255,.1);}
-
-/* PANEL */
-.panel{position:fixed;top:0;right:0;height:100vh;width:400px;background:#111;z-index:200;transform:translateX(100%);transition:transform .5s cubic-bezier(.77,0,.18,1);overflow-y:auto;padding:76px 44px 44px;border-left:1px solid var(–mid);}
-.panel.open{transform:translateX(0);}
-.panel-close{position:absolute;top:26px;right:28px;background:none;border:none;color:rgba(255,255,255,.4);font-size:22px;cursor:pointer;}
-.panel h3{font-family:‘Bebas Neue’,sans-serif;font-size:28px;letter-spacing:.11em;color:var(–g);margin-bottom:36px;}
-.pi{padding:22px 0;border-bottom:1px solid var(–mid);cursor:pointer;}
-.pi:hover .pi-title{color:var(–g);}
-.pi-num{font-size:10px;color:rgba(255,255,255,.38);letter-spacing:2px;margin-bottom:7px;}
-.pi-title{font-family:‘Bebas Neue’,sans-serif;font-size:24px;letter-spacing:.08em;}
-.pi-tag{font-size:11px;color:rgba(255,255,255,.38);margin-top:5px;}
-.ov{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:150;opacity:0;pointer-events:none;transition:opacity .3s;}
-.ov.show{opacity:1;pointer-events:all;}
-
-/* DETAIL */
-.detail{position:fixed;inset:0;z-index:300;background:var(–dark);transform:translateY(100%);transition:transform .6s cubic-bezier(.77,0,.18,1);overflow-y:auto;}
-.detail.open{transform:translateY(0);}
-.detail-nav{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:22px 40px;background:rgba(8,8,8,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(–mid);}
-.detail-back{background:none;border:none;color:rgba(255,255,255,.38);font-family:‘Pretendard’,sans-serif;font-size:12px;letter-spacing:2px;cursor:pointer;}
-.detail-back:hover{color:#fff;}
-.detail-head{padding:100px 40px 60px;border-bottom:1px solid var(–mid);display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:end;}
-.detail-title{font-family:‘Bebas Neue’,sans-serif;font-size:clamp(26px,4vw,50px);line-height:.92;letter-spacing:.04em;text-transform:uppercase;}
-.detail-cat{font-size:11px;letter-spacing:4px;color:var(–g);text-transform:uppercase;margin-bottom:20px;}
-.detail-desc{font-size:15px;line-height:1.9;color:rgba(255,255,255,.65);}
-.detail-link{display:inline-flex;margin-top:28px;font-size:12px;letter-spacing:2px;color:var(–g);border-bottom:1px solid rgba(184,255,0,.3);padding-bottom:2px;}
-.detail-imgs{}
-.dim-wrap{width:100%;border-bottom:1px solid var(–mid);overflow:hidden;background:#111;}
-.dim-wrap img{width:100%;display:block;}
-.dim-ph{width:100%;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;font-size:12px;letter-spacing:3px;color:rgba(255,255,255,.15);font-family:‘Bebas Neue’,sans-serif;}
-.detail-foot{padding:80px 40px;display:flex;justify-content:space-between;border-top:1px solid var(–mid);}
-.nav-btn{background:none;border:none;cursor:pointer;font-family:‘Bebas Neue’,sans-serif;font-size:13px;letter-spacing:3px;color:rgba(255,255,255,.38);text-transform:uppercase;}
-.nav-btn:hover{color:#fff;}
-.nav-btn.off{opacity:.2;pointer-events:none;}
-
-/* HERO */
-#hero{height:100vh;position:relative;overflow:hidden;background:var(–dark);}
-.hs{position:absolute;inset:0;opacity:0;transition:opacity 1.2s;}
-.hs.active{opacity:1;}
-.hs img,.hs video{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
-.hdots{display:flex;gap:8px;position:absolute;bottom:80px;left:50%;transform:translateX(-50%);z-index:3;}
-.hdot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.5);cursor:pointer;transition:background .3s,transform .3s;}
-.hdot.active{background:var(–g);transform:scale(1.5);}
-.hbot{position:absolute;bottom:40px;left:0;right:0;display:flex;align-items:center;justify-content:center;gap:40px;z-index:3;}
-.harr{width:48px;height:48px;border-radius:50%;border:1px solid rgba(255,255,255,.5);background:none;color:rgba(255,255,255,.7);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
-.harr:hover{border-color:var(–g);color:var(–dark);background:var(–g);}
-.hlabel{font-size:12px;letter-spacing:3px;color:rgba(255,255,255,.38);min-width:220px;text-align:center;text-transform:uppercase;}
-
-/* VISION */
-#vision{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:100px 40px 80px;}
-.vq{font-family:‘Bebas Neue’,sans-serif;font-size:clamp(52px,9vw,110px);line-height:.95;letter-spacing:.04em;text-transform:uppercase;color:#fff;max-width:1000px;}
-.va{font-size:12px;color:rgba(255,255,255,.38);letter-spacing:3px;text-transform:uppercase;margin-top:48px;align-self:flex-end;}
-
-/* ABOUT */
+.proj-panel{position:fixed;top:0;right:0;height:100vh;width:400px;background:#111;z-index:200;transform:translateX(100%);transition:transform .5s cubic-bezier(.77,0,.18,1);overflow-y:auto;padding:76px 44px 44px;border-left:1px solid var(--mid);}
+.proj-panel.open{transform:translateX(0);}
+.proj-panel-close{position:absolute;top:26px;right:28px;background:none;border:none;color:var(--muted);font-size:22px;cursor:pointer;transition:color .2s;}
+.proj-panel-close:hover{color:var(--green);}
+.proj-panel h3{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:0.11em;color:var(--green);margin-bottom:36px;}
+.proj-item{padding:22px 0;border-bottom:1px solid var(--mid);cursor:pointer;transition:opacity .2s;}
+.proj-item:hover{opacity:.7;}
+.proj-item:hover .proj-item-title{color:var(--green);}
+.proj-item-num{font-size:10px;color:var(--muted);letter-spacing:2px;margin-bottom:7px;}
+.proj-item-title{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:0.08em;transition:color .2s;}
+.proj-item-tag{font-size:11px;color:var(--muted);margin-top:5px;letter-spacing:1px;}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:150;opacity:0;pointer-events:none;transition:opacity .3s;}
+.overlay.show{opacity:1;pointer-events:all;}
+.proj-detail{position:fixed;inset:0;z-index:300;background:var(--dark);transform:translateY(100%);transition:transform .6s cubic-bezier(.77,0,.18,1);overflow-y:auto;}
+.proj-detail.open{transform:translateY(0);}
+.proj-detail-nav{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:22px 40px;background:rgba(8,8,8,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--mid);}
+.proj-detail-back{display:flex;align-items:center;gap:12px;background:none;border:none;color:var(--muted);font-family:'Pretendard',sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:color .2s;}
+.proj-detail-back:hover{color:#fff;}
+.proj-detail-logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:0.11em;}
+.proj-detail-header{padding:100px 40px 60px;border-bottom:1px solid var(--mid);display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:end;}
+.proj-detail-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(26px,4vw,50px);line-height:.92;letter-spacing:0.04em;text-transform:uppercase;}
+.proj-detail-cat{font-size:11px;letter-spacing:4px;color:var(--green);text-transform:uppercase;margin-bottom:20px;}
+.proj-detail-desc{font-size:15px;line-height:1.9;color:rgba(255,255,255,.65);max-width:480px;}
+.proj-detail-link{display:inline-flex;align-items:center;gap:8px;margin-top:28px;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--green);border-bottom:1px solid rgba(184,255,0,.3);padding-bottom:2px;}
+.proj-detail-img-wrap{width:100%;border-bottom:1px solid var(--mid);overflow:hidden;background:#111;}
+.proj-detail-img-wrap img,.proj-detail-img-wrap video{width:100%;display:block;}
+.proj-detail-img-placeholder{width:100%;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;font-size:12px;letter-spacing:3px;color:rgba(255,255,255,.15);font-family:'Bebas Neue',sans-serif;}
+.proj-detail-footer{padding:80px 40px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--mid);}
+.proj-nav-btn{background:none;border:none;cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;transition:color .2s;}
+.proj-nav-btn:hover{color:#fff;}
+.proj-nav-btn.disabled{opacity:.2;pointer-events:none;}
+#hero{height:100vh;position:relative;overflow:hidden;background:var(--dark);}
+.hero-slide{position:absolute;inset:0;opacity:0;transition:opacity 1.2s ease;}
+.hero-slide.active{opacity:1;}
+.hero-slide img,.hero-slide video{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;pointer-events:none;}
+.work-frame{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+.work-frame-inner{width:clamp(240px,40vw,520px);aspect-ratio:4/3;border:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;position:relative;}
+.work-frame-inner::before,.work-frame-inner::after{content:'';position:absolute;width:20px;height:20px;border-color:var(--green);border-style:solid;}
+.work-frame-inner::before{top:-1px;left:-1px;border-width:1px 0 0 1px;}
+.work-frame-inner::after{bottom:-1px;right:-1px;border-width:0 1px 1px 0;}
+.work-inner{width:80%;height:80%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:3px;color:rgba(255,255,255,.15);background:linear-gradient(135deg,#101a10,#0d1117);}
+.hero-dots-inline{display:flex;gap:8px;position:absolute;bottom:80px;left:50%;transform:translateX(-50%);z-index:3;}
+.hero-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.5);cursor:pointer;transition:background .3s,transform .3s;}
+.hero-dot.active{background:var(--green);transform:scale(1.5);}
+.hero-bottom{position:absolute;bottom:40px;left:0;right:0;display:flex;align-items:center;justify-content:center;gap:40px;z-index:3;}
+.hero-arrow{width:48px;height:48px;border-radius:50%;border:1px solid rgba(255,255,255,.5);background:none;color:var(--muted);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .2s,color .2s,background .2s;}
+.hero-arrow:hover{border-color:var(--green);color:var(--dark);background:var(--green);}
+.hero-label{font-size:12px;letter-spacing:3px;color:var(--muted);min-width:220px;text-align:center;text-transform:uppercase;}
+#vision{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:100px 40px 80px;position:relative;overflow:hidden;}
+#vision::before{content:'';position:absolute;bottom:-200px;right:-100px;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(184,255,0,.03),transparent 70%);pointer-events:none;}
+.vision-quote{font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,9vw,110px);line-height:.95;letter-spacing:0.04em;text-transform:uppercase;color:#fff;max-width:1000px;}
+.vision-attr{font-size:12px;color:var(--muted);letter-spacing:3px;text-transform:uppercase;margin-top:48px;align-self:flex-end;}
 #about{padding:120px 40px;}
-.about-w{width:700px;max-width:100%;margin:0 auto;}
-.slabel{font-size:10px;letter-spacing:4px;color:var(–g);text-transform:uppercase;margin-bottom:48px;display:block;}
-.about-w p{font-size:15px;line-height:2;color:rgba(255,255,255,.7);margin-bottom:28px;}
-
-/* CAPABILITIES */
-#cap{padding:120px 40px;background:var(–gray);border-top:1px solid var(–mid);}
-.cap-hd{text-align:center;margin-bottom:64px;}
-.cap-hd h2{font-family:‘Pretendard’,sans-serif;font-weight:400;font-size:36px;letter-spacing:0;color:#fff;margin-bottom:28px;}
-.cap-hd p{font-size:14px;color:rgba(255,255,255,.38);line-height:1.9;max-width:680px;margin:0 auto;}
+.about-wrap{width:700px;max-width:100%;margin:0 auto;}
+.section-label{font-size:10px;letter-spacing:4px;color:var(--green);text-transform:uppercase;margin-bottom:48px;display:block;}
+.about-body p{font-size:15px;line-height:2;color:rgba(255,255,255,.7);margin-bottom:28px;}
+.about-body p:last-child{margin-bottom:0;}
+#capabilities{padding:120px 40px;background:var(--gray);border-top:1px solid var(--mid);}
+.cap-header{text-align:center;margin-bottom:64px;}
+.cap-header h2{font-family:'Pretendard',sans-serif;font-weight:400;font-size:36px;letter-spacing:0;color:#fff;margin-bottom:28px;}
+.cap-intro{font-size:14px;color:var(--muted);line-height:1.9;max-width:680px;margin:0 auto;text-align:center;}
 .cap-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;margin-top:64px;}
-.cc{background:var(–dark);padding:44px 40px;position:relative;overflow:hidden;}
-.cc:hover{background:#0e0e0e;}
-.cc::after{content:’’;position:absolute;bottom:0;left:0;width:0;height:1px;background:var(–g);transition:width .45s;}
-.cc:hover::after{width:100%;}
-.cc-num{font-size:10px;color:var(–g);letter-spacing:3px;margin-bottom:20px;}
-.cc-title{font-family:‘Pretendard’,sans-serif;font-weight:400;font-size:18px;color:#fff;margin-bottom:16px;}
-.cc-desc{font-size:13px;color:rgba(255,255,255,.45);line-height:1.4;margin-bottom:24px;}
-.cc-tags{display:flex;flex-wrap:wrap;gap:6px;}
-.cc-tag{font-size:10px;letter-spacing:1.5px;border:1px solid var(–mid);padding:4px 12px;border-radius:999px;color:rgba(255,255,255,.35);}
-.cc:hover .cc-tag{border-color:rgba(184,255,0,.25);color:rgba(255,255,255,.7);}
-
-/* RESEARCH */
-#research{padding:120px 40px;border-top:1px solid var(–mid);}
-.res-hd{text-align:center;margin-bottom:64px;}
-.res-hd h2{font-family:‘Pretendard’,sans-serif;font-weight:400;font-size:36px;letter-spacing:0;color:#fff;}
-.ri{padding:32px 0;border-bottom:1px solid var(–mid);display:grid;grid-template-columns:80px 1fr;gap:24px;}
-.ri:first-child{border-top:1px solid var(–mid);}
-.ri-year{font-size:12px;color:var(–g);letter-spacing:2px;padding-top:3px;}
-.ri-title{font-size:15px;color:#fff;line-height:1.6;margin-bottom:8px;}
-.ri-journal{font-size:12px;color:rgba(255,255,255,.38);letter-spacing:1px;}
-.ri-desc{font-size:13px;color:rgba(255,255,255,.45);line-height:1.7;margin-top:10px;}
-
-/* CONTACT */
+.cap-card{background:var(--dark);padding:44px 40px;position:relative;overflow:hidden;cursor:default;transition:background .3s;}
+.cap-card:hover{background:#0e0e0e;}
+.cap-card::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--green);transition:width .45s ease;}
+.cap-card:hover::after{width:100%;}
+.cap-num{font-size:10px;color:var(--green);letter-spacing:3px;margin-bottom:20px;}
+.cap-title{font-family:'Pretendard',sans-serif;font-weight:400;font-size:18px;letter-spacing:0;color:#fff;margin-bottom:16px;}
+.cap-desc{font-size:13px;color:rgba(255,255,255,.45);line-height:1.4;margin-bottom:24px;}
+.cap-tags{display:flex;flex-wrap:wrap;gap:6px;}
+.cap-tag{font-size:10px;letter-spacing:1.5px;border:1px solid var(--mid);padding:4px 12px;border-radius:999px;color:rgba(255,255,255,.35);transition:all .2s;}
+.cap-card:hover .cap-tag{border-color:rgba(184,255,0,.25);color:rgba(255,255,255,.7);}
+#research{padding:120px 40px;border-top:1px solid var(--mid);}
+.research-header{margin-bottom:64px;text-align:center;}
+.research-header h2{font-family:'Pretendard',sans-serif;font-weight:400;font-size:36px;letter-spacing:0;color:#fff;}
+.research-item{padding:32px 0;border-bottom:1px solid var(--mid);display:grid;grid-template-columns:80px 1fr;gap:24px;align-items:start;}
+.research-item:first-child{border-top:1px solid var(--mid);}
+.research-year{font-size:12px;color:var(--green);letter-spacing:2px;padding-top:3px;}
+.research-title{font-size:15px;color:#fff;line-height:1.6;margin-bottom:8px;}
+.research-journal{font-size:12px;color:var(--muted);letter-spacing:1px;line-height:1.6;}
+.research-desc{font-size:13px;color:rgba(255,255,255,.45);line-height:1.7;margin-top:12px;}
 #contact{padding:140px 40px;display:flex;flex-direction:column;align-items:center;text-align:center;}
-.ct-h{font-family:‘Bebas Neue’,sans-serif;font-size:clamp(52px,9vw,120px);line-height:.9;letter-spacing:.11em;text-transform:uppercase;color:#fff;margin-bottom:52px;}
-.ct-mail{font-family:‘Bebas Neue’,sans-serif;font-size:clamp(16px,2.2vw,28px);letter-spacing:.08em;color:rgba(255,255,255,.38);border-bottom:1px solid var(–mid);padding-bottom:3px;}
-.ct-mail:hover{color:var(–g);border-color:var(–g);}
-.ct-links{display:flex;gap:28px;margin-top:56px;}
-.ct-link{font-size:11px;letter-spacing:3px;color:rgba(255,255,255,.38);text-transform:uppercase;position:relative;}
-.ct-link::after{content:’’;position:absolute;bottom:-2px;left:0;width:0;height:1px;background:var(–g);transition:width .3s;}
-.ct-link:hover{color:var(–g);}
-.ct-link:hover::after{width:100%;}
-footer{border-top:1px solid var(–mid);padding:28px 40px;display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.22);}
-
-.rv{opacity:0;transform:translateY(32px);transition:opacity .9s,transform .9s;}
-.rv.on{opacity:1;transform:translateY(0);}
+.contact-h{font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,9vw,120px);line-height:.9;letter-spacing:0.11em;text-transform:uppercase;color:#fff;margin-bottom:52px;}
+.contact-email{font-family:'Bebas Neue',sans-serif;font-size:clamp(16px,2.2vw,28px);letter-spacing:0.08em;color:var(--muted);border-bottom:1px solid var(--mid);padding-bottom:3px;transition:color .2s,border-color .2s;}
+.contact-email:hover{color:var(--green);border-color:var(--green);}
+.contact-links{display:flex;gap:28px;margin-top:56px;}
+.contact-link{font-size:11px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;position:relative;transition:color .2s;}
+.contact-link::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;background:var(--green);transition:width .3s;}
+.contact-link:hover{color:var(--green);}
+.contact-link:hover::after{width:100%;}
+footer{border-top:1px solid var(--mid);padding:28px 40px;display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.22);letter-spacing:1px;}
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .9s ease,transform .9s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
 .d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.3s;}
-
 @media(max-width:768px){
-nav,#vision,#about,#cap,#research,#contact{padding-left:24px;padding-right:24px;}
-nav{padding-top:18px;padding-bottom:18px;}
-.cap-grid{grid-template-columns:1fr;}
-.detail-head{grid-template-columns:1fr;padding:80px 24px 40px;}
-.ri{grid-template-columns:60px 1fr;}
+  nav{padding:18px 20px;}
+  #vision,#about,#capabilities,#research,#contact{padding:80px 24px;}
+  .cap-grid{grid-template-columns:1fr;}
+  .proj-detail-header{grid-template-columns:1fr;gap:32px;padding:80px 24px 40px;}
 }
 </style>
-
 </head>
 <body>
 
 <nav>
-  <div class="logo">J002</div>
-  <div class="nav-r">
-    <div class="lang-wrap" id="lw">
-      <button class="lang-btn" id="lb"><span id="lc">EN</span> ▾</button>
-      <div class="lang-drop">
-        <div class="lang-opt" data-l="en">EN</div>
-        <div class="lang-opt" data-l="kr">KR</div>
+  <div class="nav-logo">J002</div>
+  <div class="nav-right">
+    <div class="lang-wrap" id="langWrap">
+      <button class="lang-btn" id="langBtn"><span id="langCurrent">EN</span><span class="lang-arrow">▾</span></button>
+      <div class="lang-dropdown">
+        <div class="lang-option" data-lang="en">EN</div>
+        <div class="lang-option" data-lang="kr">KR</div>
       </div>
     </div>
-    <button class="proj-btn" id="pb">PROJECTS</button>
+    <button class="proj-btn" id="projBtn">PROJECTS</button>
   </div>
 </nav>
 
-<div class="ov" id="ov"></div>
+<div class="overlay" id="overlay"></div>
 
-<aside class="panel" id="panel">
-  <button class="panel-close" id="pc">✕</button>
+<aside class="proj-panel" id="projPanel">
+  <button class="proj-panel-close" id="panelClose">✕</button>
   <h3>SELECTED<br>WORKS</h3>
-  <div id="plist"><div style="font-size:12px;color:rgba(255,255,255,.3);padding:20px 0;">Loading...</div></div>
+  <div id="projList"><div style="font-size:12px;color:rgba(255,255,255,.3);letter-spacing:1px;padding:20px 0;">Loading...</div></div>
 </aside>
 
-<div class="detail" id="detail">
-  <nav class="detail-nav">
-    <button class="detail-back" id="db">← All Projects</button>
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.11em;">J002</div>
+<div class="proj-detail" id="projDetail">
+  <nav class="proj-detail-nav">
+    <button class="proj-detail-back" id="detailBack">← All Projects</button>
+    <div class="proj-detail-logo">J002</div>
   </nav>
-  <div class="detail-head">
-    <h1 class="detail-title" id="dt"></h1>
+  <div class="proj-detail-header">
+    <h1 class="proj-detail-title" id="detailTitle"></h1>
     <div>
-      <div class="detail-cat" id="dc"></div>
-      <p class="detail-desc" id="dd"></p>
-      <a class="detail-link" id="dl" href="#" target="_blank" style="display:none;">View Live ↗</a>
+      <div class="proj-detail-cat" id="detailCat"></div>
+      <p class="proj-detail-desc" id="detailDesc"></p>
+      <a class="proj-detail-link" id="detailLink" href="#" target="_blank" style="display:none;">View Live ↗</a>
     </div>
   </div>
-  <div id="di"></div>
-  <div class="detail-foot">
-    <button class="nav-btn off" id="dprev">← Previous</button>
-    <button class="nav-btn" id="dnext">Next →</button>
+  <div id="detailImages"></div>
+  <div class="proj-detail-footer">
+    <button class="proj-nav-btn disabled" id="detailPrev">← Previous</button>
+    <button class="proj-nav-btn" id="detailNext">Next →</button>
   </div>
 </div>
 
 <section id="hero">
-  <div class="hdots"><div class="hdot active" data-i="0"></div></div>
-  <div class="hbot">
-    <button class="harr" id="hp">&#8592;</button>
-    <div class="hlabel" id="hl"></div>
-    <button class="harr" id="hn">&#8594;</button>
+  <div class="hero-dots-inline">
+    <div class="hero-dot active" data-i="0"></div>
+  </div>
+  <div class="hero-bottom">
+    <button class="hero-arrow" id="heroPrev">&#8592;</button>
+    <div class="hero-label" id="heroLabel"></div>
+    <button class="hero-arrow" id="heroNext">&#8594;</button>
   </div>
 </section>
 
 <section id="vision">
-  <p class="vq rv">Designing how<br>people understand<br>systems</p>
-  <p class="va rv d2">Across digital and spatial environments</p>
+  <p class="vision-quote reveal">Designing how<br>people understand<br>systems</p>
+  <p class="vision-attr reveal d2">Across digital and spatial environments</p>
 </section>
 
 <section id="about">
-  <div class="about-w">
-    <span class="slabel rv" id="al">About</span>
-    <p class="rv" id="a1">Jo Younghee is a UX designer and founder of NINEFIVE, a digital design agency delivering end-to-end experience design across strategy, interface, and emerging technologies. With over two decades of hands-on industry experience, she has led complex, large-scale projects spanning technology, retail, and media sectors, collaborating with global organizations such as Samsung, LG, and Hyundai.</p>
-    <p class="rv d1" id="a2">Her expertise lies in structuring user experiences at scale — translating abstract systems, data, and technologies into coherent, intuitive interfaces. She has built and directed multidisciplinary teams across UX, visual design, media, and XR, consistently delivering high-impact digital products and brand experiences.</p>
-    <p class="rv d2" id="a3">Extending from this foundation, her recent work expands into XR UX as an advanced research domain. As a PhD researcher in Integrated Design at Yonsei University, she investigates how interaction design principles evolve within immersive environments — focusing on how scale influences perception and behavior in XR, and proposing adaptive interaction mechanisms that adjust sensitivity, distance, visual density, and information representation based on user context. She also teaches UX and interface design at Yonsei University, bridging industry practice with academic thinking.</p>
+  <div class="about-wrap">
+    <span class="section-label reveal" id="aboutLabel">About</span>
+    <div class="about-body">
+      <p class="reveal" id="about1">Jo Younghee is a UX designer and founder of NINEFIVE, a digital design agency delivering end-to-end experience design across strategy, interface, and emerging technologies. With over two decades of hands-on industry experience, she has led complex, large-scale projects spanning technology, retail, and media sectors, collaborating with global organizations such as Samsung, LG, and Hyundai.</p>
+      <p class="reveal d1" id="about2">Her expertise lies in structuring user experiences at scale — translating abstract systems, data, and technologies into coherent, intuitive interfaces. She has built and directed multidisciplinary teams across UX, visual design, media, and XR, consistently delivering high-impact digital products and brand experiences.</p>
+      <p class="reveal d2" id="about3">Extending from this foundation, her recent work expands into XR UX as an advanced research domain. As a PhD researcher in Integrated Design at Yonsei University, she investigates how interaction design principles evolve within immersive environments — focusing on how scale influences perception and behavior in XR, and proposing adaptive interaction mechanisms that adjust sensitivity, distance, visual density, and information representation based on user context. She also teaches UX and interface design at Yonsei University, bridging industry practice with academic thinking.</p>
+    </div>
   </div>
 </section>
 
-<section id="cap">
-  <div class="cap-hd">
-    <h2 class="rv" id="cpt">Capabilities</h2>
-    <p class="rv d1" id="cpi">I design digital experiences that connect strategy, visual systems, and emerging technology. From UX and interface design to motion, spatial media, and immersive environments — translating complex ideas into intuitive visual experiences.</p>
+<section id="capabilities">
+  <div class="cap-header">
+    <h2 class="reveal" id="capTitle">Capabilities</h2>
+    <p class="cap-intro reveal d1" id="capIntro">I design digital experiences that connect strategy, visual systems, and emerging technology. From UX and interface design to motion, spatial media, and immersive environments — translating complex ideas into intuitive visual experiences.</p>
   </div>
   <div class="cap-grid">
-    <div class="cc rv"><div class="cc-num">01</div><div class="cc-title" id="t1">UX strategy</div><p class="cc-desc" id="d1">Defining the user journey from research to system architecture. Bridging business goals and human behavior through structured, insight-led design thinking.</p><div class="cc-tags"><span class="cc-tag">Research</span><span class="cc-tag">IA</span><span class="cc-tag">Service Design</span></div></div>
-    <div class="cc rv d1"><div class="cc-num">02</div><div class="cc-title" id="t2">Visual systems</div><p class="cc-desc" id="d2">Constructing cohesive brand languages — identity, typography, color, and motion — consistent across every touchpoint.</p><div class="cc-tags"><span class="cc-tag">Brand Identity</span><span class="cc-tag">Design System</span></div></div>
-    <div class="cc rv"><div class="cc-num">03</div><div class="cc-title" id="t3">Motion design</div><p class="cc-desc" id="d3">Movement as brand expression. From micro-interactions to motion identity systems.</p><div class="cc-tags"><span class="cc-tag">Web / App</span><span class="cc-tag">UI & UX</span></div></div>
-    <div class="cc rv d1"><div class="cc-num">04</div><div class="cc-title" id="t4">Immersive experience</div><p class="cc-desc" id="d4">Designing spatial and interactive environments grounded in doctoral research into 3D interface usability.</p><div class="cc-tags"><span class="cc-tag">XR / AR</span><span class="cc-tag">3D & UX</span></div></div>
-    <div class="cc rv"><div class="cc-num">05</div><div class="cc-title" id="t5">Interface design</div><p class="cc-desc" id="d5">Designing interfaces where spatial logic meets beautiful detail — balancing precision with intuitive usability.</p><div class="cc-tags"><span class="cc-tag">Spatial UI</span><span class="cc-tag">HCI</span></div></div>
-    <div class="cc rv d1"><div class="cc-num">06</div><div class="cc-title" id="t6">Motion, 3D & media design</div><p class="cc-desc" id="d6">Crafting movement and dimensionality as compelling brand expression — cinematic 3D and editorial media.</p><div class="cc-tags"><span class="cc-tag">3D Graphics</span><span class="cc-tag">Film & Media</span></div></div>
+    <div class="cap-card reveal"><div class="cap-num">01</div><div class="cap-title" id="ct1">UX strategy</div><p class="cap-desc" id="cd1">Defining the user journey from research to system architecture. Bridging business goals and human behavior through structured, insight-led design thinking.</p><div class="cap-tags"><span class="cap-tag">Research</span><span class="cap-tag">IA</span><span class="cap-tag">Service Design</span><span class="cap-tag">Data-Driven UX</span></div></div>
+    <div class="cap-card reveal d1"><div class="cap-num">02</div><div class="cap-title" id="ct2">Visual systems</div><p class="cap-desc" id="cd2">Constructing cohesive brand languages — identity, typography, color, and motion — that remain consistent across every touchpoint and medium.</p><div class="cap-tags"><span class="cap-tag">Brand Identity</span><span class="cap-tag">Design System</span><span class="cap-tag">3D Spatial UI</span></div></div>
+    <div class="cap-card reveal"><div class="cap-num">03</div><div class="cap-title" id="ct3">Motion design</div><p class="cap-desc" id="cd3">Movement as brand expression. From micro-interactions to motion identity systems — harnessing technology to create intuitive interfaces.</p><div class="cap-tags"><span class="cap-tag">Web / App / Platform</span><span class="cap-tag">UI & UX</span><span class="cap-tag">Platform UX</span></div></div>
+    <div class="cap-card reveal d1"><div class="cap-num">04</div><div class="cap-title" id="ct4">Immersive experience</div><p class="cap-desc" id="cd4">Designing spatial and interactive environments grounded in doctoral research into 3D interface usability — where physical and digital converge.</p><div class="cap-tags"><span class="cap-tag">XR / AR</span><span class="cap-tag">3D & UX</span><span class="cap-tag">AI → Web / App / XR</span></div></div>
+    <div class="cap-card reveal"><div class="cap-num">05</div><div class="cap-title" id="ct5">Interface design</div><p class="cap-desc" id="cd5">Designing interfaces where spatial logic meets beautiful detail — balancing visual precision with intuitive usability across platforms.</p><div class="cap-tags"><span class="cap-tag">AR / VR / MR / XR</span><span class="cap-tag">Spatial UI</span><span class="cap-tag">HCI & Scroll</span></div></div>
+    <div class="cap-card reveal d1"><div class="cap-num">06</div><div class="cap-title" id="ct6">Motion, 3D & media design</div><p class="cap-desc" id="cd6">Crafting movement and dimensionality as the most compelling method of brand expression — cinematic 3D and editorial media design.</p><div class="cap-tags"><span class="cap-tag">3D Graphics & CGI</span><span class="cap-tag">Editorial Video</span><span class="cap-tag">Media & Film</span></div></div>
   </div>
 </section>
 
 <section id="research">
-  <div class="res-hd"><h2 class="rv" id="rt">Research</h2></div>
-  <div id="rl"></div>
+  <div class="research-header">
+    <h2 class="reveal" id="researchTitle">Research</h2>
+  </div>
+  <div id="researchList"></div>
 </section>
 
 <section id="contact">
-  <span class="slabel rv" id="ctl">Get in touch</span>
-  <h2 class="ct-h rv d1">LET'S<br>WORK<br>TOGETHER</h2>
-  <a class="ct-mail rv d2" href="mailto:02joworkroom@gmail.com">02joworkroom@gmail.com</a>
-  <div class="ct-links rv d3">
-    <a class="ct-link" href="https://www.linkedin.com/in/younghee95" target="_blank">LinkedIn</a>
+  <span class="section-label reveal" id="contactLabel">Get in touch</span>
+  <h2 class="contact-h reveal d1">LET'S<br>WORK<br>TOGETHER</h2>
+  <a class="contact-email reveal d2" href="mailto:02joworkroom@gmail.com">02joworkroom@gmail.com</a>
+  <div class="contact-links reveal d3">
+    <a class="contact-link" href="https://www.linkedin.com/in/younghee95" target="_blank">LinkedIn</a>
   </div>
 </section>
 
 <footer>
   <span>© 2026 J002. ALL RIGHTS RESERVED.</span>
-  <span id="fs">Creative Director · Seoul</span>
+  <span id="footerSub">Creative Director · Seoul</span>
 </footer>
 
 <script>
-var PU = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTRo5wp7zMoYS79AmMlPyg3SttJ1ASZZLVwXlMHElBweoa2bqgZfqsR8ZkJmdyU8iv6b0odQxX2hIgt/pub?gid=1083535060&single=true&output=csv';
-var HU = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTRo5wp7zMoYS79AmMlPyg3SttJ1ASZZLVwXlMHElBweoa2bqgZfqsR8ZkJmdyU8iv6b0odQxX2hIgt/pub?gid=0&single=true&output=csv';
-var RU = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTRo5wp7zMoYS79AmMlPyg3SttJ1ASZZLVwXlMHElBweoa2bqgZfqsR8ZkJmdyU8iv6b0odQxX2hIgt/pub?gid=236412315&single=true&output=csv';
+var PROJECTS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTRo5wp7zMoYS79AmMlPyg3SttJ1ASZZLVwXlMHElBweoa2bqgZfqsR8ZkJmdyU8iv6b0odQxX2hIgt/pub?gid=1083535060&single=true&output=tsv';
+var HERO_URL     = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTRo5wp7zMoYS79AmMlPyg3SttJ1ASZZLVwXlMHElBweoa2bqgZfqsR8ZkJmdyU8iv6b0odQxX2hIgt/pub?gid=0&single=true&output=tsv';
+var RESEARCH_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTRo5wp7zMoYS79AmMlPyg3SttJ1ASZZLVwXlMHElBweoa2bqgZfqsR8ZkJmdyU8iv6b0odQxX2hIgt/pub?gid=236412315&single=true&output=tsv';
 
-function csv(text) {
-  var lines = text.trim().split('\n');
-  var hds = lines[0].split(',').map(function(h){ return h.replace(/"/g,'').trim(); });
-  return lines.slice(1).map(function(line){
-    var cells=[], c='', q=false;
-    for(var i=0;i<line.length;i++){
-      if(line[i]==='"'){q=!q;}
-      else if(line[i]===','&&!q){cells.push(c.replace(/"/g,'').trim());c='';}
-      else{c+=line[i];}
-    }
-    cells.push(c.replace(/"/g,'').trim());
-    var o={};
-    hds.forEach(function(h,i){o[h]=cells[i]||'';});
-    return o;
-  }).filter(function(r){return Object.values(r).some(function(v){return v;});});
+var currentLang = 'en';
+var allProjects = [];
+var detailIndex = 0;
+var heroCur = 0;
+var heroTimer = null;
+
+function parseCSV(text) {
+  var rows = text.trim().split('\n').map(function(row) {
+    return row.split('\t').map(function(cell) {
+      return cell.replace(/^"|"$/g,'').trim();
+    });
+  });
+  var headers = rows[0];
+  return rows.slice(1).map(function(row) {
+    var obj = {};
+    headers.forEach(function(h, i) { obj[h] = (row[i] || '').trim(); });
+    return obj;
+  }).filter(function(r) { return Object.values(r).some(function(v) { return v; }); });
 }
 
 // HERO
-var hcur=0, htimer=null;
-function slides(){return document.querySelectorAll('.hs');}
-function dots(){return document.querySelectorAll('.hdot');}
+function getSlides() { return document.querySelectorAll('.hero-slide'); }
+function getDots() { return document.querySelectorAll('.hero-dot'); }
 
-function go(n){
-  var sl=slides(),dt=dots();
-  if(!sl.length) return;
-  sl[hcur].classList.remove('active');
-  if(dt[hcur]) dt[hcur].classList.remove('active');
-  hcur=(n+sl.length)%sl.length;
-  sl[hcur].classList.add('active');
-  if(dt[hcur]) dt[hcur].classList.add('active');
-  document.getElementById('hl').textContent=sl[hcur].dataset.lbl||'';
-  if(htimer) clearInterval(htimer);
-  if(!sl[hcur].querySelector('video'))
-    htimer=setInterval(function(){go(hcur+1);},8000);
+function goSlide(n) {
+  var sl = getSlides(), dt = getDots();
+  if (!sl.length) return;
+  sl[heroCur].classList.remove('active');
+  dt[heroCur].classList.remove('active');
+  heroCur = (n + sl.length) % sl.length;
+  sl[heroCur].classList.add('active');
+  dt[heroCur].classList.add('active');
+  document.getElementById('heroLabel').textContent = sl[heroCur].dataset.label || '';
 }
 
-document.getElementById('hp').onclick=function(){go(hcur-1);};
-document.getElementById('hn').onclick=function(){go(hcur+1);};
-document.querySelector('.hdots').onclick=function(e){
-  var d=e.target.closest('.hdot');
-  if(d) go(parseInt(d.dataset.i));
-};
+function startHeroTimer() {
+  if (heroTimer) clearInterval(heroTimer);
+  heroTimer = setInterval(function() { goSlide(heroCur + 1); }, 8000);
+}
 
-function loadHero(){
-  fetch(HU).then(function(r){return r.text();}).then(function(t){
-    var items=csv(t);
-    if(!items.length) return;
-    var hero=document.getElementById('hero');
-    var dotsEl=document.querySelector('.hdots');
-    hero.querySelectorAll('.hs').forEach(function(s){s.remove();});
-    dotsEl.innerHTML='';
-    hcur=0;
-    items.forEach(function(item,i){
-      var s=document.createElement('div');
-      s.className='hs'+(i===0?' active':'');
-      s.dataset.lbl=item.label||'';
-      s.dataset.pn=item.project_num||'';
-      var url=item.image||'';
-      if(url){
-        if(/\.(mp4|webm|mov)/i.test(url)){
-          var v=document.createElement('video');
-          v.src=url;v.autoplay=true;v.muted=true;v.playsInline=true;
-          v.onended=function(){go(hcur+1);};
-          s.appendChild(v);
+document.getElementById('heroPrev').addEventListener('click', function() { goSlide(heroCur - 1); });
+document.getElementById('heroNext').addEventListener('click', function() { goSlide(heroCur + 1); });
+document.querySelector('.hero-dots-inline').addEventListener('click', function(e) {
+  var dot = e.target.closest('.hero-dot');
+  if (dot) goSlide(+dot.dataset.i);
+});
+
+function loadHero() {
+  fetch(HERO_URL).then(function(r) { return r.text(); }).then(function(text) {
+    var items = parseCSV(text);
+    if (!items.length) { startHeroTimer(); return; }
+    var heroEl = document.getElementById('hero');
+    var dotsEl = document.querySelector('.hero-dots-inline');
+    heroEl.querySelectorAll('.hero-slide').forEach(function(s) { s.remove(); });
+    dotsEl.innerHTML = '';
+    heroCur = 0;
+    items.forEach(function(item, i) {
+      var slide = document.createElement('div');
+      slide.className = 'hero-slide' + (i === 0 ? ' active' : '');
+      slide.dataset.label = item.label || '';
+      var imgUrl = item.image || '';
+      if (imgUrl) {
+        var isVideo = /\.(mp4|webm|mov)(\?|$)/i.test(imgUrl);
+        if (isVideo) {
+          var vid = document.createElement('video');
+          vid.src = imgUrl;
+          vid.autoplay = true; vid.muted = true; vid.playsInline = true;
+          vid.style.cssText = 'width:100%;height:100%;object-fit:cover;position:absolute;inset:0;pointer-events:none;';
+          vid.addEventListener('ended', function() { goSlide(heroCur + 1); });
+          slide.appendChild(vid);
         } else {
-          var img=document.createElement('img');
-          img.src=url;img.alt=item.label||'';
-          s.appendChild(img);
+          var img = document.createElement('img');
+          img.src = imgUrl; img.alt = item.label || '';
+          slide.appendChild(img);
         }
+      } else {
+        slide.innerHTML = '<div class="work-frame"><div class="work-frame-inner"><div class="work-inner">PROJECT IMAGE ' + String(i+1).padStart(2,'0') + '</div></div></div>';
       }
-      if(item.project_num){
-        s.style.cursor='pointer';
-        s.onclick=function(){
-          var pn=this.dataset.pn;
-          for(var x=0;x<projs.length;x++){
-            if(String(projs[x].num)===String(pn)){openDetail(x);return;}
-          }
-        };
-      }
-      hero.insertBefore(s,dotsEl);
-      var dot=document.createElement('div');
-      dot.className='hdot'+(i===0?' active':'');
-      dot.dataset.i=i;
+      heroEl.insertBefore(slide, dotsEl);
+      var dot = document.createElement('div');
+      dot.className = 'hero-dot' + (i === 0 ? ' active' : '');
+      dot.dataset.i = i;
       dotsEl.appendChild(dot);
     });
-    document.getElementById('hl').textContent=items[0].label||'';
-    if(!document.querySelector('.hs.active video'))
-      htimer=setInterval(function(){go(hcur+1);},8000);
-  }).catch(function(){});
+    document.getElementById('heroLabel').textContent = items[0].label || '';
+    startHeroTimer();
+  }).catch(function() { startHeroTimer(); });
 }
 
 // PROJECTS
-var projs=[];
-function loadProjects(){
-  fetch(PU).then(function(r){return r.text();}).then(function(t){
-    var rows=csv(t), map={}, order=[];
-    rows.forEach(function(r){
-      var k=r.num||r.title;
-      if(!map[k]){map[k]={num:r.num,title:r.title,category:r.category,year:r.year,description:r.description,link:r.link,images:[]};order.push(k);}
-      if(r.images) map[k].images.push(r.images);
-    });
-    projs=order.map(function(k){return map[k];});
-    var list=document.getElementById('plist');
-    list.innerHTML=projs.map(function(p,i){
-      return '<div class="pi" data-i="'+i+'">'
-        +'<div class="pi-num">'+String(p.num||i+1).padStart(2,'0')+'</div>'
-        +'<div class="pi-title">'+(p.title||'')+'</div>'
-        +'<div class="pi-tag">'+(p.category||'')+(p.year?' · '+p.year:'')+'</div>'
-        +'</div>';
-    }).join('');
-    document.querySelectorAll('.pi').forEach(function(el){
-      el.onclick=function(){openDetail(parseInt(el.dataset.i));};
-    });
-  }).catch(function(){});
+function renderProjects(rows) {
+  var map = {};
+  rows.forEach(function(r) {
+    var key = r.num || r.title;
+    if (!map[key]) {
+      map[key] = {
+        num: r.num, title: r.title, category: r.category,
+        year: r.year, description_en: r.description_en,
+        description_kr: r.description_kr, images: []
+      };
+    }
+    if (r.images) map[key].images.push(r.images.trim());
+  });
+  allProjects = Object.values(map);
+  var list = document.getElementById('projList');
+  if (!allProjects.length) {
+    list.innerHTML = '<div style="font-size:12px;color:rgba(255,255,255,.3);padding:20px 0;">No projects found.</div>';
+    return;
+  }
+  list.innerHTML = allProjects.map(function(p, i) {
+    return '<div class="proj-item" data-index="' + i + '">' +
+      '<div class="proj-item-num">' + String(p.num || i+1).padStart(2,'0') + '</div>' +
+      '<div class="proj-item-title">' + p.title + '</div>' +
+      '<div class="proj-item-tag">' + (p.category || '') + (p.year ? ' · ' + p.year : '') + '</div>' +
+      '</div>';
+  }).join('');
+  document.querySelectorAll('.proj-item').forEach(function(el) {
+    el.addEventListener('click', function() { openDetail(+el.dataset.index); });
+  });
+}
+
+function loadProjects() {
+  fetch(PROJECTS_URL).then(function(r) { return r.text(); }).then(function(t) {
+    renderProjects(parseCSV(t));
+  }).catch(function() {
+    document.getElementById('projList').innerHTML = '<div style="font-size:12px;color:rgba(255,255,255,.3);padding:20px 0;">시트를 불러올 수 없어요.</div>';
+  });
 }
 
 // DETAIL
-var di=0;
-function openDetail(idx){
-  di=idx;
-  var p=projs[idx];
-  document.getElementById('dt').textContent=p.title||'';
-  document.getElementById('dc').textContent=[p.category,p.year].filter(Boolean).join(' · ');
-  document.getElementById('dd').textContent=p.description||'';
-  var lk=document.getElementById('dl');
-  if(p.link){lk.href=p.link;lk.style.display='inline-flex';}else{lk.style.display='none';}
-  var imgs=(p.images||[]).filter(Boolean);
-  document.getElementById('di').innerHTML=imgs.length
-    ?imgs.map(function(u){return '<div class="dim-wrap"><img src="'+u+'" loading="lazy"></div>';}).join('')
-    :'<div class="dim-wrap"><div class="dim-ph">PROJECT IMAGES</div></div>';
-  document.getElementById('dprev').classList.toggle('off',idx===0);
-  document.getElementById('dnext').classList.toggle('off',idx===projs.length-1);
+function openDetail(index) {
+  detailIndex = index;
+  var p = allProjects[index];
+  var desc = (currentLang === 'kr' && p.description_kr) ? p.description_kr : (p.description_en || '');
+  document.getElementById('detailTitle').textContent = p.title || '';
+  document.getElementById('detailCat').textContent = [p.category, p.year].filter(Boolean).join(' · ');
+  document.getElementById('detailDesc').textContent = desc;
+  var linkEl = document.getElementById('detailLink');
+  linkEl.style.display = 'none';
+  var imgUrls = (p.images || []).filter(Boolean);
+  document.getElementById('detailImages').innerHTML = imgUrls.length
+    ? imgUrls.map(function(u) { return '<div class="proj-detail-img-wrap"><img src="' + u + '" alt="' + p.title + '" loading="lazy"></div>'; }).join('')
+    : '<div class="proj-detail-img-wrap"><div class="proj-detail-img-placeholder">PROJECT IMAGES</div></div>';
+  document.getElementById('detailPrev').classList.toggle('disabled', index === 0);
+  document.getElementById('detailNext').classList.toggle('disabled', index === allProjects.length - 1);
   closePanel();
-  var d=document.getElementById('detail');
-  d.scrollTop=0;d.classList.add('open');
-  document.body.style.overflow='hidden';
+  var detail = document.getElementById('projDetail');
+  detail.scrollTop = 0;
+  detail.classList.add('open');
+  document.body.style.overflow = 'hidden';
 }
-function closeDetail(){document.getElementById('detail').classList.remove('open');document.body.style.overflow='';}
-document.getElementById('db').onclick=closeDetail;
-document.getElementById('dprev').onclick=function(){if(di>0)openDetail(di-1);};
-document.getElementById('dnext').onclick=function(){if(di<projs.length-1)openDetail(di+1);};
+
+function closeDetail() {
+  document.getElementById('projDetail').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('detailBack').addEventListener('click', closeDetail);
+document.getElementById('detailPrev').addEventListener('click', function() { if (detailIndex > 0) openDetail(detailIndex - 1); });
+document.getElementById('detailNext').addEventListener('click', function() { if (detailIndex < allProjects.length - 1) openDetail(detailIndex + 1); });
 
 // PANEL
-var panel=document.getElementById('panel'), ov=document.getElementById('ov');
-document.getElementById('pb').onclick=function(){panel.classList.add('open');ov.classList.add('show');};
-function closePanel(){panel.classList.remove('open');ov.classList.remove('show');}
-document.getElementById('pc').onclick=closePanel;
-ov.onclick=closePanel;
+var panel = document.getElementById('projPanel');
+var ov = document.getElementById('overlay');
+document.getElementById('projBtn').addEventListener('click', function() { panel.classList.add('open'); ov.classList.add('show'); });
+function closePanel() { panel.classList.remove('open'); ov.classList.remove('show'); }
+document.getElementById('panelClose').addEventListener('click', closePanel);
+ov.addEventListener('click', closePanel);
 
 // RESEARCH
-function loadResearch(){
-  fetch(RU).then(function(r){return r.text();}).then(function(t){
-    var items=csv(t);
-    if(!items.length) return;
-    document.getElementById('rl').innerHTML=items.map(function(p){
-      return '<div class="ri">'
-        +'<div class="ri-year">'+(p.year||'')+'</div>'
-        +'<div>'
-          +'<div class="ri-title">'+(p.title||'')+'</div>'
-          +'<div class="ri-journal">'+(p.journal||'')+'</div>'
-          +(p.description?'<div class="ri-desc">'+p.description+'</div>':'')
-        +'</div>'
-        +'</div>';
+function loadResearch() {
+  fetch(RESEARCH_URL).then(function(r) { return r.text(); }).then(function(text) {
+    var items = parseCSV(text);
+    if (!items.length) return;
+    document.getElementById('researchList').innerHTML = items.map(function(p) {
+      return '<div class="research-item">' +
+        '<div class="research-year">' + (p.year || '') + '</div>' +
+        '<div>' +
+          '<div class="research-title">' + (p.title || '') + '</div>' +
+          '<div class="research-journal">' + (p.journal || '') + '</div>' +
+          (p.description ? '<div class="research-desc">' + p.description + '</div>' : '') +
+        '</div>' +
+        '</div>';
     }).join('');
-  }).catch(function(){});
+  }).catch(function() {});
 }
 
-// LANG
-var cp={
-  en:{al:'About',a1:'Jo Younghee is a UX designer and founder of NINEFIVE, a digital design agency delivering end-to-end experience design across strategy, interface, and emerging technologies. With over two decades of hands-on industry experience, she has led complex, large-scale projects spanning technology, retail, and media sectors, collaborating with global organizations such as Samsung, LG, and Hyundai.',a2:'Her expertise lies in structuring user experiences at scale — translating abstract systems, data, and technologies into coherent, intuitive interfaces. She has built and directed multidisciplinary teams across UX, visual design, media, and XR, consistently delivering high-impact digital products and brand experiences.',a3:'Extending from this foundation, her recent work expands into XR UX as an advanced research domain. As a PhD researcher in Integrated Design at Yonsei University, she investigates how interaction design principles evolve within immersive environments. She also teaches UX and interface design at Yonsei University, bridging industry practice with academic thinking.',cpt:'Capabilities',cpi:'I design digital experiences that connect strategy, visual systems, and emerging technology.',t1:'UX strategy',d1:'Defining the user journey from research to system architecture.',t2:'Visual systems',d2:'Constructing cohesive brand languages across every touchpoint.',t3:'Motion design',d3:'Movement as brand expression — from micro-interactions to motion identity.',t4:'Immersive experience',d4:'Designing spatial environments grounded in doctoral research into 3D interface usability.',t5:'Interface design',d5:'Interfaces where spatial logic meets beautiful detail.',t6:'Motion, 3D & media design',d6:'Crafting movement and dimensionality as compelling brand expression.',rt:'Research',ctl:'Get in touch',fs:'Creative Director · Seoul'},
-  kr:{al:'소개',a1:'조영희는 UX 디자이너이자 디지털 디자인 에이전시 NINEFIVE의 창업자로, 전략·인터페이스·신기술을 아우르는 엔드투엔드 경험 디자인을 제공합니다. 20년 이상의 실무 경험을 바탕으로 삼성, LG, 현대 등 글로벌 기업과 협업해왔습니다.',a2:'복잡한 시스템, 데이터, 기술을 일관되고 직관적인 인터페이스로 전환하는 대규모 사용자 경험 설계가 전문입니다.',a3:'연세대학교 통합디자인 박사 과정 연구자로서 몰입형 환경에서의 인터랙션 디자인을 연구하며, UX 및 인터페이스 디자인을 강의합니다.',cpt:'Capabilities',cpi:'전략, 비주얼 시스템, 신기술을 연결하는 디지털 경험을 디자인합니다.',t1:'UX 전략',d1:'리서치부터 시스템 설계까지 사용자 여정을 정의합니다.',t2:'비주얼 시스템',d2:'모든 접점에서 일관된 브랜드 언어를 구축합니다.',t3:'모션 디자인',d3:'브랜드 표현으로서의 움직임.',t4:'몰입형 경험',d4:'3D 인터페이스 연구 기반의 공간적 환경 설계.',t5:'인터페이스 디자인',d5:'공간적 논리와 세밀한 디테일이 만나는 인터페이스.',t6:'모션, 3D & 미디어 디자인',d6:'움직임과 입체감을 브랜드 표현의 핵심으로.',rt:'연구',ctl:'연락하기',fs:'크리에이티브 디렉터 · 서울'}
+// LANGUAGE
+var copy = {
+  en: {
+    aboutLabel:'About',
+    about1:'Jo Younghee is a UX designer and founder of NINEFIVE, a digital design agency delivering end-to-end experience design across strategy, interface, and emerging technologies. With over two decades of hands-on industry experience, she has led complex, large-scale projects spanning technology, retail, and media sectors, collaborating with global organizations such as Samsung, LG, and Hyundai.',
+    about2:'Her expertise lies in structuring user experiences at scale — translating abstract systems, data, and technologies into coherent, intuitive interfaces. She has built and directed multidisciplinary teams across UX, visual design, media, and XR, consistently delivering high-impact digital products and brand experiences.',
+    about3:'Extending from this foundation, her recent work expands into XR UX as an advanced research domain. As a PhD researcher in Integrated Design at Yonsei University, she investigates how interaction design principles evolve within immersive environments — focusing on how scale influences perception and behavior in XR, and proposing adaptive interaction mechanisms that adjust sensitivity, distance, visual density, and information representation based on user context. She also teaches UX and interface design at Yonsei University, bridging industry practice with academic thinking.',
+    capTitle:'Capabilities', capIntro:'I design digital experiences that connect strategy, visual systems, and emerging technology. From UX and interface design to motion, spatial media, and immersive environments — translating complex ideas into intuitive visual experiences.',
+    ct1:'UX strategy', cd1:'Defining the user journey from research to system architecture. Bridging business goals and human behavior through structured, insight-led design thinking.',
+    ct2:'Visual systems', cd2:'Constructing cohesive brand languages — identity, typography, color, and motion — that remain consistent across every touchpoint and medium.',
+    ct3:'Motion design', cd3:'Movement as brand expression. From micro-interactions to motion identity systems — harnessing technology to create intuitive interfaces.',
+    ct4:'Immersive experience', cd4:'Designing spatial and interactive environments grounded in doctoral research into 3D interface usability — where physical and digital converge.',
+    ct5:'Interface design', cd5:'Designing interfaces where spatial logic meets beautiful detail — balancing visual precision with intuitive usability across platforms.',
+    ct6:'Motion, 3D & media design', cd6:'Crafting movement and dimensionality as the most compelling method of brand expression — cinematic 3D and editorial media design.',
+    researchTitle:'Research',
+    contactLabel:'Get in touch', footerSub:'Creative Director · Seoul'
+  },
+  kr: {
+    aboutLabel:'소개',
+    about1:'조영희는 UX 디자이너이자 디지털 디자인 에이전시 NINEFIVE의 창업자로, 전략·인터페이스·신기술을 아우르는 엔드투엔드 경험 디자인을 제공합니다. 20년 이상의 실무 경험을 바탕으로 기술, 리테일, 미디어 분야의 대규모 프로젝트를 이끌어왔으며, 삼성, LG, 현대 등 글로벌 기업과 협업해왔습니다.',
+    about2:'그녀의 전문성은 복잡한 시스템, 데이터, 기술을 일관되고 직관적인 인터페이스로 전환하는 대규모 사용자 경험 설계에 있습니다. UX, 비주얼 디자인, 미디어, XR에 걸친 다학제 팀을 구성하고 이끌며 높은 임팩트의 디지털 프로덕트와 브랜드 경험을 지속적으로 구현해왔습니다.',
+    about3:'이러한 실무적 기반을 확장하여, 최근에는 XR UX를 심화 연구 영역으로 탐구하고 있습니다. 연세대학교 통합디자인 박사 과정 연구자로서, 몰입형 환경에서 인터랙션 디자인 원칙이 어떻게 진화하는지를 연구합니다. 특히 XR 환경에서 스케일이 사용자의 인지와 행동에 미치는 영향을 분석하고, 감도·거리·시각적 밀도·정보 표현 방식을 사용자 맥락에 맞게 조정하는 적응형 인터랙션 메커니즘을 제안합니다. 또한 연세대학교에서 UX 및 인터페이스 디자인을 강의하며, 산업 현장의 실천과 학문적 사고를 연결하는 데 주력하고 있습니다.',
+    capTitle:'Capabilities', capIntro:'전략, 비주얼 시스템, 그리고 새로운 기술을 연결하는 디지털 경험을 디자인합니다. UX·인터페이스 디자인부터 모션, 공간 미디어, 몰입형 환경까지 — 복잡한 아이디어를 직관적인 시각 경험으로 전환합니다.',
+    ct1:'UX 전략', cd1:'리서치부터 시스템 설계까지 사용자 여정을 정의합니다.',
+    ct2:'비주얼 시스템', cd2:'아이덴티티, 타이포그래피, 컬러, 모션을 통해 일관된 브랜드 언어를 구축합니다.',
+    ct3:'모션 디자인', cd3:'브랜드 표현으로서의 움직임. 마이크로인터랙션부터 모션 아이덴티티 시스템까지.',
+    ct4:'몰입형 경험', cd4:'3D 인터페이스 박사 연구를 기반으로 공간적·인터랙티브 환경을 설계합니다.',
+    ct5:'인터페이스 디자인', cd5:'공간적 논리와 세밀한 디테일이 만나는 인터페이스를 디자인합니다.',
+    ct6:'모션, 3D & 미디어 디자인', cd6:'움직임과 입체감을 브랜드 표현의 핵심 요소로 구현합니다.',
+    researchTitle:'Research',
+    contactLabel:'연락하기', footerSub:'크리에이티브 디렉터 · 서울'
+  }
 };
 
-function applyLang(lang){
-  var c=cp[lang];
-  ['al','a1','a2','a3','cpt','cpi','t1','d1','t2','d2','t3','d3','t4','d4','t5','d5','t6','d6','rt','ctl','fs'].forEach(function(id){
-    var el=document.getElementById(id);if(el)el.innerHTML=c[id];
+function applyLang(lang) {
+  currentLang = lang;
+  var c = copy[lang];
+  ['aboutLabel','about1','about2','about3','capTitle','capIntro',
+   'ct1','cd1','ct2','cd2','ct3','cd3','ct4','cd4','ct5','cd5','ct6','cd6',
+   'researchTitle','contactLabel','footerSub'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.innerHTML = c[id];
   });
-  document.getElementById('lc').textContent=lang.toUpperCase();
+  document.getElementById('langCurrent').textContent = lang.toUpperCase();
 }
-document.getElementById('lb').onclick=function(){document.getElementById('lw').classList.toggle('open');};
-document.querySelectorAll('.lang-opt').forEach(function(o){
-  o.onclick=function(){applyLang(o.dataset.l);document.getElementById('lw').classList.remove('open');};
+
+document.getElementById('langBtn').addEventListener('click', function() {
+  document.getElementById('langWrap').classList.toggle('open');
 });
-document.addEventListener('click',function(e){if(!e.target.closest('#lw'))document.getElementById('lw').classList.remove('open');});
+document.querySelectorAll('.lang-option').forEach(function(o) {
+  o.addEventListener('click', function() {
+    applyLang(o.dataset.lang);
+    document.getElementById('langWrap').classList.remove('open');
+  });
+});
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('#langWrap')) document.getElementById('langWrap').classList.remove('open');
+});
 
 // REVEAL
-var ro=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)e.target.classList.add('on');});},{threshold:0.1});
-document.querySelectorAll('.rv').forEach(function(el){ro.observe(el);});
+var revObs = new IntersectionObserver(function(es) {
+  es.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, {threshold: 0.1});
+document.querySelectorAll('.reveal').forEach(function(el) { revObs.observe(el); });
 
+// INIT
 loadHero();
 loadProjects();
 loadResearch();
