@@ -254,10 +254,10 @@ function parseCSV(text) {
       return cell.replace(/^"|"$/g,'').trim();
     });
   });
-  var headers = rows[0];
+  var headers = rows[0].map(function(h){ return h.replace(/^"|"$/g,'').trim(); });
   return rows.slice(1).map(function(row) {
     var obj = {};
-    headers.forEach(function(h, i) { obj[h] = (row[i] || '').trim(); });
+    headers.forEach(function(h, i) { obj[h] = (row[i] || '').replace(/^"|"$/g,'').trim(); });
     return obj;
   }).filter(function(r) { return Object.values(r).some(function(v) { return v; }); });
 }
