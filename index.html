@@ -347,7 +347,7 @@ function renderProjects(rows) {
   rows.forEach(function(r) {
     var key = r.num || r.title;
     if (!map[key]) {
-      map[key] = { num:r.num, title:r.title, category:r.category, year:r.year, description:r.description, images:[] };
+      map[key] = { num:r.num, title:r.title, category:r.category, year:r.year, description_en:r.description_en, description_kr:r.description_kr, images:[] };
       order.push(key);
     }
     if (r.images) map[key].images.push(r.images.trim());
@@ -382,7 +382,7 @@ function loadProjects() {
 function openDetail(index) {
   detailIndex = index;
   var p = allProjects[index];
-  document.getElementById('detailTitle').textContent = p.title || '';
+  var desc = (currentLang === 'kr' && p.description_kr) ? p.description_kr : (p.description_en || '');
   document.getElementById('detailCat').textContent = [p.category, p.year].filter(Boolean).join(' · ');
   document.getElementById('detailDesc').textContent = p.description || '';
   document.getElementById('detailLink').style.display = 'none';
