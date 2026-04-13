@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -30,7 +29,7 @@ nav{position:fixed;top:0;left:0;width:100%;z-index:100;display:flex;justify-cont
 .proj-btn:hover{background:rgba(255,255,255,.1);}
 .proj-panel{position:fixed;top:0;right:0;height:100vh;width:400px;background:#111;z-index:200;transform:translateX(100%);transition:transform .5s cubic-bezier(.77,0,.18,1);overflow-y:auto;padding:76px 44px 44px;border-left:1px solid var(--mid);}
 .proj-panel.open{transform:translateX(0);}
-.proj-panel-close{position:absolute;top:26px;right:28px;background:none;border:none;color:var(--muted);font-size:22px;cursor:pointer;transition:color .2s;}
+.proj-panel-close{position:absolute;top:26px;right:28px;background:none;border:none;color:var(--muted);font-size:22px;cursor:pointer;}
 .proj-panel-close:hover{color:var(--green);}
 .proj-panel h3{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:0.11em;color:var(--green);margin-bottom:36px;}
 .proj-item{padding:22px 0;border-bottom:1px solid var(--mid);cursor:pointer;transition:opacity .2s;}
@@ -53,7 +52,7 @@ nav{position:fixed;top:0;left:0;width:100%;z-index:100;display:flex;justify-cont
 .proj-detail-desc{font-size:15px;line-height:1.9;color:rgba(255,255,255,.65);max-width:480px;}
 .proj-detail-link{display:inline-flex;align-items:center;gap:8px;margin-top:28px;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--green);border-bottom:1px solid rgba(184,255,0,.3);padding-bottom:2px;}
 .proj-detail-img-wrap{width:100%;border-bottom:1px solid var(--mid);overflow:hidden;background:#111;}
-.proj-detail-img-wrap img,.proj-detail-img-wrap video{width:100%;display:block;}
+.proj-detail-img-wrap img{width:100%;display:block;}
 .proj-detail-img-placeholder{width:100%;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;font-size:12px;letter-spacing:3px;color:rgba(255,255,255,.15);font-family:'Bebas Neue',sans-serif;}
 .proj-detail-footer{padding:80px 40px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--mid);}
 .proj-nav-btn{background:none;border:none;cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;transition:color .2s;}
@@ -175,9 +174,7 @@ footer{border-top:1px solid var(--mid);padding:28px 40px;display:flex;justify-co
 </div>
 
 <section id="hero">
-  <div class="hero-dots-inline">
-    <div class="hero-dot active" data-i="0"></div>
-  </div>
+  <div class="hero-dots-inline"><div class="hero-dot active" data-i="0"></div></div>
   <div class="hero-bottom">
     <button class="hero-arrow" id="heroPrev">&#8592;</button>
     <div class="hero-label" id="heroLabel"></div>
@@ -217,9 +214,7 @@ footer{border-top:1px solid var(--mid);padding:28px 40px;display:flex;justify-co
 </section>
 
 <section id="research">
-  <div class="research-header">
-    <h2 class="reveal" id="researchTitle">Research</h2>
-  </div>
+  <div class="research-header"><h2 class="reveal" id="researchTitle">Research</h2></div>
   <div id="researchList"></div>
 </section>
 
@@ -238,9 +233,9 @@ footer{border-top:1px solid var(--mid);padding:28px 40px;display:flex;justify-co
 </footer>
 
 <script>
-var PROJECTS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTRo5wp7zMoYS79AmMlPyg3SttJ1ASZZLVwXlMHElBweoa2bqgZfqsR8ZkJmdyU8iv6b0odQxX2hIgt/pub?gid=1083535060&single=true&output=tsv';
-var HERO_URL     = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTRo5wp7zMoYS79AmMlPyg3SttJ1ASZZLVwXlMHElBweoa2bqgZfqsR8ZkJmdyU8iv6b0odQxX2hIgt/pub?gid=0&single=true&output=tsv';
-var RESEARCH_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTRo5wp7zMoYS79AmMlPyg3SttJ1ASZZLVwXlMHElBweoa2bqgZfqsR8ZkJmdyU8iv6b0odQxX2hIgt/pub?gid=236412315&single=true&output=tsv';
+var PROJECTS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTRo5wp7zMoYS79AmMlPyg3SttJ1ASZZLVwXlMHElBweoa2bqgZfqsR8ZkJmdyU8iv6b0odQxX2hIgt/pub?gid=1083535060&single=true&output=csv';
+var HERO_URL     = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTRo5wp7zMoYS79AmMlPyg3SttJ1ASZZLVwXlMHElBweoa2bqgZfqsR8ZkJmdyU8iv6b0odQxX2hIgt/pub?gid=0&single=true&output=csv';
+var RESEARCH_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTRo5wp7zMoYS79AmMlPyg3SttJ1ASZZLVwXlMHElBweoa2bqgZfqsR8ZkJmdyU8iv6b0odQxX2hIgt/pub?gid=236412315&single=true&output=csv';
 
 var currentLang = 'en';
 var allProjects = [];
@@ -248,74 +243,85 @@ var detailIndex = 0;
 var heroCur = 0;
 var heroTimer = null;
 
+// CSV parser — handles quoted fields with commas and newlines
 function parseCSV(text) {
-  var rows = text.trim().split('\n').map(function(row) {
-    return row.split('\t').map(function(cell) {
-      return cell.replace(/^"|"$/g,'').trim();
-    });
-  });
-  var headers = rows[0].map(function(h){ return h.replace(/^"|"$/g,'').trim(); });
-  return rows.slice(1).map(function(row) {
+  var rows = [], row = [], cell = '', inQ = false;
+  for (var i = 0; i < text.length; i++) {
+    var c = text[i];
+    if (inQ) {
+      if (c === '"' && text[i+1] === '"') { cell += '"'; i++; }
+      else if (c === '"') { inQ = false; }
+      else { cell += c; }
+    } else {
+      if (c === '"') { inQ = true; }
+      else if (c === ',') { row.push(cell.trim()); cell = ''; }
+      else if (c === '\n') { row.push(cell.trim()); rows.push(row); row = []; cell = ''; }
+      else if (c === '\r') { /* skip */ }
+      else { cell += c; }
+    }
+  }
+  if (cell !== '' || row.length) { row.push(cell.trim()); rows.push(row); }
+  if (!rows.length) return [];
+  var headers = rows[0].map(function(h){ return h.trim(); });
+  return rows.slice(1).map(function(r){
     var obj = {};
-    headers.forEach(function(h, i) { obj[h] = (row[i] || '').replace(/^"|"$/g,'').trim(); });
+    headers.forEach(function(h, i){ obj[h] = (r[i] || '').trim(); });
     return obj;
-  }).filter(function(r) { return Object.values(r).some(function(v) { return v; }); });
+  }).filter(function(r){ return Object.values(r).some(function(v){ return v; }); });
 }
 
 // HERO
-function getSlides() { return document.querySelectorAll('.hero-slide'); }
-function getDots() { return document.querySelectorAll('.hero-dot'); }
+function getSlides(){ return document.querySelectorAll('.hero-slide'); }
+function getDots(){ return document.querySelectorAll('.hero-dot'); }
 
 function goSlide(n) {
   var sl = getSlides(), dt = getDots();
   if (!sl.length) return;
   sl[heroCur].classList.remove('active');
-  dt[heroCur].classList.remove('active');
+  if (dt[heroCur]) dt[heroCur].classList.remove('active');
   heroCur = (n + sl.length) % sl.length;
   sl[heroCur].classList.add('active');
-  dt[heroCur].classList.add('active');
+  if (dt[heroCur]) dt[heroCur].classList.add('active');
   document.getElementById('heroLabel').textContent = sl[heroCur].dataset.label || '';
 }
 
 function startHeroTimer() {
   if (heroTimer) clearInterval(heroTimer);
-  heroTimer = setInterval(function() { goSlide(heroCur + 1); }, 8000);
+  heroTimer = setInterval(function(){ goSlide(heroCur + 1); }, 8000);
 }
 
-document.getElementById('heroPrev').addEventListener('click', function() { goSlide(heroCur - 1); });
-document.getElementById('heroNext').addEventListener('click', function() { goSlide(heroCur + 1); });
-document.querySelector('.hero-dots-inline').addEventListener('click', function(e) {
+document.getElementById('heroPrev').addEventListener('click', function(){ goSlide(heroCur - 1); });
+document.getElementById('heroNext').addEventListener('click', function(){ goSlide(heroCur + 1); });
+document.querySelector('.hero-dots-inline').addEventListener('click', function(e){
   var dot = e.target.closest('.hero-dot');
   if (dot) goSlide(+dot.dataset.i);
 });
 
 function loadHero() {
-  fetch(HERO_URL).then(function(r) { return r.text(); }).then(function(text) {
+  fetch(HERO_URL).then(function(r){ return r.text(); }).then(function(text){
     var items = parseCSV(text);
     if (!items.length) { startHeroTimer(); return; }
     var heroEl = document.getElementById('hero');
     var dotsEl = document.querySelector('.hero-dots-inline');
-    heroEl.querySelectorAll('.hero-slide').forEach(function(s) { s.remove(); });
+    heroEl.querySelectorAll('.hero-slide').forEach(function(s){ s.remove(); });
     dotsEl.innerHTML = '';
     heroCur = 0;
-    items.forEach(function(item, i) {
+    items.forEach(function(item, i){
       var slide = document.createElement('div');
       slide.className = 'hero-slide' + (i === 0 ? ' active' : '');
       slide.dataset.label = item.label || '';
       slide.dataset.pn = item.project_num || '';
-      var imgUrl = item.image || '';
-      if (imgUrl) {
-        var isVideo = /\.(mp4|webm|mov)(\?|$)/i.test(imgUrl);
-        if (isVideo) {
+      var url = item.image || '';
+      if (url) {
+        if (/\.(mp4|webm|mov)/i.test(url)) {
           var vid = document.createElement('video');
-          vid.src = imgUrl;
-          vid.autoplay = true; vid.muted = true; vid.playsInline = true;
+          vid.src = url; vid.autoplay = true; vid.muted = true; vid.playsInline = true;
           vid.style.cssText = 'width:100%;height:100%;object-fit:cover;position:absolute;inset:0;pointer-events:none;';
-          vid.addEventListener('ended', function() { goSlide(heroCur + 1); });
+          vid.addEventListener('ended', function(){ goSlide(heroCur + 1); });
           slide.appendChild(vid);
         } else {
           var img = document.createElement('img');
-          img.src = imgUrl; img.alt = item.label || '';
+          img.src = url; img.alt = item.label || '';
           slide.appendChild(img);
         }
       } else {
@@ -323,7 +329,7 @@ function loadHero() {
       }
       if (item.project_num) {
         slide.style.cursor = 'pointer';
-        slide.addEventListener('click', function() {
+        slide.addEventListener('click', function(){
           var pn = this.dataset.pn;
           for (var x = 0; x < allProjects.length; x++) {
             if (String(allProjects[x].num) === String(pn)) { openDetail(x); return; }
@@ -338,42 +344,47 @@ function loadHero() {
     });
     document.getElementById('heroLabel').textContent = items[0].label || '';
     startHeroTimer();
-  }).catch(function() { startHeroTimer(); });
+  }).catch(function(){ startHeroTimer(); });
 }
 
 // PROJECTS
 function renderProjects(rows) {
   var map = {}, order = [];
-  rows.forEach(function(r) {
+  rows.forEach(function(r){
     var key = r.num || r.title;
     if (!map[key]) {
-      map[key] = { num:r.num, title:r.title, category:r.category, year:r.year, description_en:r.description_en, description_kr:r.description_kr, images:[] };
+      map[key] = {
+        num: r.num, title: r.title, category: r.category, year: r.year,
+        description_en: r.description_en || '',
+        description_kr: r.description_kr || '',
+        images: []
+      };
       order.push(key);
     }
     if (r.images) map[key].images.push(r.images.trim());
   });
-  allProjects = order.map(function(k) { return map[k]; });
+  allProjects = order.map(function(k){ return map[k]; });
   var list = document.getElementById('projList');
   if (!allProjects.length) {
     list.innerHTML = '<div style="font-size:12px;color:rgba(255,255,255,.3);padding:20px 0;">No projects found.</div>';
     return;
   }
-  list.innerHTML = allProjects.map(function(p, i) {
+  list.innerHTML = allProjects.map(function(p, i){
     return '<div class="proj-item" data-index="' + i + '">' +
       '<div class="proj-item-num">' + String(p.num || i+1).padStart(2,'0') + '</div>' +
-      '<div class="proj-item-title">' + (p.title||'') + '</div>' +
-      '<div class="proj-item-tag">' + (p.category||'') + (p.year?' · '+p.year:'') + '</div>' +
+      '<div class="proj-item-title">' + (p.title || '') + '</div>' +
+      '<div class="proj-item-tag">' + (p.category || '') + (p.year ? ' · ' + p.year : '') + '</div>' +
       '</div>';
   }).join('');
-  document.querySelectorAll('.proj-item').forEach(function(el) {
-    el.addEventListener('click', function() { openDetail(+el.dataset.index); });
+  document.querySelectorAll('.proj-item').forEach(function(el){
+    el.addEventListener('click', function(){ openDetail(+el.dataset.index); });
   });
 }
 
 function loadProjects() {
-  fetch(PROJECTS_URL).then(function(r) { return r.text(); }).then(function(t) {
+  fetch(PROJECTS_URL).then(function(r){ return r.text(); }).then(function(t){
     renderProjects(parseCSV(t));
-  }).catch(function() {
+  }).catch(function(){
     document.getElementById('projList').innerHTML = '<div style="font-size:12px;color:rgba(255,255,255,.3);padding:20px 0;">시트를 불러올 수 없어요.</div>';
   });
 }
@@ -382,20 +393,20 @@ function loadProjects() {
 function openDetail(index) {
   detailIndex = index;
   var p = allProjects[index];
-  var desc = (currentLang === 'kr' && p.description_kr) ? p.description_kr : (p.description_en || '');
+  var desc = (currentLang === 'kr' && p.description_kr) ? p.description_kr : p.description_en;
+  document.getElementById('detailTitle').textContent = p.title || '';
   document.getElementById('detailCat').textContent = [p.category, p.year].filter(Boolean).join(' · ');
-  document.getElementById('detailDesc').textContent = p.description || '';
+  document.getElementById('detailDesc').textContent = desc || '';
   document.getElementById('detailLink').style.display = 'none';
-  var imgUrls = (p.images || []).filter(Boolean);
-  document.getElementById('detailImages').innerHTML = imgUrls.length
-    ? imgUrls.map(function(u) { return '<div class="proj-detail-img-wrap"><img src="' + u + '" alt="' + (p.title||'') + '" loading="lazy"></div>'; }).join('')
+  var imgs = (p.images || []).filter(Boolean);
+  document.getElementById('detailImages').innerHTML = imgs.length
+    ? imgs.map(function(u){ return '<div class="proj-detail-img-wrap"><img src="' + u + '" alt="' + (p.title||'') + '" loading="lazy"></div>'; }).join('')
     : '<div class="proj-detail-img-wrap"><div class="proj-detail-img-placeholder">PROJECT IMAGES</div></div>';
   document.getElementById('detailPrev').classList.toggle('disabled', index === 0);
   document.getElementById('detailNext').classList.toggle('disabled', index === allProjects.length - 1);
   closePanel();
-  var detail = document.getElementById('projDetail');
-  detail.scrollTop = 0;
-  detail.classList.add('open');
+  var d = document.getElementById('projDetail');
+  d.scrollTop = 0; d.classList.add('open');
   document.body.style.overflow = 'hidden';
 }
 
@@ -405,33 +416,33 @@ function closeDetail() {
 }
 
 document.getElementById('detailBack').addEventListener('click', closeDetail);
-document.getElementById('detailPrev').addEventListener('click', function() { if (detailIndex > 0) openDetail(detailIndex - 1); });
-document.getElementById('detailNext').addEventListener('click', function() { if (detailIndex < allProjects.length - 1) openDetail(detailIndex + 1); });
+document.getElementById('detailPrev').addEventListener('click', function(){ if (detailIndex > 0) openDetail(detailIndex - 1); });
+document.getElementById('detailNext').addEventListener('click', function(){ if (detailIndex < allProjects.length - 1) openDetail(detailIndex + 1); });
 
 // PANEL
 var panel = document.getElementById('projPanel');
 var ov = document.getElementById('overlay');
-document.getElementById('projBtn').addEventListener('click', function() { panel.classList.add('open'); ov.classList.add('show'); });
-function closePanel() { panel.classList.remove('open'); ov.classList.remove('show'); }
+document.getElementById('projBtn').addEventListener('click', function(){ panel.classList.add('open'); ov.classList.add('show'); });
+function closePanel(){ panel.classList.remove('open'); ov.classList.remove('show'); }
 document.getElementById('panelClose').addEventListener('click', closePanel);
 ov.addEventListener('click', closePanel);
 
 // RESEARCH
 function loadResearch() {
-  fetch(RESEARCH_URL).then(function(r) { return r.text(); }).then(function(text) {
+  fetch(RESEARCH_URL).then(function(r){ return r.text(); }).then(function(text){
     var items = parseCSV(text);
     if (!items.length) return;
-    document.getElementById('researchList').innerHTML = items.map(function(p) {
+    document.getElementById('researchList').innerHTML = items.map(function(p){
       return '<div class="research-item">' +
-        '<div class="research-year">' + (p.year||'') + '</div>' +
+        '<div class="research-year">' + (p.year || '') + '</div>' +
         '<div>' +
-          '<div class="research-title">' + (p.title||'') + '</div>' +
-          '<div class="research-journal">' + (p.journal||'') + '</div>' +
+          '<div class="research-title">' + (p.title || '') + '</div>' +
+          '<div class="research-journal">' + (p.journal || '') + '</div>' +
           (p.description ? '<div class="research-desc">' + p.description + '</div>' : '') +
         '</div>' +
         '</div>';
     }).join('');
-  }).catch(function() {});
+  }).catch(function(){});
 }
 
 // LANGUAGE
@@ -448,8 +459,7 @@ var copy = {
     ct4:'Immersive experience', cd4:'Designing spatial and interactive environments grounded in doctoral research into 3D interface usability — where physical and digital converge.',
     ct5:'Interface design', cd5:'Designing interfaces where spatial logic meets beautiful detail — balancing visual precision with intuitive usability across platforms.',
     ct6:'Motion, 3D & media design', cd6:'Crafting movement and dimensionality as the most compelling method of brand expression — cinematic 3D and editorial media design.',
-    researchTitle:'Research',
-    contactLabel:'Get in touch', footerSub:'Creative Director · Seoul'
+    researchTitle:'Research', contactLabel:'Get in touch', footerSub:'Creative Director · Seoul'
   },
   kr: {
     aboutLabel:'소개',
@@ -463,8 +473,7 @@ var copy = {
     ct4:'Immersive experience', cd4:'3D 인터페이스 박사 연구를 기반으로 공간적·인터랙티브 환경을 설계합니다.',
     ct5:'Interface design', cd5:'공간적 논리와 세밀한 디테일이 만나는 인터페이스를 디자인합니다.',
     ct6:'Motion, 3D & media design', cd6:'움직임과 입체감을 브랜드 표현의 핵심 요소로 구현합니다.',
-    researchTitle:'Research',
-    contactLabel:'연락하기', footerSub:'크리에이티브 디렉터 · 서울'
+    researchTitle:'Research', contactLabel:'연락하기', footerSub:'크리에이티브 디렉터 · 서울'
   }
 };
 
@@ -473,31 +482,28 @@ function applyLang(lang) {
   var c = copy[lang];
   ['aboutLabel','about1','about2','about3','capTitle','capIntro',
    'ct1','cd1','ct2','cd2','ct3','cd3','ct4','cd4','ct5','cd5','ct6','cd6',
-   'researchTitle','contactLabel','footerSub'].forEach(function(id) {
+   'researchTitle','contactLabel','footerSub'].forEach(function(id){
     var el = document.getElementById(id);
     if (el) el.innerHTML = c[id];
   });
   document.getElementById('langCurrent').textContent = lang.toUpperCase();
 }
 
-document.getElementById('langBtn').addEventListener('click', function() {
+document.getElementById('langBtn').addEventListener('click', function(){
   document.getElementById('langWrap').classList.toggle('open');
 });
-document.querySelectorAll('.lang-option').forEach(function(o) {
-  o.addEventListener('click', function() {
-    applyLang(o.dataset.lang);
-    document.getElementById('langWrap').classList.remove('open');
-  });
+document.querySelectorAll('.lang-option').forEach(function(o){
+  o.addEventListener('click', function(){ applyLang(o.dataset.lang); document.getElementById('langWrap').classList.remove('open'); });
 });
-document.addEventListener('click', function(e) {
+document.addEventListener('click', function(e){
   if (!e.target.closest('#langWrap')) document.getElementById('langWrap').classList.remove('open');
 });
 
 // REVEAL
-var revObs = new IntersectionObserver(function(es) {
-  es.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
+var revObs = new IntersectionObserver(function(es){
+  es.forEach(function(e){ if (e.isIntersecting) e.target.classList.add('visible'); });
 }, {threshold: 0.1});
-document.querySelectorAll('.reveal').forEach(function(el) { revObs.observe(el); });
+document.querySelectorAll('.reveal').forEach(function(el){ revObs.observe(el); });
 
 loadHero();
 loadProjects();
