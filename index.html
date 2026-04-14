@@ -335,9 +335,13 @@ function loadHero() {
         slide.style.cursor = 'pointer';
         (function(pn){
           slide.addEventListener('click', function(){
+            var pnStr = String(pn).trim();
             for (var x = 0; x < allProjects.length; x++) {
-              if (String(allProjects[x].num) === String(pn)) { openDetail(x); return; }
+              if (String(allProjects[x].num).trim() === pnStr) { openDetail(x); return; }
             }
+            // num으로 못 찾으면 index로 fallback
+            var idx = parseInt(pnStr) - 1;
+            if (idx >= 0 && idx < allProjects.length) openDetail(idx);
           });
         })(item.project_num);
       }
