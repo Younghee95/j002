@@ -333,12 +333,13 @@ function loadHero() {
       }
       if (item.project_num) {
         slide.style.cursor = 'pointer';
-        slide.addEventListener('click', function(){
-          var pn = this.dataset.pn;
-          for (var x = 0; x < allProjects.length; x++) {
-            if (String(allProjects[x].num) === String(pn)) { openDetail(x); return; }
-          }
-        });
+        (function(pn){
+          slide.addEventListener('click', function(){
+            for (var x = 0; x < allProjects.length; x++) {
+              if (String(allProjects[x].num) === String(pn)) { openDetail(x); return; }
+            }
+          });
+        })(item.project_num);
       }
       heroEl.insertBefore(slide, dotsEl);
       var dot = document.createElement('div');
