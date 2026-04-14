@@ -283,6 +283,10 @@ function goSlide(n) {
   sl[heroCur].classList.add('active');
   if (dt[heroCur]) dt[heroCur].classList.add('active');
   document.getElementById('heroLabel').textContent = sl[heroCur].dataset.label || '';
+  // 비디오면 처음부터 재생
+  var vid = sl[heroCur].querySelector('video');
+  if (vid) { vid.currentTime = 0; vid.play(); if (heroTimer) clearInterval(heroTimer); }
+  else { startHeroTimer(); }
 }
 
 function startHeroTimer() {
