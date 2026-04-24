@@ -442,12 +442,13 @@ function loadResearch() {
     var items = parseCSV(text);
     if (!items.length) return;
     document.getElementById('researchList').innerHTML = items.map(function(p){
+      var desc = (currentLang === 'kr' && p.description_kr) ? p.description_kr : (p.description_en || p.description || '');
       return '<div class="research-item">' +
         '<div class="research-year">' + (p.year || '') + '</div>' +
         '<div>' +
           '<div class="research-title">' + (p.title || '') + '</div>' +
           '<div class="research-journal">' + (p.journal || '') + '</div>' +
-          (p.description ? '<div class="research-desc">' + p.description + '</div>' : '') +
+          (desc ? '<div class="research-desc">' + desc + '</div>' : '') +
         '</div>' +
         '</div>';
     }).join('');
