@@ -1,0 +1,4 @@
+# Local backup of site media (originals live on Cloudinary)
+assets/
+
+.DS_Store
