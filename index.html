@@ -109,6 +109,10 @@ nav{position:fixed;top:0;left:0;width:100%;z-index:100;display:flex;justify-cont
 .research-title{font-size:15px;color:#fff;line-height:1.6;margin-bottom:8px;}
 .research-journal{font-size:12px;color:var(--muted);letter-spacing:1px;line-height:1.6;}
 .research-desc{font-size:13px;color:rgba(255,255,255,.45);line-height:1.7;margin-top:12px;}
+a.research-item{color:inherit;transition:background .2s;}
+a.research-item:hover .research-title{color:var(--green);}
+.research-title{transition:color .2s;}
+.research-more{display:inline-block;margin-top:16px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--green);border-bottom:1px solid rgba(184,255,0,.3);padding-bottom:2px;}
 #contact{padding:140px 40px;display:flex;flex-direction:column;align-items:center;text-align:center;}
 .contact-h{font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,9vw,120px);line-height:.9;letter-spacing:0.11em;text-transform:uppercase;color:#fff;margin-bottom:52px;}
 .contact-email{font-family:'Bebas Neue',sans-serif;font-size:clamp(16px,2.2vw,28px);letter-spacing:0.08em;color:var(--muted);border-bottom:1px solid var(--mid);padding-bottom:3px;transition:color .2s,border-color .2s;}
@@ -440,18 +444,29 @@ ov.addEventListener('click', closePanel);
 // RESEARCH
 var researchItems = [];
 
+// Research detail pages. A "link" column in the sheet overrides these.
+var RESEARCH_PAGES = {
+  'Scale Mechanism Design for Data Analysis in Immersive Environments': '/research/scale-mechanism/'
+};
+
 function renderResearch() {
   if (!researchItems.length) return;
   document.getElementById('researchList').innerHTML = researchItems.map(function(p){
     var desc = (currentLang === 'kr' && p.description_kr) ? p.description_kr : (p.description_en || p.description || '');
-    return '<div class="research-item">' +
+    var link = (p.link || RESEARCH_PAGES[(p.title || '').trim()] || '').trim();
+    var external = /^https?:\/\//.test(link) && link.indexOf('02jo.com') === -1;
+    var href = link && !external ? link + (link.indexOf('?') === -1 ? '?' : '&') + 'lang=' + currentLang : link;
+    var tag = link ? 'a' : 'div';
+    var attrs = link ? ' href="' + href + '"' + (external ? ' target="_blank" rel="noopener"' : '') : '';
+    return '<' + tag + ' class="research-item' + (link ? ' has-link' : '') + '"' + attrs + '>' +
       '<div class="research-year">' + (p.year || '') + '</div>' +
       '<div>' +
         '<div class="research-title">' + (p.title || '') + '</div>' +
         '<div class="research-journal">' + (p.journal || '') + '</div>' +
         (desc ? '<div class="research-desc">' + desc + '</div>' : '') +
+        (link ? '<div class="research-more">' + (currentLang === 'kr' ? '자세히 보기' : 'Read more') + (external ? ' ↗' : ' →') + '</div>' : '') +
       '</div>' +
-      '</div>';
+      '</' + tag + '>';
   }).join('');
 }
 

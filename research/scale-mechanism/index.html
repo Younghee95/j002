@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scale Mechanism Design for Data Analysis in Immersive Environments — J002</title>
+<meta name="description" content="A scale-aware interaction framework for immersive analytics. Younghee Jo & Sangwon Lee, International Journal of Human–Computer Interaction, 2026.">
+<link rel="canonical" href="https://02jo.com/research/scale-mechanism/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://02jo.com/research/scale-mechanism/">
+<meta property="og:title" content="Scale Mechanism Design for Data Analysis in Immersive Environments">
+<meta property="og:description" content="How data scale and spatial reference frames shape interaction in immersive analytics — two VR experiments, 80 participants, and design guidelines for adaptive interfaces. IJHCI, 2026.">
+<meta property="og:site_name" content="J002 — Jo Younghee">
+<meta name="twitter:card" content="summary">
+<meta name="citation_title" content="Scale Mechanism Design for Data Analysis in Immersive Environments">
+<meta name="citation_author" content="Jo, Younghee">
+<meta name="citation_author" content="Lee, Sangwon">
+<meta name="citation_journal_title" content="International Journal of Human–Computer Interaction">
+<meta name="citation_volume" content="42">
+<meta name="citation_issue" content="22">
+<meta name="citation_firstpage" content="19651">
+<meta name="citation_lastpage" content="19672">
+<meta name="citation_publication_date" content="2026/03/06">
+<meta name="citation_doi" content="10.1080/10447318.2026.2635677">
+
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+:root{--green:#B8FF00;--dark:#080808;--gray:#141414;--mid:#2a2a2a;--muted:rgba(255,255,255,.45);--body:rgba(255,255,255,.72);}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--dark);color:#fff;font-family:'Pretendard',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+a{color:inherit;text-decoration:none;}
+
+/* language */
+html[data-lang="en"] .kr{display:none !important;}
+html[data-lang="kr"] .en{display:none !important;}
+
+nav{position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:22px 40px;background:rgba(8,8,8,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--mid);}
+.nav-left{display:flex;align-items:center;gap:28px;}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:.11em;}
+.nav-back{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);transition:color .2s;}
+.nav-back:hover{color:#fff;}
+.lang-toggle{display:flex;border:1px solid rgba(255,255,255,.2);border-radius:999px;overflow:hidden;}
+.lang-toggle button{background:none;border:none;color:var(--muted);font-family:inherit;font-size:11px;letter-spacing:2px;padding:10px 18px;cursor:pointer;transition:color .2s,background .2s;}
+.lang-toggle button[aria-pressed="true"]{background:#fff;color:var(--dark);}
+
+.wrap{max-width:1120px;margin:0 auto;padding:0 40px;}
+
+header.paper{padding:110px 0 72px;border-bottom:1px solid var(--mid);}
+.eyebrow{font-size:11px;letter-spacing:4px;color:var(--green);text-transform:uppercase;margin-bottom:28px;}
+h1{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(40px,7vw,96px);line-height:.92;letter-spacing:.02em;text-transform:uppercase;max-width:15ch;}
+.byline{margin-top:40px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px;border-top:1px solid var(--mid);padding-top:28px;}
+.byline dt{font-size:10px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:10px;}
+.byline dd{font-size:14px;line-height:1.7;color:var(--body);}
+.byline dd strong{color:#fff;font-weight:600;}
+.links{margin-top:40px;display:flex;flex-wrap:wrap;gap:12px;}
+.btn{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:13px 22px;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;transition:background .2s,color .2s,border-color .2s;}
+.btn:hover{border-color:var(--green);color:var(--dark);background:var(--green);}
+.btn.primary{background:var(--green);color:var(--dark);border-color:var(--green);}
+.btn.primary:hover{background:#fff;border-color:#fff;}
+
+section.block{padding:96px 0;border-bottom:1px solid var(--mid);display:grid;grid-template-columns:240px 1fr;gap:48px;}
+.label{font-size:11px;letter-spacing:4px;color:var(--green);text-transform:uppercase;padding-top:6px;}
+.label .num{display:block;font-family:'Bebas Neue',sans-serif;font-size:40px;letter-spacing:.04em;color:rgba(255,255,255,.14);margin-bottom:10px;}
+.content h2{font-size:clamp(24px,3vw,34px);font-weight:600;line-height:1.35;letter-spacing:-.01em;margin-bottom:28px;}
+.content p{font-size:16px;line-height:1.95;color:var(--body);margin-bottom:20px;max-width:70ch;}
+.content p:last-child{margin-bottom:0;}
+.lead{font-size:clamp(18px,2vw,22px) !important;line-height:1.75 !important;color:#fff !important;}
+
+.aims{list-style:none;counter-reset:aim;margin-top:8px;}
+.aims li{counter-increment:aim;position:relative;padding:20px 0 20px 56px;border-top:1px solid var(--mid);font-size:16px;line-height:1.8;color:var(--body);}
+.aims li:last-child{border-bottom:1px solid var(--mid);}
+.aims li::before{content:counter(aim,decimal-leading-zero);position:absolute;left:0;top:20px;font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--green);letter-spacing:.05em;}
+
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--mid);border:1px solid var(--mid);margin-top:12px;}
+.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--mid);border:1px solid var(--mid);margin-top:12px;}
+.cell{background:var(--dark);padding:28px 26px;}
+.cell .k{font-size:10px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:14px;}
+.cell h3{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:28px;letter-spacing:.05em;margin-bottom:12px;}
+.cell p{font-size:14px;line-height:1.8;color:var(--body);margin:0;}
+.cell .tag{display:inline-block;margin-top:16px;font-size:10px;letter-spacing:2px;color:var(--green);border:1px solid rgba(184,255,0,.35);border-radius:999px;padding:5px 10px;text-transform:uppercase;}
+
+.scale-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:12px 0 28px;}
+.scale{border:1px solid var(--mid);padding:22px 18px;position:relative;overflow:hidden;}
+.scale .dot{border-radius:50%;background:radial-gradient(circle at 35% 35%,rgba(184,255,0,.9),rgba(184,255,0,.15));margin-bottom:18px;}
+.scale h4{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:22px;letter-spacing:.06em;}
+.scale p{font-size:12px;line-height:1.7;color:var(--muted);margin-top:6px;}
+.axis{display:flex;justify-content:space-between;font-size:10px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;border-top:1px solid var(--mid);padding-top:12px;}
+
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--mid);border:1px solid var(--mid);margin:8px 0 36px;}
+.stat{background:var(--dark);padding:26px 22px;}
+.stat .v{font-family:'Bebas Neue',sans-serif;font-size:52px;line-height:1;color:var(--green);letter-spacing:.02em;}
+.stat .d{font-size:12px;line-height:1.6;color:var(--muted);margin-top:10px;}
+
+.findings{list-style:none;}
+.findings li{display:grid;grid-template-columns:160px 1fr;gap:24px;padding:24px 0;border-top:1px solid var(--mid);}
+.findings li:last-child{border-bottom:1px solid var(--mid);}
+.findings .t{font-size:11px;letter-spacing:3px;color:var(--green);text-transform:uppercase;padding-top:4px;}
+.findings .b{font-size:15px;line-height:1.85;color:var(--body);}
+.findings .b strong{color:#fff;font-weight:600;}
+
+.guide .cell h3{color:var(--green);}
+
+.cite{background:var(--gray);border:1px solid var(--mid);padding:28px;font-size:14px;line-height:1.85;color:var(--body);position:relative;}
+.cite em{color:#fff;font-style:italic;}
+.copy{margin-top:18px;background:none;border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:999px;padding:10px 18px;font-family:inherit;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:background .2s,color .2s;}
+.copy:hover{background:#fff;color:var(--dark);}
+.meta-list{margin-top:28px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 32px;font-size:13px;color:var(--muted);line-height:1.7;}
+.meta-list b{color:#fff;font-weight:500;}
+
+.next{padding:96px 0;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;}
+.next a.big{font-family:'Bebas Neue',sans-serif;font-size:clamp(32px,5vw,64px);letter-spacing:.03em;line-height:1;transition:color .2s;}
+.next a.big:hover{color:var(--green);}
+footer{border-top:1px solid var(--mid);padding:28px 40px;display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.28);letter-spacing:1px;}
+
+@media (max-width:900px){
+  section.block{grid-template-columns:1fr;gap:24px;padding:72px 0;}
+  .grid4,.scale-row,.stats{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .byline{grid-template-columns:1fr;gap:20px;}
+}
+@media (max-width:600px){
+  nav{padding:16px 16px;}
+  .nav-back .long{display:none;}
+  .wrap{padding:0 16px;}
+  header.paper{padding:72px 0 56px;}
+  .grid2,.meta-list{grid-template-columns:1fr;}
+  .findings li{grid-template-columns:1fr;gap:8px;}
+  .stat .v{font-size:40px;}
+  footer{padding:24px 16px;flex-direction:column;gap:8px;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-left">
+    <a class="nav-logo" href="/">J002</a>
+    <a class="nav-back" href="/#research">← <span class="long en">All </span><span class="long kr">전체 </span>Research</a>
+  </div>
+  <div class="lang-toggle" role="group" aria-label="Language">
+    <button type="button" data-set-lang="en" aria-pressed="true">EN</button>
+    <button type="button" data-set-lang="kr" aria-pressed="false">KR</button>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<header class="paper">
+  <p class="eyebrow"><span class="en">Journal Article · 2026</span><span class="kr">학술지 논문 · 2026</span></p>
+  <h1>Scale Mechanism Design for Data Analysis in Immersive Environments</h1>
+  <dl class="byline">
+    <div>
+      <dt><span class="en">Authors</span><span class="kr">저자</span></dt>
+      <dd><strong>Younghee Jo</strong> <span class="en">(first author)</span><span class="kr">(제1저자)</span><br>Sangwon Lee <span class="en">(corresponding)</span><span class="kr">(교신저자)</span></dd>
+    </div>
+    <div>
+      <dt><span class="en">Published in</span><span class="kr">게재</span></dt>
+      <dd><strong>International Journal of Human–Computer Interaction</strong><br>Vol. 42, No. 22, pp. 19651–19672</dd>
+    </div>
+    <div>
+      <dt><span class="en">Affiliation</span><span class="kr">소속</span></dt>
+      <dd><span class="en">Department of Integrated Design,<br>Yonsei University, Seoul</span><span class="kr">연세대학교 생활과학대학<br>통합디자인학과</span></dd>
+    </div>
+  </dl>
+  <div class="links">
+    <a class="btn primary" href="https://doi.org/10.1080/10447318.2026.2635677" target="_blank" rel="noopener"><span class="en">Read the paper</span><span class="kr">논문 보기</span> ↗</a>
+    <a class="btn" href="https://doi.org/10.6084/m9.figshare.29616785" target="_blank" rel="noopener"><span class="en">Supplementary video</span><span class="kr">실험 영상</span> ↗</a>
+    <a class="btn" href="https://doi.org/10.6084/m9.figshare.29153564" target="_blank" rel="noopener"><span class="en">Dataset</span><span class="kr">데이터셋</span> ↗</a>
+  </div>
+</header>
+
+<!-- 01 OVERVIEW -->
+<section class="block" id="overview">
+  <div class="label"><span class="num">01</span><span class="en">Overview</span><span class="kr">개요</span></div>
+  <div class="content">
+    <p class="lead en">Immersive analytics lets people walk through data instead of looking at it. But once data can be smaller than your hand or larger than a room, a single interaction style no longer fits. This study asks how interfaces should change as data scale changes — and proposes a scale-aware interaction framework to answer it.</p>
+    <p class="lead kr">몰입형 분석 환경에서 사람들은 데이터를 바라보는 대신 데이터 속을 걸어 다닙니다. 하지만 데이터가 손바닥보다 작을 수도, 방보다 클 수도 있게 되면 하나의 인터랙션 방식으로는 감당할 수 없습니다. 이 연구는 데이터의 스케일이 달라질 때 인터페이스가 어떻게 달라져야 하는지를 묻고, 그 답으로 스케일 인지 기반 인터랙션 프레임워크를 제안합니다.</p>
+    <p class="en">The framework is grounded in two spatial reference frames — <em>egocentric</em> (relative to the user) and <em>allocentric</em> (relative to the environment) — and integrates four variables that adapt to data scale: interaction sensitivity, viewing distance, visual density, and information display. Two VR experiments with 80 participants tested these variables across four scale levels.</p>
+    <p class="kr">프레임워크는 두 가지 공간 기준틀, 즉 사용자를 기준으로 하는 <em>자기중심(egocentric)</em>과 환경을 기준으로 하는 <em>타자중심(allocentric)</em> 관점에 기반합니다. 여기에 데이터 스케일에 따라 조정되는 네 가지 변수, 조작 민감도·시야 거리·시각 밀도·정보 표시 방식을 통합했습니다. 80명이 참여한 두 차례의 VR 실험으로 네 가지 스케일 단계에서 이 변수들을 검증했습니다.</p>
+    <p class="en">Performance and exploration strategies varied systematically by reference frame: allocentric conditions supported higher accuracy, egocentric conditions faster completion. The results provide empirical grounding for adaptive interfaces that shift with the user's spatial context rather than staying fixed.</p>
+    <p class="kr">수행 결과와 탐색 전략은 기준틀에 따라 체계적으로 달라졌습니다. 타자중심 조건에서는 정확도가, 자기중심 조건에서는 과업 속도가 높았습니다. 이 결과는 고정된 설정이 아니라 사용자의 공간적 맥락에 따라 변하는 적응형 인터페이스의 실증적 근거가 됩니다.</p>
+  </div>
+</section>
+
+<!-- 02 PROBLEM -->
+<section class="block" id="problem">
+  <div class="label"><span class="num">02</span><span class="en">Why scale</span><span class="kr">왜 스케일인가</span></div>
+  <div class="content">
+    <h2 class="en">In 3D, zooming is not just zooming.</h2>
+    <h2 class="kr">3D에서 줌은 단순한 확대가 아닙니다.</h2>
+    <p class="en">On a 2D screen, zooming helps users move between overview and detail. In an immersive space, the same change in scale also changes where the user stands, how far they can reach, and how much they can see at once. Without a mechanism designed for this, users become disoriented, repeat unnecessary actions, and lose the connection between the overall structure and individual data points — breaking both immersion and analytic flow.</p>
+    <p class="kr">2D 화면에서 줌은 전체와 세부를 오가는 도구입니다. 그러나 몰입 공간에서는 스케일이 바뀌면 사용자가 서 있는 위치, 손이 닿는 범위, 한 번에 보이는 정보의 양까지 함께 바뀝니다. 이를 고려한 메커니즘이 없으면 사용자는 방향을 잃고, 불필요한 조작을 반복하며, 전체 구조와 개별 데이터를 연결하지 못하게 됩니다. 몰입과 분석의 흐름이 모두 끊기는 것입니다.</p>
+    <p class="en">The study set out to design and validate a user-centered mechanism with three aims:</p>
+    <p class="kr">이 연구는 다음 세 가지 목표를 가진 사용자 중심 메커니즘을 설계하고 검증했습니다.</p>
+    <ol class="aims">
+      <li><span class="en">Let users switch fluidly between egocentric and allocentric frames — close, self-referenced manipulation and global structural understanding.</span><span class="kr">자기중심과 타자중심 관점을 자연스럽게 전환할 수 있게 한다. 가까이에서의 세밀한 조작과 전체 구조의 이해를 모두 지원한다.</span></li>
+      <li><span class="en">Adjust interaction sensitivity and distance to the size of the data object, so manipulation stays efficient at every scale.</span><span class="kr">데이터 객체의 크기에 맞춰 조작 민감도와 거리를 조정해, 어떤 스케일에서도 효율적으로 조작할 수 있게 한다.</span></li>
+      <li><span class="en">Regulate visual density and information display by scale, reducing cognitive overload while preserving clarity and immersion.</span><span class="kr">스케일에 따라 시각 밀도와 정보 표시를 조절해, 명료함과 몰입을 유지하면서 인지 과부하를 줄인다.</span></li>
+    </ol>
+  </div>
+</section>
+
+<!-- 03 FRAMEWORK -->
+<section class="block" id="framework">
+  <div class="label"><span class="num">03</span><span class="en">Framework</span><span class="kr">프레임워크</span></div>
+  <div class="content">
+    <h2 class="en">Four variables, two reference frames, four scale levels.</h2>
+    <h2 class="kr">네 개의 변수, 두 개의 기준틀, 네 단계의 스케일.</h2>
+    <p class="en">Data scale was organized into four levels, moving from data you look at from outside to data you stand inside.</p>
+    <p class="kr">데이터 스케일은 바깥에서 바라보는 데이터부터 그 안에 들어가 서 있는 데이터까지 네 단계로 구분했습니다.</p>
+    <div class="scale-row">
+      <div class="scale"><div class="dot" style="width:18px;height:18px"></div><h4>Small Allo</h4><p class="en">Small data, viewed from outside</p><p class="kr">작은 데이터, 바깥에서 관찰</p></div>
+      <div class="scale"><div class="dot" style="width:30px;height:30px"></div><h4>Large Allo</h4><p class="en">Large data, viewed from outside</p><p class="kr">큰 데이터, 바깥에서 관찰</p></div>
+      <div class="scale"><div class="dot" style="width:44px;height:44px"></div><h4>Small Ego</h4><p class="en">User enters the data space</p><p class="kr">데이터 공간 안으로 진입</p></div>
+      <div class="scale"><div class="dot" style="width:60px;height:60px"></div><h4>Large Ego</h4><p class="en">Data surrounds the user</p><p class="kr">데이터가 사용자를 둘러쌈</p></div>
+    </div>
+    <div class="axis"><span class="en">Allocentric · structure</span><span class="kr">타자중심 · 구조</span><span class="en">Egocentric · detail</span><span class="kr">자기중심 · 세부</span></div>
+
+    <div class="grid2" style="margin-top:48px">
+      <div class="cell">
+        <div class="k"><span class="en">Interaction</span><span class="kr">인터랙션</span></div>
+        <h3>Sensitivity</h3>
+        <p class="en">How strongly data responds to hand movement. Mapped as virtual inertia to the dataset's size — larger data reacts more subtly, enabling fine egocentric control.</p>
+        <p class="kr">손의 움직임에 데이터가 반응하는 정도. 데이터 크기에 연동된 가상 관성으로 설계해, 큰 데이터일수록 더 섬세하게 반응하도록 했습니다.</p>
+      </div>
+      <div class="cell">
+        <div class="k"><span class="en">Interaction</span><span class="kr">인터랙션</span></div>
+        <h3>Distance</h3>
+        <p class="en">How far the user is from the data. Extended views support pattern recognition; close-up views support immersion and quick operations.</p>
+        <p class="kr">사용자와 데이터 사이의 거리. 먼 시점은 패턴 인식을, 가까운 시점은 몰입과 빠른 조작을 돕습니다.</p>
+      </div>
+      <div class="cell">
+        <div class="k"><span class="en">Visualization</span><span class="kr">시각화</span></div>
+        <h3>Visual density</h3>
+        <p class="en">Where detail is concentrated. Allocentric emphasis reveals overall structure; egocentric emphasis densifies data near the user for immediate decisions.</p>
+        <p class="kr">정보가 어디에 밀집되는가. 타자중심 강조는 전체 구조를, 자기중심 강조는 사용자 주변의 데이터를 촘촘하게 보여 즉각적인 판단을 돕습니다.</p>
+      </div>
+      <div class="cell">
+        <div class="k"><span class="en">Visualization</span><span class="kr">시각화</span></div>
+        <h3>Information display</h3>
+        <p class="en">How much information appears, and when: scale-based, distance-based, or full display of labels and values.</p>
+        <p class="kr">정보를 얼마나, 언제 보여 줄 것인가. 스케일 기반, 거리 기반, 전체 표시 방식을 비교했습니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 STUDY -->
+<section class="block" id="study">
+  <div class="label"><span class="num">04</span><span class="en">Study</span><span class="kr">실험</span></div>
+  <div class="content">
+    <h2 class="en">Two VR experiments on Meta Quest 3.</h2>
+    <h2 class="kr">Meta Quest 3 기반의 두 차례 VR 실험.</h2>
+    <div class="stats">
+      <div class="stat"><div class="v">80</div><div class="d"><span class="en">participants, two groups of 40</span><span class="kr">명 참여, 40명씩 두 그룹</span></div></div>
+      <div class="stat"><div class="v">2</div><div class="d"><span class="en">experiments: interaction / visualization</span><span class="kr">개 실험: 인터랙션 / 시각화</span></div></div>
+      <div class="stat"><div class="v">4</div><div class="d"><span class="en">scale levels per condition</span><span class="kr">단계 스케일 조건</span></div></div>
+      <div class="stat"><div class="v">5</div><div class="d"><span class="en">measures of performance and experience</span><span class="kr">개 지표로 수행·경험 측정</span></div></div>
+    </div>
+    <p class="en"><strong style="color:#fff">Experiment 1</strong> examined how manipulation sensitivity and viewing distance affect performance. <strong style="color:#fff">Experiment 2</strong> examined how visual density and information display affect cognitive load and immersion. Separate participant groups were used to avoid fatigue and learning effects between the two.</p>
+    <p class="kr"><strong style="color:#fff">실험 1</strong>은 조작 민감도와 시야 거리가 수행에 미치는 영향을, <strong style="color:#fff">실험 2</strong>는 시각 밀도와 정보 표시가 인지 부하와 몰입에 미치는 영향을 살폈습니다. 피로와 학습 효과를 막기 위해 두 실험은 서로 다른 참가자 그룹으로 진행했습니다.</p>
+    <p class="en">Accuracy, completion time, interaction count, cognitive load, and immersion were measured and analyzed with MANOVA (with Aligned Rank Transform where normality was violated). Spatial ability (paper folding test) and prior VR experience were also examined as individual factors, alongside qualitative user comments.</p>
+    <p class="kr">정확도, 완료 시간, 인터랙션 횟수, 인지 부하, 몰입감을 측정해 MANOVA로 분석했습니다(정규성이 충족되지 않을 때는 ART 적용). 공간 지각 능력(종이 접기 검사)과 VR 사용 경험도 개인 요인으로 함께 분석했고, 참가자 인터뷰를 통한 정성적 의견도 수집했습니다.</p>
+  </div>
+</section>
+
+<!-- 05 FINDINGS -->
+<section class="block" id="findings">
+  <div class="label"><span class="num">05</span><span class="en">Key findings</span><span class="kr">주요 결과</span></div>
+  <div class="content">
+    <h2 class="en">Reference frames are dynamic, not fixed.</h2>
+    <h2 class="kr">기준틀은 고정된 것이 아니라 움직입니다.</h2>
+    <p class="en">As data grew from Small Allo to Large Ego, users' cognitive frame shifted continuously from allocentric to egocentric — contrasting with earlier work that treated reference frames as relatively stable strategies.</p>
+    <p class="kr">데이터가 Small Allo에서 Large Ego로 커질수록 사용자의 인지적 기준틀은 타자중심에서 자기중심으로 연속적으로 이동했습니다. 기준틀을 비교적 안정된 전략으로 본 기존 연구와 대비되는 결과입니다.</p>
+    <ul class="findings">
+      <li><div class="t">Sensitivity</div><div class="b"><span class="en"><strong>Medium sensitivity</strong> gave the most accurate and stable control overall; <strong>low sensitivity</strong> worked best for large datasets. High sensitivity sharply increased errors at Large Ego.</span><span class="kr">전반적으로 <strong>중간 민감도</strong>가 가장 정확하고 안정적이었고, 큰 데이터에서는 <strong>낮은 민감도</strong>가 효과적이었습니다. 높은 민감도는 Large Ego에서 오류를 크게 늘렸습니다.</span></div></li>
+      <li><div class="t">Distance</div><div class="b"><span class="en"><strong>Extended views</strong> improved accuracy at most scales; <strong>close-up views</strong> increased immersion and shortened completion time, especially for large data. Users preferred to start far and move closer for detail.</span><span class="kr"><strong>먼 시점</strong>은 대부분의 스케일에서 정확도를 높였고, <strong>가까운 시점</strong>은 특히 큰 데이터에서 몰입을 높이고 완료 시간을 줄였습니다. 사용자는 멀리서 시작해 세부 작업을 위해 다가가는 흐름을 선호했습니다.</span></div></li>
+      <li><div class="t">Visual density</div><div class="b"><span class="en">Allocentric emphasis reduced visual complexity; egocentric emphasis supported quick decisions. But <strong>switching density</strong> confused visual hierarchy — cognitive load was lowest when distance and density stayed fixed.</span><span class="kr">타자중심 강조는 시각적 복잡도를 줄였고, 자기중심 강조는 빠른 판단을 도왔습니다. 하지만 <strong>밀도가 바뀌면</strong> 시각적 위계가 혼란스러워졌고, 인지 부하는 거리와 밀도가 고정됐을 때 가장 낮았습니다.</span></div></li>
+      <li><div class="t">Information display</div><div class="b"><span class="en"><strong>Scale-based display</strong> worked best for small data; <strong>full display</strong> for large data. <strong>Distance-based display</strong> produced the lowest immersion and highest load — users preferred stable, abundant information over partial, shifting disclosure (infotropism).</span><span class="kr">작은 데이터에서는 <strong>스케일 기반 표시</strong>가, 큰 데이터에서는 <strong>전체 표시</strong>가 효과적이었습니다. <strong>거리 기반 표시</strong>는 몰입이 가장 낮고 부하가 가장 높았습니다. 사용자는 조금씩 바뀌는 정보보다 안정적이고 풍부한 정보를 선호했습니다(infotropism).</span></div></li>
+      <li><div class="t"><span class="en">Individual factors</span><span class="kr">개인 요인</span></div><div class="b"><span class="en">Higher <strong>spatial ability</strong> meant faster completion in visually demanding conditions. More <strong>VR experience</strong> meant faster, more accurate use — but with higher cognitive effort and lower immersion.</span><span class="kr"><strong>공간 지각 능력</strong>이 높을수록 시각적으로 복잡한 조건에서 빨리 과업을 마쳤습니다. <strong>VR 경험</strong>이 많을수록 빠르고 정확했지만, 인지적 노력은 늘고 몰입감은 낮았습니다.</span></div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- 06 GUIDELINES -->
+<section class="block guide" id="guidelines">
+  <div class="label"><span class="num">06</span><span class="en">Design guidelines</span><span class="kr">디자인 가이드라인</span></div>
+  <div class="content">
+    <h2 class="en">Small data calls for accuracy. Large data calls for lightness.</h2>
+    <h2 class="kr">작은 데이터에는 정확성을, 큰 데이터에는 가벼움을.</h2>
+    <p class="en">From these results, the study proposes a system-level adaptive interface that responds to user goals and spatial context:</p>
+    <p class="kr">이 결과를 바탕으로, 사용자의 목표와 공간적 맥락에 반응하는 시스템 수준의 적응형 인터페이스를 제안합니다.</p>
+    <div class="grid2">
+      <div class="cell"><h3>Sensitivity</h3><p class="en">Adjusts automatically to manipulation speed or object size, while remaining user-tunable with a slider.</p><p class="kr">조작 속도나 객체 크기에 따라 자동으로 조정되고, 슬라이더로 사용자가 직접 바꿀 수도 있습니다.</p></div>
+      <div class="cell"><h3>Distance</h3><p class="en">Moves into close-up views through gaze or selection, with a dedicated space or direct jump back to the global overview.</p><p class="kr">시선이나 선택으로 가까운 시점에 들어가고, 전체 조망을 위한 전용 공간이나 바로 돌아가는 기능을 제공합니다.</p></div>
+      <div class="cell"><h3>Visual density</h3><p class="en">Fixed by default, switching between structural (allocentric) and focal (egocentric) emphasis only when the task calls for it.</p><p class="kr">기본은 고정하고, 과업에 필요할 때만 구조(타자중심)와 초점(자기중심) 강조를 전환합니다.</p></div>
+      <div class="cell"><h3>Information display</h3><p class="en">Starts with progressive disclosure tied to the space, then shifts to full display when close, egocentric exploration is detected.</p><p class="kr">공간에 연동된 점진적 공개로 시작해, 가까운 자기중심 탐색이 감지되면 전체 표시로 전환합니다.</p></div>
+    </div>
+    <p class="en" style="margin-top:36px">Beyond individual techniques, the work establishes design principles for immersive data exploration as a whole — applicable to education, medical data analysis, network visualization, and engineering simulation.</p>
+    <p class="kr" style="margin-top:36px">이 연구는 개별 인터랙션 기법을 넘어, 몰입형 데이터 탐색 전반을 위한 디자인 원칙을 제시합니다. 교육, 의료 데이터 분석, 네트워크 시각화, 공학 시뮬레이션 등 대규모 3D 데이터 환경에 적용할 수 있습니다.</p>
+  </div>
+</section>
+
+<!-- 07 CITATION -->
+<section class="block" id="citation">
+  <div class="label"><span class="num">07</span><span class="en">Citation</span><span class="kr">인용</span></div>
+  <div class="content">
+    <div class="cite" id="citeText">Jo, Y., &amp; Lee, S. (2026). Scale mechanism design for data analysis in immersive environments. <em>International Journal of Human–Computer Interaction, 42</em>(22), 19651–19672. https://doi.org/10.1080/10447318.2026.2635677</div>
+    <button class="copy" type="button" id="copyBtn"><span class="en">Copy citation</span><span class="kr">인용 복사</span></button>
+    <div class="meta-list">
+      <div><b>DOI</b> · 10.1080/10447318.2026.2635677</div>
+      <div><b><span class="en">Published online</span><span class="kr">온라인 게재</span></b> · 2026.03.06</div>
+      <div><b>Keywords</b> · Immersive analytics, scale mechanism, spatial reference frames, cognitive load, immersion</div>
+      <div><b><span class="en">Funding</span><span class="kr">지원</span></b> · <span class="en">Ministry of Culture, Sports and Tourism / KOCCA (RS-2024-00361757)</span><span class="kr">문화체육관광부 · 한국콘텐츠진흥원 (RS-2024-00361757)</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="next">
+  <a class="nav-back" href="/#research">← <span class="en">All research</span><span class="kr">전체 연구</span></a>
+  <a class="big" href="/#contact"><span class="en">Let's talk →</span><span class="kr">연락하기 →</span></a>
+</div>
+
+</main>
+
+<footer>
+  <span>© 2026 J002. ALL RIGHTS RESERVED.</span>
+  <span>Jo Younghee · Seoul</span>
+</footer>
+
+<script>
+(function(){
+  var root = document.documentElement;
+  function setLang(l){
+    root.setAttribute('data-lang', l);
+    root.setAttribute('lang', l === 'kr' ? 'ko' : 'en');
+    document.querySelectorAll('[data-set-lang]').forEach(function(b){
+      b.setAttribute('aria-pressed', b.dataset.setLang === l ? 'true' : 'false');
+    });
+    try { localStorage.setItem('j002-lang', l); } catch(e){}
+  }
+  var q = new URLSearchParams(location.search).get('lang');
+  var saved = null; try { saved = localStorage.getItem('j002-lang'); } catch(e){}
+  setLang(q === 'kr' || q === 'en' ? q : (saved || 'en'));
+  document.querySelectorAll('[data-set-lang]').forEach(function(b){
+    b.addEventListener('click', function(){ setLang(b.dataset.setLang); });
+  });
+  document.getElementById('copyBtn').addEventListener('click', function(){
+    var btn = this, txt = document.getElementById('citeText').innerText;
+    function done(){ var en = btn.querySelector('.en'), kr = btn.querySelector('.kr'); en.textContent='Copied'; kr.textContent='복사됨'; setTimeout(function(){ en.textContent='Copy citation'; kr.textContent='인용 복사'; },1600); }
+    if (navigator.clipboard) navigator.clipboard.writeText(txt).then(done, function(){});
+  });
+})();
+</script>
+</body>
+</html>
