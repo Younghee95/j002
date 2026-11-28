@@ -47,10 +47,15 @@ nav{position:fixed;top:0;left:0;width:100%;z-index:100;display:flex;justify-cont
 .proj-detail-back{display:flex;align-items:center;gap:12px;background:none;border:none;color:var(--muted);font-family:'Pretendard',sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:color .2s;}
 .proj-detail-back:hover{color:#fff;}
 .proj-detail-logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:0.11em;}
-.proj-detail-header{padding:100px 40px 60px;border-bottom:1px solid var(--mid);display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:end;}
+.proj-detail-header{padding:100px 40px 60px;border-bottom:1px solid var(--mid);display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;}
 .proj-detail-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(26px,4vw,50px);line-height:.92;letter-spacing:0.04em;text-transform:uppercase;}
 .proj-detail-cat{font-size:11px;letter-spacing:4px;color:var(--green);text-transform:uppercase;margin-bottom:20px;}
-.proj-detail-desc{font-size:15px;line-height:1.9;color:rgba(255,255,255,.65);max-width:480px;}
+.proj-detail-desc{font-size:15px;line-height:1.9;color:rgba(255,255,255,.65);max-width:520px;}
+.proj-detail-desc p{margin:0 0 16px;}
+.proj-detail-desc p:last-child{margin-bottom:0;}
+.proj-detail-desc h4{font-size:11px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin:36px 0 12px;}
+.proj-detail-desc h4:first-child{margin-top:0;}
+.proj-detail-img-wrap video{width:100%;display:block;}
 .proj-detail-link{display:inline-flex;align-items:center;gap:8px;margin-top:28px;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--green);border-bottom:1px solid rgba(184,255,0,.3);padding-bottom:2px;}
 .proj-detail-credit{margin-top:32px;font-size:11px;line-height:1.7;color:rgba(255,255,255,.32);max-width:480px;}
 .proj-detail-img-wrap{width:100%;border-bottom:1px solid var(--mid);overflow:hidden;background:#111;}
@@ -168,7 +173,7 @@ footer{border-top:1px solid var(--mid);padding:28px 40px;display:flex;justify-co
     <h1 class="proj-detail-title" id="detailTitle"></h1>
     <div>
       <div class="proj-detail-cat" id="detailCat"></div>
-      <p class="proj-detail-desc" id="detailDesc"></p>
+      <div class="proj-detail-desc" id="detailDesc"></div>
       <a class="proj-detail-link" id="detailLink" href="#" target="_blank" style="display:none;">View Live ↗</a>
       <p class="proj-detail-credit" id="detailCredit" style="display:none;"></p>
     </div>
@@ -383,11 +388,86 @@ var PROJECT_META = {
   '3': { slug: '3d-website' },
   '4': { slug: 'scale-mechanism',
          link: { href: '/research/scale-mechanism/', en: 'Read the research page →', kr: '연구 페이지 보기 →' } },
-  '5': { slug: 'art-react-xr', page: '/projects/art-react-xr/', credit: KOCCA_CREDIT }
+  '5': { slug: 'art-react-xr', credit: KOCCA_CREDIT,
+         link: { href: 'https://www.meta.com/experiences/art-react-xr/2155670682011042/', en: 'Get it on Meta Quest ↗', kr: 'Meta Quest에서 보기 ↗' } }
 };
-// Projects not yet in the sheet. Removed automatically once the sheet has a row with the same slug.
+
+// Longer descriptions kept in code (they override the sheet's description for that project).
+// Lines starting with "## " render as small headings.
+var DESCRIPTION_OVERRIDES = {
+  '4': {
+    en: [
+      "## Overview",
+      "Immersive analytics lets people walk through data instead of looking at it. But once data can be smaller than your hand or larger than a room, a single interaction style no longer fits. This study asks how interfaces should change as data scale changes, and proposes a scale-aware interaction framework grounded in egocentric (user-relative) and allocentric (environment-relative) reference frames.",
+      "## Framework",
+      "Four variables adapt to data scale: interaction sensitivity, viewing distance, visual density and information display. They were tested across four scale levels, from data viewed from outside to data that surrounds the user: Small Allo, Large Allo, Small Ego and Large Ego.",
+      "## Study",
+      "Two VR experiments on Meta Quest 3 with 80 participants. Experiment 1 examined sensitivity and distance; Experiment 2 examined visual density and information display. Accuracy, completion time, interaction count, cognitive load and immersion were analysed with MANOVA, alongside spatial ability and prior VR experience.",
+      "## Key findings",
+      "Reference frames are dynamic, not fixed: as data grew, users shifted continuously from allocentric to egocentric viewing. Allocentric conditions supported higher accuracy, egocentric conditions faster completion. Medium sensitivity was most stable overall, low sensitivity best for large data. Cognitive load was lowest when distance and density stayed fixed, and distance-based information display produced the lowest immersion.",
+      "## Design guidelines",
+      "Small data calls for accuracy, large data for lightness. The study proposes an adaptive interface: sensitivity that adjusts to object size, smooth transitions between overview and close-up, visual density fixed by default, and information display that moves from progressive disclosure to full display as the user moves in.",
+      "International Journal of Human–Computer Interaction, 42(22), 2026. Younghee Jo & Sangwon Lee."
+    ].join('\n'),
+    kr: [
+      "## 개요",
+      "몰입형 분석 환경에서 사람들은 데이터를 바라보는 대신 데이터 속을 걸어 다닙니다. 하지만 데이터가 손바닥보다 작을 수도, 방보다 클 수도 있게 되면 하나의 인터랙션 방식으로는 감당할 수 없습니다. 이 연구는 데이터의 스케일이 달라질 때 인터페이스가 어떻게 달라져야 하는지를 묻고, 자기중심(egocentric)과 객체중심(allocentric) 기준틀에 기반한 스케일 인지형 인터랙션 프레임워크를 제안합니다.",
+      "## 프레임워크",
+      "조작 민감도, 시야 거리, 시각 밀도, 정보 표시 네 가지 변수를 데이터 스케일에 맞춰 조정합니다. 바깥에서 바라보는 데이터부터 사용자를 둘러싸는 데이터까지 Small Allo, Large Allo, Small Ego, Large Ego 네 단계에서 검증했습니다.",
+      "## 실험",
+      "Meta Quest 3 기반으로 80명이 참여한 두 차례의 VR 실험을 진행했습니다. 실험 1은 민감도와 거리를, 실험 2는 시각 밀도와 정보 표시를 다뤘습니다. 정확도, 완료 시간, 인터랙션 횟수, 인지 부하, 몰입감을 MANOVA로 분석하고, 공간 지각 능력과 VR 경험의 영향도 함께 살폈습니다.",
+      "## 주요 결과",
+      "기준틀은 고정된 것이 아니라 움직였습니다. 데이터가 커질수록 사용자는 객체중심에서 자기중심으로 연속적으로 이동했습니다. 객체중심 조건에서는 정확도가, 자기중심 조건에서는 속도가 높았습니다. 중간 민감도가 전반적으로 가장 안정적이었고, 큰 데이터에서는 낮은 민감도가 효과적이었습니다. 인지 부하는 거리와 밀도가 고정됐을 때 가장 낮았고, 거리 기반 정보 표시는 몰입감이 가장 낮았습니다.",
+      "## 디자인 가이드라인",
+      "작은 데이터에는 정확성을, 큰 데이터에는 가벼움을. 객체 크기에 맞춰 조정되는 민감도, 전체 조망과 근접 탐색 사이의 매끄러운 전환, 기본은 고정된 시각 밀도, 그리고 사용자가 다가갈수록 점진적 공개에서 전체 표시로 바뀌는 정보 표시를 갖춘 적응형 인터페이스를 제안합니다.",
+      "International Journal of Human–Computer Interaction, 42(22), 2026. 조영희, 이상원."
+    ].join('\n')
+  }
+};
+
+// Projects not yet in the sheet, shown at the top of the list (newest first).
+// Removed automatically once the sheet has a row with the same slug or title.
 var EXTRA_PROJECTS = [
-  { num: '5', title: 'ART REACT XR', category: 'XR Exhibition Application', year: '2026', images: [] }
+  { num: '5', title: 'ART REACT XR', category: 'XR Exhibition Application', year: '2026',
+    images: [
+      'https://res.cloudinary.com/drmreifyv/video/upload/q_auto/master_t7_d7t9rr.mp4',
+      'https://res.cloudinary.com/drmreifyv/image/upload/f_auto,q_auto,w_2400/Comp01_Video-3_kis3j3.jpg',
+      'https://res.cloudinary.com/drmreifyv/image/upload/f_auto,q_auto,w_2400/Group_1000003876-2_sim1hz.jpg',
+      'https://res.cloudinary.com/drmreifyv/image/upload/f_auto,q_auto,w_2400/NPC_cut_test_1_c9pgwx.jpg',
+      'https://res.cloudinary.com/drmreifyv/image/upload/f_auto,q_auto,w_2400/Group_1000003876-3_bkoy6n.jpg',
+      'https://res.cloudinary.com/drmreifyv/image/upload/f_auto,q_auto,w_2400/Comp01_Image_ejysgi.jpg'
+    ],
+    description_en: [
+      "ART REACT XR is an immersive exhibition application that offers a new way to encounter masterworks in virtual space. Works by Hilma af Klint, Mark Rothko, Wassily Kandinsky and others are experienced not from behind glass, but from within the time and space each work holds.",
+      "## Overview",
+      "An XR exhibition allows far more spatial freedom than a physical venue, but freedom does not translate into better viewing. Quality depends on distance and scale, the flow of the gaze, the surrounding environment, and how much the guide intervenes. So we focused not on how to display the work, but on how to let the viewer form a relationship with it.",
+      "## Immersive mode",
+      "The work stays exactly as it is; what we designed is an environment for concentrating on it. Entering a work, a gradual transition spreads from the floor beneath the viewer out to the whole space. Distance resets to the optimal viewing distance, scale grows, brightness drops a step, and ambient sound matched to the piece draws the room toward it.",
+      "## AI curator (NPC)",
+      "A concrete NPC carries presence but quickly reads as awkward; an abstract one blends in but struggles to build rapport. Our NPC holds a concrete form inside a translucent sphere that takes on the colour and material of its surroundings, and its presence shifts with context.",
+      "## A curator that knows when to speak",
+      "It activates as the visitor approaches a work and introduces itself only once. After seven seconds of silence it suggests what other visitors asked. It listens by voice, adjusts the depth of its answers to the visitor’s concentration and viewing history, and shrinks to the edge of vision in immersive mode.",
+      "## Interaction",
+      "Point with a fingertip to move, open the left hand to call up the menu, reach with both hands to approach a work. Gaze and gesture become the interface, with nothing to learn.",
+      "## Credits",
+      "Creative Director: Younghee Jo · Project Manager: Suji Choi, Juha Kim · 3D Designer: Minbum Kang, Minji Kim, Suyeon Park · Developer: Jonghyun Han, Seongjun Kim · Designer: Chungmoo Lee, Youjin Kwon, Hyeseon Jang · NINEFIVE · Released November 25, 2026"
+    ].join('\n'),
+    description_kr: [
+      "ART REACT XR은 가상공간에서 명작을 새로운 방식으로 감상하는 몰입형 전시 애플리케이션입니다. 힐마 아프 클린트, 마크 로스코, 칸딘스키를 비롯한 작품을 유리 너머가 아니라, 작품이 가진 시공간 안에서 경험하도록 설계했습니다.",
+      "## 개요",
+      "XR 전시는 물리적 전시장보다 훨씬 자유로운 공간 구성을 허용하지만, 그 자유도가 곧 좋은 감상으로 이어지지는 않습니다. 경험의 질은 작품과 관람자 사이의 거리와 스케일, 시선의 흐름, 주변 환경, 안내자의 개입 정도에 따라 달라집니다. 그래서 “작품을 어떻게 보여줄 것인가”가 아니라 “관람자가 작품과 어떻게 관계 맺게 할 것인가”에 초점을 맞췄습니다.",
+      "## 몰입 모드",
+      "작품은 원형 그대로 두고, 관람자가 더 깊이 집중할 수 있는 감상 환경을 설계했습니다. 작품으로 진입하는 순간 사용자가 선 바닥에서 공간 전체로 번지는 점진적 트랜지션이 장면을 감싸고, 거리는 최적의 감상 거리로, 스케일은 몰입에 알맞은 크기로 조정됩니다. 밝기는 한 단계 낮추고, 작품에 어울리는 앰비언트 사운드로 공간의 정서를 작품 쪽으로 모았습니다.",
+      "## AI 큐레이터 (NPC)",
+      "구체적 형상의 NPC는 존재감이 있지만 조금만 부족해도 어색해지고, 추상형 NPC는 환경에 스며들지만 교감을 만들기 어렵습니다. 그래서 반투명한 구(球) 안에 구체적 형상을 담고, 색과 재질은 주변 환경에 맞추며, 맥락에 따라 존재감을 달리하는 NPC를 디자인했습니다.",
+      "## 설명할 순간을 아는 큐레이터",
+      "관람자가 작품에 다가가면 활성화되고 안내 멘트는 처음 한 번만 합니다. 질문 없이 7초간 머무르면 다른 관람자들의 질문을 추천합니다. 음성으로 질문을 듣고, 관람자의 집중도와 관람 이력에 따라 답변의 깊이를 조절하며, 몰입 모드에서는 미니 NPC로 시야 가장자리에 물러납니다.",
+      "## 상호작용",
+      "손끝으로 가리켜 이동하고, 왼손을 펼쳐 메뉴를 부르고, 양손으로 작품에 다가섭니다. 시선과 손짓이 그대로 인터페이스가 되어 별도의 학습이 필요 없습니다.",
+      "## 크레딧",
+      "Creative Director: 조영희 · Project Manager: 최수지, 김주하 · 3D Designer: 강민범, 김민지, 박수연 · Developer: 한종현, 김성준 · Designer: 이충무, 권유진, 장혜선 · 나인파이브 · 2026년 11월 25일 출시"
+    ].join('\n')
+  }
 ];
 
 function slugify(s) {
@@ -423,12 +503,14 @@ function renderProjects(rows) {
     if (p.link) p.link = { href: p.link, en: 'View more ↗', kr: '더 보기 ↗' };
     else p.link = m.link || null;
     if (!p.credit_en && m.credit) { p.credit_en = m.credit.en; p.credit_kr = m.credit.kr; }
+    var o = DESCRIPTION_OVERRIDES[String(p.num).trim()];
+    if (o) { p.description_en = o.en; p.description_kr = o.kr; }
   });
-  EXTRA_PROJECTS.forEach(function(x){
+  EXTRA_PROJECTS.slice().reverse().forEach(function(x){
     var m = PROJECT_META[x.num] || {};
     var slug = x.slug || m.slug;
     var exists = allProjects.some(function(p){ return p.slug === slug || /art\s*react/i.test(p.title || ''); });
-    if (!exists) allProjects.push(Object.assign({ slug: slug, page: m.page || '', link: m.link || null,
+    if (!exists) allProjects.unshift(Object.assign({ slug: slug, page: m.page || '', link: m.link || null,
       credit_en: m.credit ? m.credit.en : '', credit_kr: m.credit ? m.credit.kr : '' }, x));
   });
   var list = document.getElementById('projList');
@@ -438,7 +520,6 @@ function renderProjects(rows) {
   }
   list.innerHTML = allProjects.map(function(p, i){
     return '<div class="proj-item" data-index="' + i + '">' +
-      '<div class="proj-item-num">' + String(p.num || i+1).padStart(2,'0') + '</div>' +
       '<div class="proj-item-title">' + (p.title || '') + '</div>' +
       '<div class="proj-item-tag">' + (p.category || '') + (p.year ? ' · ' + p.year : '') + '</div>' +
       '</div>';
@@ -458,6 +539,15 @@ function loadProjects() {
 }
 
 // DETAIL
+function escapeHTML(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+// Plain text from the sheet -> paragraphs. A line starting with "## " becomes a small heading.
+function formatDesc(text) {
+  return String(text || '').split(/\n/).map(function(l){ return l.trim(); }).filter(Boolean).map(function(l){
+    return l.indexOf('## ') === 0 ? '<h4>' + escapeHTML(l.slice(3)) + '</h4>' : '<p>' + escapeHTML(l) + '</p>';
+  }).join('');
+}
 function openDetail(index, opts) {
   opts = opts || {};
   var p = allProjects[index];
@@ -473,7 +563,7 @@ function openDetail(index, opts) {
   var desc = (currentLang === 'kr' && p.description_kr) ? p.description_kr : p.description_en;
   document.getElementById('detailTitle').textContent = p.title || '';
   document.getElementById('detailCat').textContent = [p.category, p.year].filter(Boolean).join(' · ');
-  document.getElementById('detailDesc').textContent = desc || '';
+  document.getElementById('detailDesc').innerHTML = formatDesc(desc);
   var linkEl = document.getElementById('detailLink');
   if (p.link && p.link.href) {
     var external = /^https?:\/\//.test(p.link.href);
@@ -491,7 +581,10 @@ function openDetail(index, opts) {
   creditEl.style.display = credit ? '' : 'none';
   var imgs = (p.images || []).filter(Boolean);
   document.getElementById('detailImages').innerHTML = imgs.length
-    ? imgs.map(function(u){ return '<div class="proj-detail-img-wrap"><img src="' + u + '" alt="' + (p.title||'') + '" loading="lazy"></div>'; }).join('')
+    ? imgs.map(function(u){
+        if (/\.(mp4|webm|mov)(\?|$)/i.test(u)) return '<div class="proj-detail-img-wrap"><video src="' + u + '" autoplay muted loop playsinline preload="metadata"></video></div>';
+        return '<div class="proj-detail-img-wrap"><img src="' + u + '" alt="' + escapeHTML(p.title||'') + '" loading="lazy"></div>';
+      }).join('')
     : '<div class="proj-detail-img-wrap"><div class="proj-detail-img-placeholder">PROJECT IMAGES</div></div>';
   document.getElementById('detailPrev').classList.toggle('disabled', index === 0);
   document.getElementById('detailNext').classList.toggle('disabled', index === allProjects.length - 1);
