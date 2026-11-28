@@ -69,7 +69,8 @@ nav{position:fixed;top:0;left:0;width:100%;z-index:100;display:flex;justify-cont
 .proj-detail-img-wrap{width:100%;border-bottom:1px solid var(--mid);overflow:hidden;background:#111;}
 .proj-detail-img-wrap img{width:100%;display:block;}
 /* An image and the text that follows it read as one block: no line between them. */
-.proj-detail-img-wrap:has(+ .proj-detail-section){border-bottom:none;}
+#detailImages:not(.text-first) .proj-detail-img-wrap:has(+ .proj-detail-section),
+#detailImages.text-first .proj-detail-section:has(+ .proj-detail-img-wrap){border-bottom:none;}
 .proj-detail-img-placeholder{width:100%;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;font-size:12px;letter-spacing:3px;color:rgba(255,255,255,.15);font-family:'Bebas Neue',sans-serif;}
 /* Light theme for a project page (sheet column "theme" = light) */
 .proj-detail.light{--lt-text:#111;--lt-body:rgba(0,0,0,.68);--lt-muted:rgba(0,0,0,.42);--lt-line:#e4e4e4;--lt-accent:#3d7a00;background:#fff;color:var(--lt-text);}
@@ -417,7 +418,8 @@ function loadHero() {
 // PROJECTS
 // Everything comes from the Projects sheet. One row per image; the first row of a project holds its text.
 // Optional columns: slug, link, link_label_en, link_label_kr, credit_en, credit_kr, theme ("light" = white page).
-// In descriptions, a line "## Title" starts a section placed after the next image, "### Title" a sub-heading.
+// In descriptions, "## Title" starts a section and "### Title" a sub-heading. A line "[image]" places the next
+// image right there, under its text; without any [image] lines, each section follows an image.
 
 function slugify(s) {
   return String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -487,17 +489,20 @@ function formatDesc(text) {
   }).join('');
 }
 // Split a description into the intro (before the first "## " heading) and its sections.
+// A line "[image]" places the next image there (text above, image below).
 function splitDesc(text) {
-  var intro = [], sections = [], cur = null;
+  var intro = [], sections = [], blocks = [], cur = null, markers = false;
   String(text || '').split(/\n/).map(function(l){ return l.trim(); }).filter(Boolean).forEach(function(l){
-    if (l.indexOf('## ') === 0) { cur = { title: l.slice(3), paras: [] }; sections.push(cur); }
+    if (l.toLowerCase() === '[image]') { markers = true; blocks.push({ image: true }); cur = null; }
+    else if (l.indexOf('## ') === 0) { cur = { title: l.slice(3), paras: [] }; sections.push(cur); blocks.push(cur); }
     else if (cur) cur.paras.push(l);
-    else intro.push(l);
+    else if (!blocks.length) intro.push(l);
+    else { cur = { title: '', paras: [l] }; sections.push(cur); blocks.push(cur); }
   });
-  return { intro: intro, sections: sections };
+  return { intro: intro, sections: sections, blocks: blocks, markers: markers };
 }
 function sectionHTML(s) {
-  return '<div class="proj-detail-section"><h4>' + escapeHTML(s.title) + '</h4><div class="body">' +
+  return '<div class="proj-detail-section"><h4>' + escapeHTML(s.title || '') + '</h4><div class="body">' +
     s.paras.map(function(x){
       return x.indexOf('### ') === 0 ? '<h5>' + escapeHTML(x.slice(4)) + '</h5>' : '<p>' + escapeHTML(x) + '</p>';
     }).join('') + '</div></div>';
@@ -539,16 +544,29 @@ function openDetail(index, opts) {
   creditEl.textContent = credit || '';
   creditEl.style.display = credit ? '' : 'none';
   var imgs = (p.images || []).filter(Boolean);
-  var sections = interleave ? parts.sections.slice() : [];
-  var html = imgs.length
-    ? imgs.map(function(u){
-        var m = /\.(mp4|webm|mov)(\?|$)/i.test(u)
-          ? '<div class="proj-detail-img-wrap"><video src="' + u + '" autoplay muted loop playsinline preload="metadata"></video></div>'
-          : '<div class="proj-detail-img-wrap"><img src="' + u + '" alt="' + escapeHTML(p.title||'') + '" loading="lazy"></div>';
-        return m + (sections.length ? sectionHTML(sections.shift()) : '');
-      }).join('')
-    : '<div class="proj-detail-img-wrap"><div class="proj-detail-img-placeholder">PROJECT IMAGES</div></div>';
-  document.getElementById('detailImages').innerHTML = html + sections.map(sectionHTML).join('');
+  var media = function(u){
+    return /\.(mp4|webm|mov)(\?|$)/i.test(u)
+      ? '<div class="proj-detail-img-wrap"><video src="' + u + '" autoplay muted loop playsinline preload="metadata"></video></div>'
+      : '<div class="proj-detail-img-wrap"><img src="' + u + '" alt="' + escapeHTML(p.title||'') + '" loading="lazy"></div>';
+  };
+  var holder = document.getElementById('detailImages');
+  var html;
+  if (!imgs.length) {
+    html = '<div class="proj-detail-img-wrap"><div class="proj-detail-img-placeholder">PROJECT IMAGES</div></div>';
+  } else if (interleave && parts.markers) {
+    // First image is the cover; each [image] line in the text places the next one.
+    var queue = imgs.slice(1);
+    html = media(imgs[0]) + parts.blocks.map(function(b){
+      return b.image ? (queue.length ? media(queue.shift()) : '') : sectionHTML(b);
+    }).join('') + queue.map(media).join('');
+  } else {
+    // No [image] lines: each section follows an image.
+    var sections = interleave ? parts.sections.slice() : [];
+    html = imgs.map(function(u){ return media(u) + (sections.length ? sectionHTML(sections.shift()) : ''); }).join('') +
+      sections.map(sectionHTML).join('');
+  }
+  holder.classList.toggle('text-first', !!(interleave && parts.markers));
+  holder.innerHTML = html;
   document.getElementById('detailPrev').classList.toggle('disabled', index === 0);
   document.getElementById('detailNext').classList.toggle('disabled', index === allProjects.length - 1);
   closePanel();
