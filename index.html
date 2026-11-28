@@ -342,10 +342,6 @@ function loadHero() {
   fetch(HERO_URL).then(function(r){ return r.text(); }).then(function(text){
     var items = parseCSV(text);
     if (!items.length) { startHeroTimer(); return; }
-    // Newest projects (EXTRA_PROJECTS) lead the slideshow, matching the project menu order.
-    var newest = EXTRA_PROJECTS.map(function(p){ return p.title.toLowerCase(); });
-    var isNew = function(it){ var l = (it.label || '').toLowerCase(); return newest.some(function(t){ return l.indexOf(t) !== -1; }); };
-    items = items.filter(isNew).concat(items.filter(function(it){ return !isNew(it); }));
     var heroEl = document.getElementById('hero');
     var dotsEl = document.querySelector('.hero-dots-inline');
     heroEl.querySelectorAll('.hero-slide').forEach(function(s){ s.remove(); });
@@ -404,142 +400,9 @@ function loadHero() {
 }
 
 // PROJECTS
-// Per-project URL slugs, standalone pages, related links and credits.
-// Sheet columns "slug", "page", "link", "credit_en", "credit_kr" override these.
-var KOCCA_CREDIT = {
-  en: 'Supported by the Ministry of Culture, Sports and Tourism and the Korea Creative Content Agency (KOCCA), Culture Technology R&D Program (RS-2024-00361757).',
-  kr: '문화체육관광부·한국콘텐츠진흥원 문화기술 연구개발사업 지원 (RS-2024-00361757)'
-};
-var PROJECT_META = {
-  '1': { slug: 'orbi-xr', credit: KOCCA_CREDIT,
-         link: { href: 'https://www.meta.com/ko-kr/experiences/orbi-immersive-xr-meditation-app/8409220952521606/', en: 'Get it on Meta Quest ↗', kr: 'Meta Quest에서 보기 ↗' } },
-  '2': { slug: 'and5' },
-  '3': { slug: '3d-website' },
-  '4': { slug: 'scale-mechanism',
-         link: { href: '/research/scale-mechanism/', en: 'Read the research page →', kr: '연구 페이지 보기 →' } },
-  '5': { slug: 'art-react-xr', credit: KOCCA_CREDIT,
-         link: { href: 'https://www.meta.com/experiences/art-react-xr/2155670682011042/', en: 'Get it on Meta Quest ↗', kr: 'Meta Quest에서 보기 ↗' } }
-};
-
-// Longer descriptions kept in code (they override the sheet's description for that project).
-// Lines starting with "## " render as small headings.
-var DESCRIPTION_OVERRIDES = {
-  '4': {
-    en: [
-      "Immersive analytics lets people walk through data instead of looking at it. This study asks how interfaces should change as data scale changes, and proposes a scale-aware interaction framework grounded in egocentric and allocentric reference frames.",
-      "## Why scale matters",
-      "VR/AR-based immersive analytics environments have the potential to overcome the limitations of 2D visualization. However, increased freedom does not necessarily lead to improved analytical efficiency—without proper design, it can instead raise cognitive load. This study empirically investigates how users’ spatial reference frames (egocentric ↔ allocentric) shift in response to changes in visual scale through a two-stage VR experiment.",
-      "## Framework",
-      "Four variables adapt to data scale: interaction sensitivity and distance on the interaction side, visual density and information display on the visualization side. They were tested across four scale conditions, from data viewed from outside to data that surrounds the user.",
-      "## Research methods",
-      "### VR experiment design",
-      "Two VR experiments on Meta Quest 3 with 80 participants, who explored and analysed a 3D film dataset under each scale condition.",
-      "### Mixed-methods approach",
-      "Four scale conditions—SA (Small-Abstract), LA (Large-Abstract), SE (Small-Embodied) and LE (Large-Embodied)—were examined using a within-subject design. Accuracy, completion time and interaction count were analysed together with cognitive load, immersion, spatial ability and prior VR experience.",
-      "### Two-stage experimental structure",
-      "In Stage 1 (interaction experiment), sensitivity and distance were optimized. In Stage 2 (visualization experiment), information display strategies were independently evaluated and then integrated for comprehensive analysis.",
-      "## Key findings",
-      "Reference frames are dynamic, not fixed: as data grew, users shifted continuously from allocentric to egocentric viewing. Allocentric conditions supported higher accuracy, egocentric conditions faster completion. Medium sensitivity was most stable overall, low sensitivity best for large data. Cognitive load was lowest when distance and density stayed fixed, and distance-based information display produced the lowest immersion.",
-      "## Design principles",
-      "### 01 Scale-adaptive sensitivity & distance",
-      "Interaction sensitivity and inter-object distance should not be fixed values, but adaptive variables linked to scale. The system should detect the user’s current scale level in real time and adjust input sensitivity and spatial density to match the optimal conditions for that scale.",
-      "### 02 Visual density as analytical cue",
-      "Information density is not merely an aesthetic choice; it should reflect the user’s stage of analysis. At the global level, use higher density to provide an overview; at the local level, increase spacing and hierarchical detail so users can intuitively grasp the analytical context.",
-      "### 03 Continuous global–local transition",
-      "Transitions between global and local views should be continuous flows rather than abrupt jumps. Intermediate scale levels or transition animations help users maintain spatial context while shifting their analytical perspective.",
-      "### 04 Dual-purpose immersive system",
-      "Immersive analytics environments should support both exploration and analysis. The interface must let free spatial exploration and precise data analysis coexist, with clearly defined mode switching to prevent conflict between the two.",
-      "## Research focus",
-      "My research lies at the convergence of data visualization, spatial cognition and human–computer interaction (HCI), with a particular focus on how users perceive and explore data spatially in VR/AR-based immersive analytics environments. Through my doctoral research, I demonstrated that visual scale is not merely a representational feature, but a core mechanism that fundamentally restructures users’ cognitive processes, behavioral patterns and interaction strategies.",
-      "## Citation",
-      "Jo, Younghee, and Sangwon Lee. “Scale Mechanism Design for Data Analysis in Immersive Environments.” International Journal of Human–Computer Interaction 42, no. 22 (2026)."
-    ].join('\n'),
-    kr: [
-      "몰입형 분석 환경에서 사람들은 데이터를 바라보는 대신 데이터 속을 걸어 다닙니다. 이 연구는 데이터의 스케일이 달라질 때 인터페이스가 어떻게 달라져야 하는지를 묻고, 자기중심과 객체중심 기준틀에 기반한 스케일 인지형 인터랙션 프레임워크를 제안합니다.",
-      "## 왜 스케일인가",
-      "VR/AR 기반 몰입형 분석 환경은 2D 시각화의 한계를 넘어설 가능성을 갖고 있습니다. 하지만 자유도가 높아진다고 분석 효율이 저절로 높아지지는 않으며, 적절히 설계하지 않으면 오히려 인지 부하가 커집니다. 이 연구는 두 단계의 VR 실험을 통해 시각적 스케일이 달라질 때 사용자의 공간 기준틀(자기중심 ↔ 객체중심)이 어떻게 이동하는지를 실증적으로 살펴봅니다.",
-      "## 프레임워크",
-      "인터랙션 측면의 조작 민감도와 거리, 시각화 측면의 시각 밀도와 정보 표시, 네 가지 변수를 데이터 스케일에 맞춰 조정합니다. 바깥에서 바라보는 데이터부터 사용자를 둘러싸는 데이터까지 네 가지 스케일 조건에서 검증했습니다.",
-      "## 연구 방법",
-      "### VR 실험 설계",
-      "Meta Quest 3 기반으로 80명이 참여한 두 차례의 VR 실험에서, 참가자들은 각 스케일 조건에서 3D 영화 데이터셋을 탐색하고 분석했습니다.",
-      "### 혼합 연구 방법",
-      "SA(Small-Abstract), LA(Large-Abstract), SE(Small-Embodied), LE(Large-Embodied) 네 가지 스케일 조건을 피험자 내 설계로 검증했습니다. 정확도, 완료 시간, 인터랙션 횟수를 인지 부하, 몰입감, 공간 지각 능력, VR 경험과 함께 분석했습니다.",
-      "### 2단계 실험 구조",
-      "1단계(인터랙션 실험)에서는 민감도와 거리를 최적화했습니다. 2단계(시각화 실험)에서는 정보 표시 전략을 각각 평가한 뒤 통합해 종합적으로 분석했습니다.",
-      "## 주요 결과",
-      "기준틀은 고정된 것이 아니라 움직였습니다. 데이터가 커질수록 사용자는 객체중심에서 자기중심으로 연속적으로 이동했습니다. 객체중심 조건에서는 정확도가, 자기중심 조건에서는 속도가 높았습니다. 중간 민감도가 전반적으로 가장 안정적이었고, 큰 데이터에서는 낮은 민감도가 효과적이었습니다. 인지 부하는 거리와 밀도가 고정됐을 때 가장 낮았고, 거리 기반 정보 표시는 몰입감이 가장 낮았습니다.",
-      "## 디자인 원칙",
-      "### 01 스케일 적응형 민감도와 거리",
-      "조작 민감도와 객체 간 거리는 고정값이 아니라 스케일에 연동된 적응형 변수여야 합니다. 시스템은 사용자의 현재 스케일 단계를 실시간으로 감지하고, 그 스케일에 맞는 최적 조건으로 입력 민감도와 공간 밀도를 조정해야 합니다.",
-      "### 02 분석 단서로서의 시각 밀도",
-      "정보 밀도는 단순한 미적 선택이 아니라 사용자의 분석 단계를 반영해야 합니다. 전체 수준에서는 높은 밀도로 개요를 보여주고, 부분 수준에서는 간격과 위계적 디테일을 늘려 분석 맥락을 직관적으로 파악하게 합니다.",
-      "### 03 연속적인 전체–부분 전환",
-      "전체 보기와 부분 보기 사이의 전환은 갑작스러운 점프가 아니라 연속적인 흐름이어야 합니다. 중간 스케일 단계나 전환 애니메이션은 분석 관점을 바꾸는 동안에도 공간 맥락을 유지하도록 돕습니다.",
-      "### 04 이중 목적의 몰입형 시스템",
-      "몰입형 분석 환경은 탐색과 분석을 모두 지원해야 합니다. 자유로운 공간 탐색과 정밀한 데이터 분석이 함께 가능하도록 하되, 명확한 모드 전환 장치로 두 활동이 충돌하지 않게 해야 합니다.",
-      "## 연구 관심사",
-      "저의 연구는 데이터 시각화, 공간 인지, 인간–컴퓨터 상호작용(HCI)이 만나는 지점에 있으며, 특히 VR/AR 기반 몰입형 분석 환경에서 사용자가 데이터를 공간적으로 어떻게 지각하고 탐색하는지에 주목합니다. 박사 연구를 통해 시각적 스케일이 단순한 표현 요소가 아니라 사용자의 인지 과정, 행동 패턴, 인터랙션 전략을 근본적으로 재구성하는 핵심 메커니즘임을 밝혔습니다.",
-      "## 인용",
-      "Jo, Younghee, and Sangwon Lee. “Scale Mechanism Design for Data Analysis in Immersive Environments.” International Journal of Human–Computer Interaction 42, no. 22 (2026)."
-    ].join('\n')
-  }
-};
-
-// Images kept in code (they override the sheet's images for that project).
-// Text-only slides were turned into page text; the diagram is cropped below its old heading.
-var IMAGE_OVERRIDES = {
-  '4': [
-    'https://res.cloudinary.com/drmreifyv/video/upload/v1776172939/VideoAbstract_t6_1_q2aa8e.mp4',
-    'https://res.cloudinary.com/drmreifyv/image/upload/c_crop,x_0,y_0.29,w_1.0,h_0.71/f_auto,q_auto,w_2400/v1776173166/Group_1000003172-2_tsfzzr.jpg',
-    'https://res.cloudinary.com/drmreifyv/image/upload/f_auto,q_auto,w_2400/v1776172630/Group_1000003173_fpwehs.jpg'
-  ]
-};
-
-// Projects not yet in the sheet, shown at the top of the list (newest first).
-// Removed automatically once the sheet has a row with the same slug or title.
-var EXTRA_PROJECTS = [
-  { num: '5', title: 'ART REACT XR', category: 'XR Exhibition Application', year: '2026',
-    images: [
-      'https://res.cloudinary.com/drmreifyv/video/upload/q_auto/master_t7_d7t9rr.mp4',
-      'https://res.cloudinary.com/drmreifyv/image/upload/f_auto,q_auto,w_2400/Comp01_Video-3_kis3j3.jpg',
-      'https://res.cloudinary.com/drmreifyv/image/upload/f_auto,q_auto,w_2400/Group_1000003876-2_sim1hz.jpg',
-      'https://res.cloudinary.com/drmreifyv/image/upload/f_auto,q_auto,w_2400/NPC_cut_test_1_c9pgwx.jpg',
-      '/images/art-react-features.jpg',
-      'https://res.cloudinary.com/drmreifyv/image/upload/f_auto,q_auto,w_2400/Comp01_Image_ejysgi.jpg'
-    ],
-    description_en: [
-      "ART REACT XR is an immersive exhibition application that offers a new way to encounter masterworks in virtual space. Works by Hilma af Klint, Mark Rothko, Wassily Kandinsky and others are experienced not from behind glass, but from within the time and space each work holds.",
-      "## Overview",
-      "An XR exhibition allows far more spatial freedom than a physical venue, but freedom does not translate into better viewing. Quality depends on distance and scale, the flow of the gaze, the surrounding environment, and how much the guide intervenes. So we focused not on how to display the work, but on how to let the viewer form a relationship with it.",
-      "## Immersive mode",
-      "The work stays exactly as it is; what we designed is an environment for concentrating on it. Entering a work, a gradual transition spreads from the floor beneath the viewer out to the whole space. Distance resets to the optimal viewing distance, scale grows, brightness drops a step, and ambient sound matched to the piece draws the room toward it.",
-      "## AI curator (NPC)",
-      "A concrete NPC carries presence but quickly reads as awkward; an abstract one blends in but struggles to build rapport. Our NPC holds a concrete form inside a translucent sphere that takes on the colour and material of its surroundings, and its presence shifts with context.",
-      "## A curator that knows when to speak",
-      "It activates as the visitor approaches a work and introduces itself only once. After seven seconds of silence it suggests what other visitors asked. It listens by voice, adjusts the depth of its answers to the visitor’s concentration and viewing history, and shrinks to the edge of vision in immersive mode.",
-      "## Interaction",
-      "Point with a fingertip to move, open the left hand to call up the menu, reach with both hands to approach a work. Gaze and gesture become the interface, with nothing to learn.",
-      "## Credits",
-      "Creative Director: Younghee Jo · Project Manager: Suji Choi, Juha Kim · 3D Designer: Minbum Kang, Minji Kim, Suyeon Park · Developer: Jonghyun Han, Seongjun Kim · Designer: Chungmoo Lee, Youjin Kwon, Hyeseon Jang · NINEFIVE · Released November 25, 2026"
-    ].join('\n'),
-    description_kr: [
-      "ART REACT XR은 가상공간에서 명작을 새로운 방식으로 감상하는 몰입형 전시 애플리케이션입니다. 힐마 아프 클린트, 마크 로스코, 칸딘스키를 비롯한 작품을 유리 너머가 아니라, 작품이 가진 시공간 안에서 경험하도록 설계했습니다.",
-      "## 개요",
-      "XR 전시는 물리적 전시장보다 훨씬 자유로운 공간 구성을 허용하지만, 그 자유도가 곧 좋은 감상으로 이어지지는 않습니다. 경험의 질은 작품과 관람자 사이의 거리와 스케일, 시선의 흐름, 주변 환경, 안내자의 개입 정도에 따라 달라집니다. 그래서 “작품을 어떻게 보여줄 것인가”가 아니라 “관람자가 작품과 어떻게 관계 맺게 할 것인가”에 초점을 맞췄습니다.",
-      "## 몰입 모드",
-      "작품은 원형 그대로 두고, 관람자가 더 깊이 집중할 수 있는 감상 환경을 설계했습니다. 작품으로 진입하는 순간 사용자가 선 바닥에서 공간 전체로 번지는 점진적 트랜지션이 장면을 감싸고, 거리는 최적의 감상 거리로, 스케일은 몰입에 알맞은 크기로 조정됩니다. 밝기는 한 단계 낮추고, 작품에 어울리는 앰비언트 사운드로 공간의 정서를 작품 쪽으로 모았습니다.",
-      "## AI 큐레이터 (NPC)",
-      "구체적 형상의 NPC는 존재감이 있지만 조금만 부족해도 어색해지고, 추상형 NPC는 환경에 스며들지만 교감을 만들기 어렵습니다. 그래서 반투명한 구(球) 안에 구체적 형상을 담고, 색과 재질은 주변 환경에 맞추며, 맥락에 따라 존재감을 달리하는 NPC를 디자인했습니다.",
-      "## 설명할 순간을 아는 큐레이터",
-      "관람자가 작품에 다가가면 활성화되고 안내 멘트는 처음 한 번만 합니다. 질문 없이 7초간 머무르면 다른 관람자들의 질문을 추천합니다. 음성으로 질문을 듣고, 관람자의 집중도와 관람 이력에 따라 답변의 깊이를 조절하며, 몰입 모드에서는 미니 NPC로 시야 가장자리에 물러납니다.",
-      "## 상호작용",
-      "손끝으로 가리켜 이동하고, 왼손을 펼쳐 메뉴를 부르고, 양손으로 작품에 다가섭니다. 시선과 손짓이 그대로 인터페이스가 되어 별도의 학습이 필요 없습니다.",
-      "## 크레딧",
-      "Creative Director: 조영희 · Project Manager: 최수지, 김주하 · 3D Designer: 강민범, 김민지, 박수연 · Developer: 한종현, 김성준 · Designer: 이충무, 권유진, 장혜선 · 나인파이브 · 2026년 11월 25일 출시"
-    ].join('\n')
-  }
-];
+// Everything comes from the Projects sheet. One row per image; the first row of a project holds its text.
+// Optional columns: slug, link, link_label_en, link_label_kr, credit_en, credit_kr.
+// In descriptions, a line "## Title" starts a section placed after the next image, "### Title" a sub-heading.
 
 function slugify(s) {
   return String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -559,6 +422,7 @@ function renderProjects(rows) {
         description_en: r.description_en || '',
         description_kr: r.description_kr || '',
         slug: r.slug || '', page: r.page || '', link: r.link || '',
+        link_label_en: r.link_label_en || '', link_label_kr: r.link_label_kr || '',
         credit_en: r.credit_en || '', credit_kr: r.credit_kr || '',
         images: []
       };
@@ -568,23 +432,8 @@ function renderProjects(rows) {
   });
   allProjects = order.map(function(k){ return map[k]; });
   allProjects.forEach(function(p){
-    var m = PROJECT_META[String(p.num).trim()] || {};
-    p.slug = p.slug || m.slug || slugify(p.title);
-    p.page = p.page || m.page || '';
-    if (p.link) p.link = { href: p.link, en: 'View more ↗', kr: '더 보기 ↗' };
-    else p.link = m.link || null;
-    if (!p.credit_en && m.credit) { p.credit_en = m.credit.en; p.credit_kr = m.credit.kr; }
-    var o = DESCRIPTION_OVERRIDES[String(p.num).trim()];
-    if (o) { p.description_en = o.en; p.description_kr = o.kr; }
-    var io = IMAGE_OVERRIDES[String(p.num).trim()];
-    if (io) p.images = io.slice();
-  });
-  EXTRA_PROJECTS.slice().reverse().forEach(function(x){
-    var m = PROJECT_META[x.num] || {};
-    var slug = x.slug || m.slug;
-    var exists = allProjects.some(function(p){ return p.slug === slug || /art\s*react/i.test(p.title || ''); });
-    if (!exists) allProjects.unshift(Object.assign({ slug: slug, page: m.page || '', link: m.link || null,
-      credit_en: m.credit ? m.credit.en : '', credit_kr: m.credit ? m.credit.kr : '' }, x));
+    p.slug = p.slug || slugify(p.title);
+    p.link = p.link ? { href: p.link, en: p.link_label_en || 'View more ↗', kr: p.link_label_kr || '더 보기 ↗' } : null;
   });
   var list = document.getElementById('projList');
   if (!allProjects.length) {
@@ -729,15 +578,11 @@ ov.addEventListener('click', closePanel);
 var researchItems = [];
 
 // Research detail pages. A "link" column in the sheet overrides these.
-var RESEARCH_PAGES = {
-  'Scale Mechanism Design for Data Analysis in Immersive Environments': '/research/scale-mechanism/'
-};
-
 function renderResearch() {
   if (!researchItems.length) return;
   document.getElementById('researchList').innerHTML = researchItems.map(function(p){
     var desc = (currentLang === 'kr' && p.description_kr) ? p.description_kr : (p.description_en || p.description || '');
-    var link = (p.link || RESEARCH_PAGES[(p.title || '').trim()] || '').trim();
+    var link = (p.link || '').trim();
     var external = /^https?:\/\//.test(link) && link.indexOf('02jo.com') === -1;
     var href = link && !external ? link + (link.indexOf('?') === -1 ? '?' : '&') + 'lang=' + currentLang : link;
     var tag = link ? 'a' : 'div';
