@@ -52,6 +52,7 @@ nav{position:fixed;top:0;left:0;width:100%;z-index:100;display:flex;justify-cont
 .proj-detail-cat{font-size:11px;letter-spacing:4px;color:var(--green);text-transform:uppercase;margin-bottom:20px;}
 .proj-detail-desc{font-size:15px;line-height:1.9;color:rgba(255,255,255,.65);max-width:480px;}
 .proj-detail-link{display:inline-flex;align-items:center;gap:8px;margin-top:28px;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--green);border-bottom:1px solid rgba(184,255,0,.3);padding-bottom:2px;}
+.proj-detail-credit{margin-top:32px;font-size:11px;line-height:1.7;color:rgba(255,255,255,.32);max-width:480px;}
 .proj-detail-img-wrap{width:100%;border-bottom:1px solid var(--mid);overflow:hidden;background:#111;}
 .proj-detail-img-wrap img{width:100%;display:block;}
 .proj-detail-img-placeholder{width:100%;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;font-size:12px;letter-spacing:3px;color:rgba(255,255,255,.15);font-family:'Bebas Neue',sans-serif;}
@@ -169,6 +170,7 @@ footer{border-top:1px solid var(--mid);padding:28px 40px;display:flex;justify-co
       <div class="proj-detail-cat" id="detailCat"></div>
       <p class="proj-detail-desc" id="detailDesc"></p>
       <a class="proj-detail-link" id="detailLink" href="#" target="_blank" style="display:none;">View Live ↗</a>
+      <p class="proj-detail-credit" id="detailCredit" style="display:none;"></p>
     </div>
   </div>
   <div id="detailImages"></div>
@@ -341,6 +343,12 @@ function loadHero() {
         (function(pn){
           slide.addEventListener('click', function(){
             var pnStr = String(pn).trim();
+            // Prefer the project whose title appears in the slide label (e.g. "ART REACT XR - …").
+            var label = (slide.dataset.label || '').toLowerCase();
+            for (var y = 0; y < allProjects.length; y++) {
+              var t = (allProjects[y].title || '').toLowerCase().trim();
+              if (t && label.indexOf(t) !== -1) { openDetail(y); return; }
+            }
             for (var x = 0; x < allProjects.length; x++) {
               if (String(allProjects[x].num).trim() === pnStr) { openDetail(x); return; }
             }
@@ -362,6 +370,34 @@ function loadHero() {
 }
 
 // PROJECTS
+// Per-project URL slugs, standalone pages, related links and credits.
+// Sheet columns "slug", "page", "link", "credit_en", "credit_kr" override these.
+var KOCCA_CREDIT = {
+  en: 'Supported by the Ministry of Culture, Sports and Tourism and the Korea Creative Content Agency (KOCCA), Culture Technology R&D Program (RS-2024-00361757).',
+  kr: '문화체육관광부·한국콘텐츠진흥원 문화기술 연구개발사업 지원 (RS-2024-00361757)'
+};
+var PROJECT_META = {
+  '1': { slug: 'orbi-xr', credit: KOCCA_CREDIT,
+         link: { href: 'https://www.meta.com/ko-kr/experiences/orbi-immersive-xr-meditation-app/8409220952521606/', en: 'Get it on Meta Quest ↗', kr: 'Meta Quest에서 보기 ↗' } },
+  '2': { slug: 'and5' },
+  '3': { slug: '3d-website' },
+  '4': { slug: 'scale-mechanism',
+         link: { href: '/research/scale-mechanism/', en: 'Read the research page →', kr: '연구 페이지 보기 →' } },
+  '5': { slug: 'art-react-xr', page: '/projects/art-react-xr/', credit: KOCCA_CREDIT }
+};
+// Projects not yet in the sheet. Removed automatically once the sheet has a row with the same slug.
+var EXTRA_PROJECTS = [
+  { num: '5', title: 'ART REACT XR', category: 'XR Exhibition Application', year: '2026', images: [] }
+];
+
+function slugify(s) {
+  return String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+}
+
+function projectPageHref(p) {
+  return p.page + '?lang=' + currentLang;
+}
+
 function renderProjects(rows) {
   var map = {}, order = [];
   rows.forEach(function(r){
@@ -371,6 +407,8 @@ function renderProjects(rows) {
         num: r.num, title: r.title, category: r.category, year: r.year,
         description_en: r.description_en || '',
         description_kr: r.description_kr || '',
+        slug: r.slug || '', page: r.page || '', link: r.link || '',
+        credit_en: r.credit_en || '', credit_kr: r.credit_kr || '',
         images: []
       };
       order.push(key);
@@ -378,6 +416,21 @@ function renderProjects(rows) {
     if (r.images) map[key].images.push(r.images.trim());
   });
   allProjects = order.map(function(k){ return map[k]; });
+  allProjects.forEach(function(p){
+    var m = PROJECT_META[String(p.num).trim()] || {};
+    p.slug = p.slug || m.slug || slugify(p.title);
+    p.page = p.page || m.page || '';
+    if (p.link) p.link = { href: p.link, en: 'View more ↗', kr: '더 보기 ↗' };
+    else p.link = m.link || null;
+    if (!p.credit_en && m.credit) { p.credit_en = m.credit.en; p.credit_kr = m.credit.kr; }
+  });
+  EXTRA_PROJECTS.forEach(function(x){
+    var m = PROJECT_META[x.num] || {};
+    var slug = x.slug || m.slug;
+    var exists = allProjects.some(function(p){ return p.slug === slug || /art\s*react/i.test(p.title || ''); });
+    if (!exists) allProjects.push(Object.assign({ slug: slug, page: m.page || '', link: m.link || null,
+      credit_en: m.credit ? m.credit.en : '', credit_kr: m.credit ? m.credit.kr : '' }, x));
+  });
   var list = document.getElementById('projList');
   if (!allProjects.length) {
     list.innerHTML = '<div style="font-size:12px;color:rgba(255,255,255,.3);padding:20px 0;">No projects found.</div>';
@@ -393,6 +446,7 @@ function renderProjects(rows) {
   document.querySelectorAll('.proj-item').forEach(function(el){
     el.addEventListener('click', function(){ openDetail(+el.dataset.index); });
   });
+  routeFromURL();
 }
 
 function loadProjects() {
@@ -404,14 +458,37 @@ function loadProjects() {
 }
 
 // DETAIL
-function openDetail(index) {
-  detailIndex = index;
+function openDetail(index, opts) {
+  opts = opts || {};
   var p = allProjects[index];
+  if (!p) return;
+  // Projects with their own standalone page open that page instead.
+  if (p.page) { location.href = projectPageHref(p); return; }
+  detailIndex = index;
+  if (!opts.fromRoute) {
+    var path = '/projects/' + p.slug + '/';
+    if (location.pathname !== path) history.pushState({ project: p.slug }, '', path);
+  }
+  document.title = (p.title || 'Project') + ' — J002';
   var desc = (currentLang === 'kr' && p.description_kr) ? p.description_kr : p.description_en;
   document.getElementById('detailTitle').textContent = p.title || '';
   document.getElementById('detailCat').textContent = [p.category, p.year].filter(Boolean).join(' · ');
   document.getElementById('detailDesc').textContent = desc || '';
-  document.getElementById('detailLink').style.display = 'none';
+  var linkEl = document.getElementById('detailLink');
+  if (p.link && p.link.href) {
+    var external = /^https?:\/\//.test(p.link.href);
+    linkEl.href = p.link.href;
+    linkEl.target = external ? '_blank' : '_self';
+    linkEl.rel = external ? 'noopener' : '';
+    linkEl.textContent = currentLang === 'kr' ? p.link.kr : p.link.en;
+    linkEl.style.display = '';
+  } else {
+    linkEl.style.display = 'none';
+  }
+  var credit = currentLang === 'kr' ? (p.credit_kr || p.credit_en) : (p.credit_en || p.credit_kr);
+  var creditEl = document.getElementById('detailCredit');
+  creditEl.textContent = credit || '';
+  creditEl.style.display = credit ? '' : 'none';
   var imgs = (p.images || []).filter(Boolean);
   document.getElementById('detailImages').innerHTML = imgs.length
     ? imgs.map(function(u){ return '<div class="proj-detail-img-wrap"><img src="' + u + '" alt="' + (p.title||'') + '" loading="lazy"></div>'; }).join('')
@@ -424,12 +501,25 @@ function openDetail(index) {
   document.body.style.overflow = 'hidden';
 }
 
-function closeDetail() {
+function closeDetail(opts) {
+  opts = opts || {};
   document.getElementById('projDetail').classList.remove('open');
   document.body.style.overflow = '';
+  document.title = 'J002 — Creative Director';
+  if (!opts.fromRoute && location.pathname.indexOf('/projects/') === 0) history.pushState({}, '', '/');
 }
 
-document.getElementById('detailBack').addEventListener('click', closeDetail);
+// Open the project named in the URL (/projects/<slug>/), e.g. on a shared link or back/forward.
+function routeFromURL() {
+  var m = location.pathname.match(/^\/projects\/([^\/]+)\/?$/);
+  if (!m) { if (document.getElementById('projDetail').classList.contains('open')) closeDetail({ fromRoute: true }); return; }
+  for (var i = 0; i < allProjects.length; i++) {
+    if (allProjects[i].slug === m[1]) { openDetail(i, { fromRoute: true }); return; }
+  }
+}
+window.addEventListener('popstate', routeFromURL);
+
+document.getElementById('detailBack').addEventListener('click', function(){ closeDetail(); });
 document.getElementById('detailPrev').addEventListener('click', function(){ if (detailIndex > 0) openDetail(detailIndex - 1); });
 document.getElementById('detailNext').addEventListener('click', function(){ if (detailIndex < allProjects.length - 1) openDetail(detailIndex + 1); });
 
@@ -519,7 +609,9 @@ function applyLang(lang) {
     if (el) el.innerHTML = c[id];
   });
   document.getElementById('langCurrent').textContent = lang.toUpperCase();
+  try { localStorage.setItem('j002-lang', lang); } catch(e){}
   renderResearch();
+  if (document.getElementById('projDetail').classList.contains('open')) openDetail(detailIndex, { fromRoute: true });
 }
 
 document.getElementById('langBtn').addEventListener('click', function(){
@@ -537,6 +629,14 @@ var revObs = new IntersectionObserver(function(es){
   es.forEach(function(e){ if (e.isIntersecting) e.target.classList.add('visible'); });
 }, {threshold: 0.1});
 document.querySelectorAll('.reveal').forEach(function(el){ revObs.observe(el); });
+
+// Language from ?lang= or the last choice on any J002 page.
+(function(){
+  var q = new URLSearchParams(location.search).get('lang');
+  var saved = null; try { saved = localStorage.getItem('j002-lang'); } catch(e){}
+  var l = (q === 'kr' || q === 'en') ? q : saved;
+  if (l === 'kr') applyLang('kr');
+})();
 
 loadHero();
 loadProjects();

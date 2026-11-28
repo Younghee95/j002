@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ART REACT XR — J002</title>
+<meta name="description" content="An immersive XR exhibition application for encountering masterworks from within their own space — with an AI curator that knows when to speak. Creative direction by Jo Younghee.">
+<link rel="canonical" href="https://02jo.com/projects/art-react-xr/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://02jo.com/projects/art-react-xr/">
+<meta property="og:title" content="ART REACT XR — Immersive Exhibition Application">
+<meta property="og:description" content="Masterworks by Hilma af Klint, Rothko and Kandinsky, experienced from within the space each work holds. Immersive mode, an AI curator NPC, and gesture-based interaction.">
+<meta property="og:image" content="https://res.cloudinary.com/drmreifyv/image/upload/c_fill,w_1200,h_630,q_auto/Comp01_Video-3_kis3j3.jpg">
+<meta property="og:site_name" content="J002 — Jo Younghee">
+<meta name="twitter:card" content="summary_large_image">
+
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+:root{--green:#B8FF00;--dark:#080808;--gray:#141414;--mid:#2a2a2a;--muted:rgba(255,255,255,.45);--body:rgba(255,255,255,.72);}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--dark);color:#fff;font-family:'Pretendard',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+a{color:inherit;text-decoration:none;}
+img,video{display:block;max-width:100%;}
+html[data-lang="en"] .kr{display:none !important;}
+html[data-lang="kr"] .en{display:none !important;}
+
+nav{position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:22px 40px;background:rgba(8,8,8,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--mid);}
+.nav-left{display:flex;align-items:center;gap:28px;}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:.11em;}
+.nav-back{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);transition:color .2s;}
+.nav-back:hover{color:#fff;}
+.lang-toggle{display:flex;border:1px solid rgba(255,255,255,.2);border-radius:999px;overflow:hidden;}
+.lang-toggle button{background:none;border:none;color:var(--muted);font-family:inherit;font-size:11px;letter-spacing:2px;padding:10px 18px;cursor:pointer;transition:color .2s,background .2s;}
+.lang-toggle button[aria-pressed="true"]{background:#fff;color:var(--dark);}
+
+.wrap{max-width:1120px;margin:0 auto;padding:0 40px;}
+header.proj{padding:110px 0 64px;}
+.eyebrow{font-size:11px;letter-spacing:4px;color:var(--green);text-transform:uppercase;margin-bottom:28px;}
+h1{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(56px,11vw,150px);line-height:.88;letter-spacing:.02em;}
+.intro{margin-top:40px;font-size:clamp(18px,2vw,22px);line-height:1.75;color:#fff;max-width:62ch;}
+.byline{margin-top:48px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:32px;border-top:1px solid var(--mid);padding-top:28px;}
+.byline dt{font-size:10px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:10px;}
+.byline dd{font-size:14px;line-height:1.7;color:var(--body);}
+.byline dd strong{color:#fff;font-weight:600;}
+.links{margin-top:40px;display:flex;flex-wrap:wrap;gap:12px;}
+.btn{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:13px 22px;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;transition:background .2s,color .2s,border-color .2s;}
+.btn:hover{border-color:var(--green);color:var(--dark);background:var(--green);}
+.btn.primary{background:var(--green);color:var(--dark);border-color:var(--green);}
+.btn.primary:hover{background:#fff;border-color:#fff;}
+
+.media{border-top:1px solid var(--mid);border-bottom:1px solid var(--mid);background:#111;}
+.media img,.media video{width:100%;height:auto;}
+.media.full{width:100vw;margin-left:calc(50% - 50vw);}
+.caption{font-size:11px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;padding:14px 0 0;}
+
+section.block{padding:96px 0;border-bottom:1px solid var(--mid);display:grid;grid-template-columns:240px 1fr;gap:48px;}
+section.block.flush{border-bottom:none;padding-bottom:48px;}
+.label{font-size:11px;letter-spacing:4px;color:var(--green);text-transform:uppercase;padding-top:6px;}
+.label .num{display:block;font-family:'Bebas Neue',sans-serif;font-size:40px;letter-spacing:.04em;color:rgba(255,255,255,.14);margin-bottom:10px;}
+.content h2{font-size:clamp(24px,3vw,34px);font-weight:600;line-height:1.35;letter-spacing:-.01em;margin-bottom:28px;}
+.content p{font-size:16px;line-height:1.95;color:var(--body);margin-bottom:20px;max-width:70ch;}
+.content p:last-child{margin-bottom:0;}
+.lead{font-size:clamp(18px,2vw,21px) !important;line-height:1.75 !important;color:#fff !important;}
+
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--mid);border:1px solid var(--mid);margin-top:12px;}
+.cell{background:var(--dark);padding:30px 26px;}
+.cell .k{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--green);letter-spacing:.05em;margin-bottom:16px;}
+.cell h3{font-size:18px;font-weight:600;margin-bottom:12px;}
+.cell p{font-size:14px;line-height:1.85;color:var(--body);margin:0;}
+.quote{border-left:2px solid var(--green);padding:6px 0 6px 22px;margin:28px 0;font-size:17px;line-height:1.8;color:#fff;max-width:60ch;}
+
+.gestures{list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:28px;}
+.gestures li{border:1px solid var(--mid);padding:22px 20px;}
+.gestures .g{font-size:10px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:10px;}
+.gestures .a{font-size:15px;line-height:1.6;color:#fff;}
+
+.credits{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 40px;}
+.credits div{border-top:1px solid var(--mid);padding-top:14px;}
+.credits dt{font-size:10px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:6px;}
+.credits dd{font-size:14px;line-height:1.7;color:#fff;}
+.content p.ack{margin-top:40px;font-size:11px;line-height:1.7;color:rgba(255,255,255,.32);letter-spacing:.2px;max-width:80ch;}
+
+.next{padding:96px 0;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;}
+.next a.big{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);transition:color .2s;}
+.next a.big:hover{color:var(--green);}
+footer{border-top:1px solid var(--mid);padding:28px 40px;display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.28);letter-spacing:1px;}
+
+@media (max-width:900px){
+  section.block{grid-template-columns:1fr;gap:24px;padding:72px 0;}
+  .byline{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .grid3,.gestures{grid-template-columns:1fr;}
+}
+@media (max-width:600px){
+  nav{padding:16px;}
+  .nav-back .long{display:none;}
+  .wrap{padding:0 16px;}
+  header.proj{padding:72px 0 48px;}
+  .byline,.credits{grid-template-columns:1fr;gap:20px;}
+  footer{padding:24px 16px;flex-direction:column;gap:8px;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-left">
+    <a class="nav-logo" href="/">J002</a>
+    <a class="nav-back" href="/">← <span class="long en">All </span><span class="long kr">전체 </span>Projects</a>
+  </div>
+  <div class="lang-toggle" role="group" aria-label="Language">
+    <button type="button" data-set-lang="en" aria-pressed="true">EN</button>
+    <button type="button" data-set-lang="kr" aria-pressed="false">KR</button>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<header class="proj">
+  <p class="eyebrow"><span class="en">XR Exhibition Application · 2026</span><span class="kr">XR 전시 애플리케이션 · 2026</span></p>
+  <h1>ART REACT XR</h1>
+  <p class="intro en">An immersive exhibition application that offers a new way to encounter masterworks in virtual space. Works by Hilma af Klint, Mark Rothko, Wassily Kandinsky and others are experienced not from behind glass, but from within the time and space each work holds.</p>
+  <p class="intro kr">가상공간에서 명작을 새로운 방식으로 감상하는 몰입형 전시 애플리케이션입니다. 힐마 아프 클린트, 마크 로스코, 칸딘스키를 비롯한 작품을 유리 너머가 아니라, 작품이 가진 시공간 안에서 경험하도록 설계했습니다.</p>
+  <dl class="byline">
+    <div><dt><span class="en">Role</span><span class="kr">역할</span></dt><dd><strong>Creative Director</strong></dd></div>
+    <div><dt><span class="en">Studio</span><span class="kr">스튜디오</span></dt><dd>NINEFIVE</dd></div>
+    <div><dt><span class="en">Platform</span><span class="kr">플랫폼</span></dt><dd>Meta Quest (VR / MR)</dd></div>
+    <div><dt><span class="en">Released</span><span class="kr">출시</span></dt><dd><span class="en">November 25, 2026</span><span class="kr">2026년 11월 25일</span></dd></div>
+  </dl>
+  <div class="links">
+    <a class="btn primary" href="https://www.meta.com/experiences/art-react-xr/2155670682011042/" target="_blank" rel="noopener"><span class="en">Get it on Meta Quest</span><span class="kr">Meta Quest에서 보기</span> ↗</a>
+    <a class="btn" href="https://www.ninefive.com/project/art-react-xr/" target="_blank" rel="noopener"><span class="en">NINEFIVE project page</span><span class="kr">나인파이브 프로젝트 페이지</span> ↗</a>
+  </div>
+</header>
+
+<div class="media full">
+  <video src="https://res.cloudinary.com/drmreifyv/video/upload/q_auto/master_t7_d7t9rr.mp4" poster="https://res.cloudinary.com/drmreifyv/video/upload/so_2,q_auto,w_1600/master_t7_d7t9rr.jpg" autoplay muted loop playsinline></video>
+</div>
+
+<!-- 01 OVERVIEW -->
+<section class="block" id="overview">
+  <div class="label"><span class="num">01</span><span class="en">Overview</span><span class="kr">개요</span></div>
+  <div class="content">
+    <h2 class="en">Not how to show the work — how the viewer relates to it.</h2>
+    <h2 class="kr">작품을 어떻게 보여줄지가 아니라, 관람자가 작품과 어떻게 관계 맺을지.</h2>
+    <p class="en">An XR exhibition allows far more spatial freedom than a physical venue, but freedom does not translate into better viewing. Quality depends on how carefully you tune distance and scale, the flow of the gaze, the surrounding environment, and how much the guide intervenes.</p>
+    <p class="kr">XR 전시는 물리적 전시장보다 훨씬 자유로운 공간 구성을 허용하지만, 그 자유도가 곧 좋은 감상으로 이어지지는 않습니다. 경험의 질은 작품과 관람자 사이의 거리와 스케일, 시선의 흐름, 주변 환경, 그리고 안내자의 개입 정도를 어떻게 조율하느냐에 따라 크게 달라집니다.</p>
+    <p class="en">Immersion is never the product of a single feature. It becomes real when NPC curation steps in at the right moment, when immersive mode creates the conditions for concentration, and when interactions follow one another naturally. The point is not to repackage the work — it is to keep the work intact while designing the conditions for the viewer to go further into it.</p>
+    <p class="kr">XR 전시의 몰입은 하나의 기능만으로 완성되지 않습니다. NPC 큐레이션이 알맞은 순간에 개입하고, 몰입 모드가 집중할 수 있는 환경을 만들고, 감상 상호작용이 자연스럽게 이어질 때 비로소 진짜 몰입이 가능해집니다. 핵심은 작품을 새롭게 포장하는 것이 아니라, 작품을 온전히 보존하면서 관람자가 한층 더 깊이 들어갈 수 있는 조건을 설계하는 것입니다.</p>
+  </div>
+</section>
+
+<div class="media full"><img src="https://res.cloudinary.com/drmreifyv/image/upload/f_auto,q_auto,w_2400/Comp01_Video-3_kis3j3.jpg" alt="ART REACT XR key visual" loading="lazy"></div>
+
+<!-- 02 IMMERSIVE MODE -->
+<section class="block" id="immersive">
+  <div class="label"><span class="num">02</span><span class="en">Immersive mode</span><span class="kr">몰입 모드</span></div>
+  <div class="content">
+    <h2 class="en">Leave the work as it is. Design the environment around it.</h2>
+    <h2 class="kr">작품은 원형 그대로, 대신 감상 환경을 설계했습니다.</h2>
+    <p class="en">An XR exhibition could reconstruct a work in three dimensions, or take the original apart to present it anew. We went the opposite way: the work stays exactly as it is, and what we designed instead is an environment for concentrating on it.</p>
+    <p class="kr">XR 전시라면 작품을 입체적으로 재구성하거나 원작을 분리해 새롭게 보여줄 수도 있습니다. 그러나 우리는 정반대의 방향을 택했습니다. 작품은 원형 그대로 두고, 관람자가 더 깊이 집중할 수 있는 감상 환경을 설계했습니다.</p>
+    <p class="en">Entering a work, a gradual transition spreads from the floor beneath the viewer out to the whole space, so the scene wraps around rather than cuts. Distance resets to the optimal viewing distance, scale grows to a size suited to immersion, brightness drops a step, and ambient sound matched to the piece draws the emotion of the room toward it.</p>
+    <p class="kr">작품으로 진입하는 순간, 사용자가 선 바닥에서 공간 전체로 천천히 번지는 점진적 트랜지션이 장면을 갑자기 바꾸지 않고 자연스럽게 감싸도록 했습니다. 거리는 가장 보기 좋은 감상 거리로 다시 맞추고, 스케일은 몰입에 알맞은 크기로 키웠습니다. 밝기는 한 단계 낮추고, 작품의 분위기에 어울리는 앰비언트 사운드로 공간 전체의 정서를 작품 쪽으로 모았습니다.</p>
+    <p class="quote en">Immersive mode is a device for aligning attention with the work.</p>
+    <p class="quote kr">몰입 모드는 관람자의 주의를 작품 쪽으로 정렬시키는 장치입니다.</p>
+  </div>
+</section>
+
+<div class="media"><img src="https://res.cloudinary.com/drmreifyv/image/upload/f_auto,q_auto,w_2000/Group_1000003876-2_sim1hz.jpg" alt="Immersive mode transition, from gallery to the space of the work" loading="lazy"></div>
+
+<!-- 03 AI CURATOR -->
+<section class="block" id="curator">
+  <div class="label"><span class="num">03</span><span class="en">AI curator (NPC)</span><span class="kr">AI 큐레이터 (NPC)</span></div>
+  <div class="content">
+    <h2 class="en">A guide that mediates, rather than informs.</h2>
+    <h2 class="kr">정보를 전달하는 안내자가 아니라, 감상을 매개하는 존재.</h2>
+    <p class="en">One of the project's hardest problems was the guide itself — how complete the NPC should feel, and how it should intervene. A concrete NPC, such as a photoreal human or a character, carries presence, but the slightest shortfall in execution reads as awkwardness. An abstract NPC blends into the space, but its thin materiality makes rapport hard to earn.</p>
+    <p class="kr">가장 중요한 과제 중 하나는 안내자, 즉 NPC의 완성도와 개입 방식이었습니다. 실사 인간형이나 캐릭터형처럼 구체적 형상을 갖춘 NPC는 존재감을 주지만, 완성도가 조금만 부족해도 어색함과 거리감을 만듭니다. 반대로 추상형 NPC는 환경에 자연스럽게 스며들지만 실체감이 옅어 교감을 이끌어내기 어렵습니다.</p>
+    <p class="en">Our NPC holds a concrete form inside an abstract metaphor. Its base is a translucent sphere that can be absorbed into any space, its colour and material set by the environment around it. Presence shifts with context — smaller and more transparent when it should stay back, a defined figure when it should approach.</p>
+    <p class="kr">그래서 우리의 NPC는 구체적 형상을 띠면서도 추상적 메타포와 결합되어 있습니다. 어느 공간에도 흡수될 수 있는 반투명한 구(球) 형태를 기본으로, 색상과 재질은 주변 환경에 맞춰 세팅합니다. 물러나 있어야 할 때는 더 작고 투명하게, 다가가 도와야 할 때는 형상을 갖춘 안내자로 — 맥락에 따라 존재감을 달리합니다.</p>
+  </div>
+</section>
+
+<div class="media"><img src="https://res.cloudinary.com/drmreifyv/image/upload/f_auto,q_auto,w_2000/NPC_cut_test_1_c9pgwx.jpg" alt="AI curator NPC inside a translucent sphere" loading="lazy"></div>
+
+<!-- 04 INTERVENTION -->
+<section class="block" id="intervention">
+  <div class="label"><span class="num">04</span><span class="en">Intervention design</span><span class="kr">개입 설계</span></div>
+  <div class="content">
+    <h2 class="en">A curator that knows when to speak.</h2>
+    <h2 class="kr">설명할 순간을 아는 큐레이터.</h2>
+    <p class="en">The AI curator waits for the moment a visitor's curiosity arises before stepping in.</p>
+    <p class="kr">AI 큐레이터는 관람자의 궁금증이 생기는 순간을 기다렸다가 개입하도록 설계되었습니다.</p>
+    <div class="grid3">
+      <div class="cell"><div class="k">01</div><h3><span class="en">Timing</span><span class="kr">개입의 타이밍</span></h3><p class="en">Activates as the visitor approaches a work and introduces itself only once. If they linger without asking, after seven seconds it suggests: "Other visitors were curious about this."</p><p class="kr">관람자가 작품에 다가가면 자동으로 활성화되고, 안내 멘트는 처음 한 번만 합니다. 질문 없이 7초간 머무르면 "다른 분들은 이런 내용을 궁금해하셨어요"라며 추천 질문을 제안합니다.</p></div>
+      <div class="cell"><div class="k">02</div><h3><span class="en">Depth</span><span class="kr">답변의 깊이</span></h3><p class="en">Listens by voice and reads concentration and interest in real time, so the same question draws a different depth of answer. Viewing history counts too — no two conversations are alike.</p><p class="kr">음성으로 질문을 듣고, 관람자의 집중도와 흥미를 실시간으로 추정해 같은 질문에도 답변의 깊이를 조절합니다. 관람 이력까지 반영해 관람자마다 다른 대화가 만들어집니다.</p></div>
+      <div class="cell"><div class="k">03</div><h3><span class="en">Presence</span><span class="kr">존재감의 조절</span></h3><p class="en">A docent at the visitor's side in viewing mode, a mini NPC at the edge of vision in immersive mode. The retreat is designed as carefully as the approach.</p><p class="kr">관람 모드에서는 도슨트처럼 곁에 서고, 몰입 모드에서는 미니 NPC로 축소되어 시야 가장자리로 물러납니다. 다가섬만큼 물러남도 설계했습니다.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 INTERACTION -->
+<section class="block flush" id="interaction">
+  <div class="label"><span class="num">05</span><span class="en">Interaction</span><span class="kr">상호작용</span></div>
+  <div class="content">
+    <h2 class="en">Gaze and gesture become the interface.</h2>
+    <h2 class="kr">시선과 손짓이 그대로 인터페이스가 됩니다.</h2>
+    <p class="en">Interaction is designed to keep attention on the work, so anyone can view the exhibition intuitively, with nothing to learn.</p>
+    <p class="kr">인터랙션은 작품 감상에 집중할 수 있도록 설계되어, 별도의 학습 없이 누구나 직관적으로 전시를 관람할 수 있습니다.</p>
+    <ul class="gestures">
+      <li><div class="g"><span class="en">Point</span><span class="kr">가리키기</span></div><div class="a"><span class="en">Point with a fingertip to move through the space</span><span class="kr">손끝으로 가리켜 공간을 이동</span></div></li>
+      <li><div class="g"><span class="en">Open hand</span><span class="kr">손 펼치기</span></div><div class="a"><span class="en">Open the left hand to call up the menu</span><span class="kr">왼손을 펼쳐 메뉴 호출</span></div></li>
+      <li><div class="g"><span class="en">Reach</span><span class="kr">다가서기</span></div><div class="a"><span class="en">Reach with both hands to approach a work</span><span class="kr">양손으로 작품에 직접 다가서기</span></div></li>
+    </ul>
+  </div>
+</section>
+
+<div class="media"><img src="https://res.cloudinary.com/drmreifyv/image/upload/f_auto,q_auto,w_2400/Group_1000003876-3_bkoy6n.jpg" alt="Immersive experience, AI curator and intuitive interaction" loading="lazy"></div>
+
+<!-- 06 BRAND -->
+<section class="block" id="brand">
+  <div class="label"><span class="num">06</span><span class="en">Brand identity</span><span class="kr">브랜드 아이덴티티</span></div>
+  <div class="content">
+    <h2 class="en">The moment a work expands into space.</h2>
+    <h2 class="kr">작품의 감각이 공간으로 확장되는 순간.</h2>
+    <p class="en">The identity defines, as a visual language, the moment when the sensation of a work expands into space in response to the viewer's gaze and reaction — carried consistently across the symbol, colour system, typography and spatial direction. Rather than the cool register of technology-led expression, it concentrates on the emotion and immersion that art itself provides.</p>
+    <p class="kr">관람자의 시선과 반응에 따라 작품의 감각이 공간으로 확장되는 순간을 시각 언어로 정의하고, 심볼·컬러 시스템·타이포그래피·공간 연출 전반에 일관되게 반영했습니다. 기술 중심의 차가운 표현보다, 예술이 주는 감정과 몰입의 경험에 집중했습니다.</p>
+  </div>
+</section>
+
+<div class="media"><img src="https://res.cloudinary.com/drmreifyv/image/upload/f_auto,q_auto,w_2400/Comp01_Image_ejysgi.jpg" alt="ART REACT XR brand identity" loading="lazy"></div>
+
+<!-- 07 CREDITS -->
+<section class="block" id="credits" style="border-bottom:none">
+  <div class="label"><span class="num">07</span><span class="en">Credits</span><span class="kr">크레딧</span></div>
+  <div class="content">
+    <dl class="credits">
+      <div><dt>Creative Director</dt><dd>Younghee Jo</dd></div>
+      <div><dt>Project Manager</dt><dd>Suji Choi, Juha Kim</dd></div>
+      <div><dt>3D Designer</dt><dd>Minbum Kang, Minji Kim, Suyeon Park</dd></div>
+      <div><dt>Developer</dt><dd>Jonghyun Han, Seongjun Kim</dd></div>
+      <div><dt>Designer</dt><dd>Chungmoo Lee, Youjin Kwon, Hyeseon Jang</dd></div>
+      <div><dt>Studio</dt><dd>NINEFIVE</dd></div>
+    </dl>
+    <p class="ack en">Supported by the Ministry of Culture, Sports and Tourism and the Korea Creative Content Agency (KOCCA), Culture Technology R&amp;D Program (RS-2024-00361757).</p>
+    <p class="ack kr">문화체육관광부·한국콘텐츠진흥원 문화기술 연구개발사업 지원 (RS-2024-00361757)</p>
+  </div>
+</section>
+
+<div class="next">
+  <a class="nav-back" href="/">← <span class="en">All projects</span><span class="kr">전체 프로젝트</span></a>
+  <a class="big" href="/research/scale-mechanism/"><span class="en">Related research →</span><span class="kr">관련 연구 →</span></a>
+</div>
+
+</main>
+
+<footer>
+  <span>© 2026 J002. ALL RIGHTS RESERVED.</span>
+  <span>Jo Younghee · Seoul</span>
+</footer>
+
+<script>
+(function(){
+  var root = document.documentElement;
+  function setLang(l){
+    root.setAttribute('data-lang', l);
+    root.setAttribute('lang', l === 'kr' ? 'ko' : 'en');
+    document.querySelectorAll('[data-set-lang]').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.setLang === l ? 'true' : 'false'); });
+    try { localStorage.setItem('j002-lang', l); } catch(e){}
+  }
+  var q = new URLSearchParams(location.search).get('lang');
+  var saved = null; try { saved = localStorage.getItem('j002-lang'); } catch(e){}
+  setLang(q === 'kr' || q === 'en' ? q : (saved || 'en'));
+  document.querySelectorAll('[data-set-lang]').forEach(function(b){ b.addEventListener('click', function(){ setLang(b.dataset.setLang); }); });
+})();
+</script>
+</body>
+</html>

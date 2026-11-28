@@ -1,0 +1,2 @@
+# Project detail URLs are handled by index.html (static pages like /projects/art-react-xr/ take priority)
+/projects/*  /index.html  200

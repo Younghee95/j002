@@ -110,7 +110,7 @@ section.block{padding:96px 0;border-bottom:1px solid var(--mid);display:grid;gri
 .meta-list b{color:#fff;font-weight:500;}
 
 .next{padding:96px 0;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;}
-.next a.big{font-family:'Bebas Neue',sans-serif;font-size:clamp(32px,5vw,64px);letter-spacing:.03em;line-height:1;transition:color .2s;}
+.next a.big{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);transition:color .2s;}
 .next a.big:hover{color:var(--green);}
 footer{border-top:1px solid var(--mid);padding:28px 40px;display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.28);letter-spacing:1px;}
 
@@ -177,9 +177,9 @@ footer{border-top:1px solid var(--mid);padding:28px 40px;display:flex;justify-co
     <p class="lead en">Immersive analytics lets people walk through data instead of looking at it. But once data can be smaller than your hand or larger than a room, a single interaction style no longer fits. This study asks how interfaces should change as data scale changes — and proposes a scale-aware interaction framework to answer it.</p>
     <p class="lead kr">몰입형 분석 환경에서 사람들은 데이터를 바라보는 대신 데이터 속을 걸어 다닙니다. 하지만 데이터가 손바닥보다 작을 수도, 방보다 클 수도 있게 되면 하나의 인터랙션 방식으로는 감당할 수 없습니다. 이 연구는 데이터의 스케일이 달라질 때 인터페이스가 어떻게 달라져야 하는지를 묻고, 그 답으로 스케일 인지 기반 인터랙션 프레임워크를 제안합니다.</p>
     <p class="en">The framework is grounded in two spatial reference frames — <em>egocentric</em> (relative to the user) and <em>allocentric</em> (relative to the environment) — and integrates four variables that adapt to data scale: interaction sensitivity, viewing distance, visual density, and information display. Two VR experiments with 80 participants tested these variables across four scale levels.</p>
-    <p class="kr">프레임워크는 두 가지 공간 기준틀, 즉 사용자를 기준으로 하는 <em>자기중심(egocentric)</em>과 환경을 기준으로 하는 <em>타자중심(allocentric)</em> 관점에 기반합니다. 여기에 데이터 스케일에 따라 조정되는 네 가지 변수, 조작 민감도·시야 거리·시각 밀도·정보 표시 방식을 통합했습니다. 80명이 참여한 두 차례의 VR 실험으로 네 가지 스케일 단계에서 이 변수들을 검증했습니다.</p>
+    <p class="kr">프레임워크는 두 가지 공간 기준틀, 즉 사용자를 기준으로 하는 <em>자기중심(egocentric)</em>과 환경을 기준으로 하는 <em>객체중심(allocentric)</em> 관점에 기반합니다. 여기에 데이터 스케일에 따라 조정되는 네 가지 변수, 조작 민감도·시야 거리·시각 밀도·정보 표시 방식을 통합했습니다. 80명이 참여한 두 차례의 VR 실험으로 네 가지 스케일 단계에서 이 변수들을 검증했습니다.</p>
     <p class="en">Performance and exploration strategies varied systematically by reference frame: allocentric conditions supported higher accuracy, egocentric conditions faster completion. The results provide empirical grounding for adaptive interfaces that shift with the user's spatial context rather than staying fixed.</p>
-    <p class="kr">수행 결과와 탐색 전략은 기준틀에 따라 체계적으로 달라졌습니다. 타자중심 조건에서는 정확도가, 자기중심 조건에서는 과업 속도가 높았습니다. 이 결과는 고정된 설정이 아니라 사용자의 공간적 맥락에 따라 변하는 적응형 인터페이스의 실증적 근거가 됩니다.</p>
+    <p class="kr">수행 결과와 탐색 전략은 기준틀에 따라 체계적으로 달라졌습니다. 객체중심 조건에서는 정확도가, 자기중심 조건에서는 과업 속도가 높았습니다. 이 결과는 고정된 설정이 아니라 사용자의 공간적 맥락에 따라 변하는 적응형 인터페이스의 실증적 근거가 됩니다.</p>
   </div>
 </section>
 
@@ -194,7 +194,7 @@ footer{border-top:1px solid var(--mid);padding:28px 40px;display:flex;justify-co
     <p class="en">The study set out to design and validate a user-centered mechanism with three aims:</p>
     <p class="kr">이 연구는 다음 세 가지 목표를 가진 사용자 중심 메커니즘을 설계하고 검증했습니다.</p>
     <ol class="aims">
-      <li><span class="en">Let users switch fluidly between egocentric and allocentric frames — close, self-referenced manipulation and global structural understanding.</span><span class="kr">자기중심과 타자중심 관점을 자연스럽게 전환할 수 있게 한다. 가까이에서의 세밀한 조작과 전체 구조의 이해를 모두 지원한다.</span></li>
+      <li><span class="en">Let users switch fluidly between egocentric and allocentric frames — close, self-referenced manipulation and global structural understanding.</span><span class="kr">자기중심과 객체중심 관점을 자연스럽게 전환할 수 있게 한다. 가까이에서의 세밀한 조작과 전체 구조의 이해를 모두 지원한다.</span></li>
       <li><span class="en">Adjust interaction sensitivity and distance to the size of the data object, so manipulation stays efficient at every scale.</span><span class="kr">데이터 객체의 크기에 맞춰 조작 민감도와 거리를 조정해, 어떤 스케일에서도 효율적으로 조작할 수 있게 한다.</span></li>
       <li><span class="en">Regulate visual density and information display by scale, reducing cognitive overload while preserving clarity and immersion.</span><span class="kr">스케일에 따라 시각 밀도와 정보 표시를 조절해, 명료함과 몰입을 유지하면서 인지 과부하를 줄인다.</span></li>
     </ol>
@@ -215,7 +215,7 @@ footer{border-top:1px solid var(--mid);padding:28px 40px;display:flex;justify-co
       <div class="scale"><div class="dot" style="width:44px;height:44px"></div><h4>Small Ego</h4><p class="en">User enters the data space</p><p class="kr">데이터 공간 안으로 진입</p></div>
       <div class="scale"><div class="dot" style="width:60px;height:60px"></div><h4>Large Ego</h4><p class="en">Data surrounds the user</p><p class="kr">데이터가 사용자를 둘러쌈</p></div>
     </div>
-    <div class="axis"><span class="en">Allocentric · structure</span><span class="kr">타자중심 · 구조</span><span class="en">Egocentric · detail</span><span class="kr">자기중심 · 세부</span></div>
+    <div class="axis"><span class="en">Allocentric · structure</span><span class="kr">객체중심 · 구조</span><span class="en">Egocentric · detail</span><span class="kr">자기중심 · 세부</span></div>
 
     <div class="grid2" style="margin-top:48px">
       <div class="cell">
@@ -234,7 +234,7 @@ footer{border-top:1px solid var(--mid);padding:28px 40px;display:flex;justify-co
         <div class="k"><span class="en">Visualization</span><span class="kr">시각화</span></div>
         <h3>Visual density</h3>
         <p class="en">Where detail is concentrated. Allocentric emphasis reveals overall structure; egocentric emphasis densifies data near the user for immediate decisions.</p>
-        <p class="kr">정보가 어디에 밀집되는가. 타자중심 강조는 전체 구조를, 자기중심 강조는 사용자 주변의 데이터를 촘촘하게 보여 즉각적인 판단을 돕습니다.</p>
+        <p class="kr">정보가 어디에 밀집되는가. 객체중심 강조는 전체 구조를, 자기중심 강조는 사용자 주변의 데이터를 촘촘하게 보여 즉각적인 판단을 돕습니다.</p>
       </div>
       <div class="cell">
         <div class="k"><span class="en">Visualization</span><span class="kr">시각화</span></div>
@@ -272,11 +272,11 @@ footer{border-top:1px solid var(--mid);padding:28px 40px;display:flex;justify-co
     <h2 class="en">Reference frames are dynamic, not fixed.</h2>
     <h2 class="kr">기준틀은 고정된 것이 아니라 움직입니다.</h2>
     <p class="en">As data grew from Small Allo to Large Ego, users' cognitive frame shifted continuously from allocentric to egocentric — contrasting with earlier work that treated reference frames as relatively stable strategies.</p>
-    <p class="kr">데이터가 Small Allo에서 Large Ego로 커질수록 사용자의 인지적 기준틀은 타자중심에서 자기중심으로 연속적으로 이동했습니다. 기준틀을 비교적 안정된 전략으로 본 기존 연구와 대비되는 결과입니다.</p>
+    <p class="kr">데이터가 Small Allo에서 Large Ego로 커질수록 사용자의 인지적 기준틀은 객체중심에서 자기중심으로 연속적으로 이동했습니다. 기준틀을 비교적 안정된 전략으로 본 기존 연구와 대비되는 결과입니다.</p>
     <ul class="findings">
       <li><div class="t">Sensitivity</div><div class="b"><span class="en"><strong>Medium sensitivity</strong> gave the most accurate and stable control overall; <strong>low sensitivity</strong> worked best for large datasets. High sensitivity sharply increased errors at Large Ego.</span><span class="kr">전반적으로 <strong>중간 민감도</strong>가 가장 정확하고 안정적이었고, 큰 데이터에서는 <strong>낮은 민감도</strong>가 효과적이었습니다. 높은 민감도는 Large Ego에서 오류를 크게 늘렸습니다.</span></div></li>
       <li><div class="t">Distance</div><div class="b"><span class="en"><strong>Extended views</strong> improved accuracy at most scales; <strong>close-up views</strong> increased immersion and shortened completion time, especially for large data. Users preferred to start far and move closer for detail.</span><span class="kr"><strong>먼 시점</strong>은 대부분의 스케일에서 정확도를 높였고, <strong>가까운 시점</strong>은 특히 큰 데이터에서 몰입을 높이고 완료 시간을 줄였습니다. 사용자는 멀리서 시작해 세부 작업을 위해 다가가는 흐름을 선호했습니다.</span></div></li>
-      <li><div class="t">Visual density</div><div class="b"><span class="en">Allocentric emphasis reduced visual complexity; egocentric emphasis supported quick decisions. But <strong>switching density</strong> confused visual hierarchy — cognitive load was lowest when distance and density stayed fixed.</span><span class="kr">타자중심 강조는 시각적 복잡도를 줄였고, 자기중심 강조는 빠른 판단을 도왔습니다. 하지만 <strong>밀도가 바뀌면</strong> 시각적 위계가 혼란스러워졌고, 인지 부하는 거리와 밀도가 고정됐을 때 가장 낮았습니다.</span></div></li>
+      <li><div class="t">Visual density</div><div class="b"><span class="en">Allocentric emphasis reduced visual complexity; egocentric emphasis supported quick decisions. But <strong>switching density</strong> confused visual hierarchy — cognitive load was lowest when distance and density stayed fixed.</span><span class="kr">객체중심 강조는 시각적 복잡도를 줄였고, 자기중심 강조는 빠른 판단을 도왔습니다. 하지만 <strong>밀도가 바뀌면</strong> 시각적 위계가 혼란스러워졌고, 인지 부하는 거리와 밀도가 고정됐을 때 가장 낮았습니다.</span></div></li>
       <li><div class="t">Information display</div><div class="b"><span class="en"><strong>Scale-based display</strong> worked best for small data; <strong>full display</strong> for large data. <strong>Distance-based display</strong> produced the lowest immersion and highest load — users preferred stable, abundant information over partial, shifting disclosure (infotropism).</span><span class="kr">작은 데이터에서는 <strong>스케일 기반 표시</strong>가, 큰 데이터에서는 <strong>전체 표시</strong>가 효과적이었습니다. <strong>거리 기반 표시</strong>는 몰입이 가장 낮고 부하가 가장 높았습니다. 사용자는 조금씩 바뀌는 정보보다 안정적이고 풍부한 정보를 선호했습니다(infotropism).</span></div></li>
       <li><div class="t"><span class="en">Individual factors</span><span class="kr">개인 요인</span></div><div class="b"><span class="en">Higher <strong>spatial ability</strong> meant faster completion in visually demanding conditions. More <strong>VR experience</strong> meant faster, more accurate use — but with higher cognitive effort and lower immersion.</span><span class="kr"><strong>공간 지각 능력</strong>이 높을수록 시각적으로 복잡한 조건에서 빨리 과업을 마쳤습니다. <strong>VR 경험</strong>이 많을수록 빠르고 정확했지만, 인지적 노력은 늘고 몰입감은 낮았습니다.</span></div></li>
     </ul>
@@ -294,7 +294,7 @@ footer{border-top:1px solid var(--mid);padding:28px 40px;display:flex;justify-co
     <div class="grid2">
       <div class="cell"><h3>Sensitivity</h3><p class="en">Adjusts automatically to manipulation speed or object size, while remaining user-tunable with a slider.</p><p class="kr">조작 속도나 객체 크기에 따라 자동으로 조정되고, 슬라이더로 사용자가 직접 바꿀 수도 있습니다.</p></div>
       <div class="cell"><h3>Distance</h3><p class="en">Moves into close-up views through gaze or selection, with a dedicated space or direct jump back to the global overview.</p><p class="kr">시선이나 선택으로 가까운 시점에 들어가고, 전체 조망을 위한 전용 공간이나 바로 돌아가는 기능을 제공합니다.</p></div>
-      <div class="cell"><h3>Visual density</h3><p class="en">Fixed by default, switching between structural (allocentric) and focal (egocentric) emphasis only when the task calls for it.</p><p class="kr">기본은 고정하고, 과업에 필요할 때만 구조(타자중심)와 초점(자기중심) 강조를 전환합니다.</p></div>
+      <div class="cell"><h3>Visual density</h3><p class="en">Fixed by default, switching between structural (allocentric) and focal (egocentric) emphasis only when the task calls for it.</p><p class="kr">기본은 고정하고, 과업에 필요할 때만 구조(객체중심)와 초점(자기중심) 강조를 전환합니다.</p></div>
       <div class="cell"><h3>Information display</h3><p class="en">Starts with progressive disclosure tied to the space, then shifts to full display when close, egocentric exploration is detected.</p><p class="kr">공간에 연동된 점진적 공개로 시작해, 가까운 자기중심 탐색이 감지되면 전체 표시로 전환합니다.</p></div>
     </div>
     <p class="en" style="margin-top:36px">Beyond individual techniques, the work establishes design principles for immersive data exploration as a whole — applicable to education, medical data analysis, network visualization, and engineering simulation.</p>
