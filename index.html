@@ -303,11 +303,28 @@ function goSlide(n) {
   sl[heroCur].classList.add('active');
   if (dt[heroCur]) dt[heroCur].classList.add('active');
   document.getElementById('heroLabel').textContent = sl[heroCur].dataset.label || '';
-  // 비디오면 처음부터 재생
-  var vid = sl[heroCur].querySelector('video');
-  if (vid) { vid.currentTime = 0; vid.play(); if (heroTimer) clearInterval(heroTimer); }
-  else { startHeroTimer(); }
+  playHeroMedia();
 }
+
+// Only the visible slide's video is loaded and playing; the others are unloaded to save memory.
+function playHeroMedia() {
+  var sl = getSlides();
+  var paused = document.hidden || document.getElementById('projDetail').classList.contains('open');
+  sl.forEach(function(s, i){
+    var v = s.querySelector('video');
+    if (!v) return;
+    if (i === heroCur && !paused) {
+      if (!v.getAttribute('src')) { v.src = v.dataset.src; }
+      else v.currentTime = 0;
+      var pr = v.play(); if (pr && pr.catch) pr.catch(function(){});
+    } else if (v.getAttribute('src')) {
+      v.pause(); v.removeAttribute('src'); v.load();
+    }
+  });
+  if (heroTimer) clearInterval(heroTimer);
+  if (!sl[heroCur] || !sl[heroCur].querySelector('video')) { if (!paused) startHeroTimer(); }
+}
+document.addEventListener('visibilitychange', playHeroMedia);
 
 function startHeroTimer() {
   if (heroTimer) clearInterval(heroTimer);
@@ -343,7 +360,7 @@ function loadHero() {
       if (url) {
         if (/\.(mp4|webm|mov)/i.test(url)) {
           var vid = document.createElement('video');
-          vid.src = url; vid.autoplay = true; vid.muted = true; vid.playsInline = true;
+          vid.dataset.src = url; vid.preload = 'auto'; vid.muted = true; vid.playsInline = true;
           vid.style.cssText = 'width:100%;height:100%;object-fit:cover;position:absolute;inset:0;pointer-events:none;';
           vid.addEventListener('ended', function(){ goSlide(heroCur + 1); });
           slide.appendChild(vid);
@@ -382,7 +399,7 @@ function loadHero() {
       dotsEl.appendChild(dot);
     });
     document.getElementById('heroLabel').textContent = items[0].label || '';
-    startHeroTimer();
+    playHeroMedia();
   }).catch(function(){ startHeroTimer(); });
 }
 
@@ -672,6 +689,7 @@ function openDetail(index, opts) {
   closePanel();
   var d = document.getElementById('projDetail');
   d.scrollTop = 0; d.classList.add('open');
+  playHeroMedia();
   document.body.style.overflow = 'hidden';
 }
 
@@ -679,6 +697,8 @@ function closeDetail(opts) {
   opts = opts || {};
   document.getElementById('projDetail').classList.remove('open');
   document.body.style.overflow = '';
+  document.getElementById('detailImages').innerHTML = '';
+  playHeroMedia();
   document.title = 'J002 — Creative Director';
   if (!opts.fromRoute && location.pathname.indexOf('/projects/') === 0) history.pushState({}, '', '/');
 }
