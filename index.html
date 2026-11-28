@@ -69,6 +69,19 @@ nav{position:fixed;top:0;left:0;width:100%;z-index:100;display:flex;justify-cont
 .proj-detail-img-wrap{width:100%;border-bottom:1px solid var(--mid);overflow:hidden;background:#111;}
 .proj-detail-img-wrap img{width:100%;display:block;}
 .proj-detail-img-placeholder{width:100%;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;font-size:12px;letter-spacing:3px;color:rgba(255,255,255,.15);font-family:'Bebas Neue',sans-serif;}
+/* Light theme for a project page (sheet column "theme" = light) */
+.proj-detail.light{--lt-text:#111;--lt-body:rgba(0,0,0,.68);--lt-muted:rgba(0,0,0,.42);--lt-line:#e4e4e4;--lt-accent:#3d7a00;background:#fff;color:var(--lt-text);}
+.proj-detail.light .proj-detail-nav{background:rgba(255,255,255,.92);border-bottom-color:var(--lt-line);}
+.proj-detail.light .proj-detail-back,.proj-detail.light .proj-nav-btn{color:var(--lt-muted);}
+.proj-detail.light .proj-detail-back:hover,.proj-detail.light .proj-nav-btn:hover{color:var(--lt-text);}
+.proj-detail.light .proj-detail-header,.proj-detail.light .proj-detail-section,.proj-detail.light .proj-detail-img-wrap{border-color:var(--lt-line);}
+.proj-detail.light .proj-detail-footer{border-top-color:var(--lt-line);}
+.proj-detail.light .proj-detail-img-wrap{background:#f4f4f4;}
+.proj-detail.light .proj-detail-desc,.proj-detail.light .proj-detail-section .body{color:var(--lt-body);}
+.proj-detail.light .proj-detail-section .body h5{color:var(--lt-text);}
+.proj-detail.light .proj-detail-cat,.proj-detail.light .proj-detail-desc h4,.proj-detail.light .proj-detail-section h4,.proj-detail.light .proj-detail-link{color:var(--lt-accent);}
+.proj-detail.light .proj-detail-link{border-bottom-color:rgba(61,122,0,.35);}
+.proj-detail.light .proj-detail-credit{color:var(--lt-muted);}
 .proj-detail-footer{padding:80px 40px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--mid);}
 .proj-nav-btn{background:none;border:none;cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;transition:color .2s;}
 .proj-nav-btn:hover{color:#fff;}
@@ -401,7 +414,7 @@ function loadHero() {
 
 // PROJECTS
 // Everything comes from the Projects sheet. One row per image; the first row of a project holds its text.
-// Optional columns: slug, link, link_label_en, link_label_kr, credit_en, credit_kr.
+// Optional columns: slug, link, link_label_en, link_label_kr, credit_en, credit_kr, theme ("light" = white page).
 // In descriptions, a line "## Title" starts a section placed after the next image, "### Title" a sub-heading.
 
 function slugify(s) {
@@ -423,6 +436,7 @@ function renderProjects(rows) {
         description_kr: r.description_kr || '',
         slug: r.slug || '', page: r.page || '', link: r.link || '',
         link_label_en: r.link_label_en || '', link_label_kr: r.link_label_kr || '',
+        theme: (r.theme || '').trim().toLowerCase(),
         credit_en: r.credit_en || '', credit_kr: r.credit_kr || '',
         images: []
       };
@@ -537,6 +551,7 @@ function openDetail(index, opts) {
   document.getElementById('detailNext').classList.toggle('disabled', index === allProjects.length - 1);
   closePanel();
   var d = document.getElementById('projDetail');
+  d.classList.toggle('light', p.theme === 'light');
   d.scrollTop = 0; d.classList.add('open');
   playHeroMedia();
   document.body.style.overflow = 'hidden';
